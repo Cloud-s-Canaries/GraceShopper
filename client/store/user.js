@@ -5,18 +5,22 @@ import history from '../history'
  * ACTION TYPES
  */
 const GET_USER = 'GET_USER'
-const REMOVE_USER = 'REMOVE_USER'
-
-/**
- * INITIAL STATE
- */
-const defaultUser = {}
+const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM'
+const ADD_CART_ITEM = `ADD_CART_ITEM`
 
 /**
  * ACTION CREATORS
  */
 const getUser = user => ({type: GET_USER, user})
+
 const removeUser = () => ({type: REMOVE_USER})
+
+const removeCartItem = itemID => {
+  return {
+    action: REMOVE_CART_ITEM,
+    itemID
+  }
+}
 
 /**
  * THUNK CREATORS
@@ -59,12 +63,14 @@ export const logout = () => async dispatch => {
 /**
  * REDUCER
  */
+const defaultUser = {}
 export default function(state = defaultUser, action) {
   switch (action.type) {
     case GET_USER:
       return action.user
     case REMOVE_USER:
       return defaultUser
+    case REMOVE_CART_ITEM:
     default:
       return state
   }
