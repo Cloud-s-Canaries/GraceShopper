@@ -45,7 +45,6 @@ const getOutputFromCommand = async (command, args) => {
     const process = spawnSync(command, args)
     // const process = spawn('cmd', ['echo Hello world']);
     const stdout = []
-    const stderr = []
 
     stdout.push(process.stdout)
     // process.stdout.on('data', (data) => {
