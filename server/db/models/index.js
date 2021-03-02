@@ -15,8 +15,9 @@ User.hasOne(Cart)
 Cart.belongsTo(User)
 
 // Products belong to shopping carts
+Product.belongsToMany(Cart)
 // Carts have many products
-Cart.hasMany(Product)
+Cart.belongsToMany(Product)
 
 // No relation between product and users other than through cart.
 
