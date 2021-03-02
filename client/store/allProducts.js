@@ -32,6 +32,7 @@ export const getProductsThunk = () => {
   return async dispatch => {
     try {
       const {data} = await axios.get('/api/products')
+      dispatch(getProducts(data))
     } catch (error) {
       console.log(error)
     }
