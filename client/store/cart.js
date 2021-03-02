@@ -7,7 +7,7 @@ const DELETE_FROM_CART = `DELETE_FROM_CART`
 const CART_ITEM_QUANTITY = `CART_ITEM_QUANTITY`
 
 //Action Creators
-export const getCart = () => {
+export const getCart = cartItems => {
   return {
     type: GET_CART,
     cartItems
@@ -36,10 +36,11 @@ export const cartItemQuantity = newQuantity => {
 }
 
 //Thunk Creators
-export const getCartItemsThunk = () => {
-  return async () => {
+export const getCartItemsThunk = userID => {
+  return async dispatch => {
     try {
-      const {data} = await axios.get()
+      const {data} = await axios.get(`/api/carts/${userID}`)
+      //Console.log Data
       dispatch(getCart(data))
     } catch (error) {
       console.log(error)
@@ -47,10 +48,10 @@ export const getCartItemsThunk = () => {
   }
 }
 
-export const addToCartThunk = () => {
-  return async () => {
+export const addToCartThunk = newItem => {
+  return async dispatch => {
     try {
-      const {data} = await axiost.put()
+      const {data} = await axios.post(`/api/carts`, newItem)
       dispatch(addToCart(data))
     } catch (error) {
       console.log(error)
@@ -58,10 +59,18 @@ export const addToCartThunk = () => {
   }
 }
 
-const initState = {}
+const initState = []
 
 export default function(state = initState, action) {
   switch (action.type) {
+    case GET_CART:
+      return action.cartItems
+    case ADD_TO_CART:
+      return [...action.newItem, ...state]
+    case DELETE_FROM_CART: {
+      const itemsLeft = [...state].filter(item => item.id !== action.itemID)
+      return itemsLeft
+    }
     default:
       return state
   }

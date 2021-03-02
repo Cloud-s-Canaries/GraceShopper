@@ -41,7 +41,7 @@ export const getProductsThunk = () => {
 
 export const addItemThunk = newItem => {
   return async dispatch => {
-    const {data} = await axios.post('api/products')
+    const {data} = await axios.post('api/products', newItem)
     dispatch(addItem(data))
   }
 }
@@ -65,9 +65,10 @@ export default function(state = initState, action) {
       return action.products
     case ADD_ITEM:
       return [action.newItem, ...state]
-    case DELETE_ITEM:
+    case DELETE_ITEM: {
       const itemsLeft = [...state].filter(item => item.id !== action.itemID)
       return itemsLeft
+    }
     default:
       return state
   }
