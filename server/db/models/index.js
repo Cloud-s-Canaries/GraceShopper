@@ -9,15 +9,27 @@ const Product = require('./product')
  *    BlogPost.belongsTo(User)
  */
 
+// const itemsToBuy = db.define(
+//   'itemsToBuy',
+//   {
+//     quantity: {
+//       type: Sequelize.INTEGER,
+//     },
+//   },
+//   {timestamps: false}
+// )
 // User has one shopping cart
-User.hasOne(Cart)
+// User.hasOne(Cart)
 // Cart belongs to user
-Cart.belongsTo(User)
+// Cart.belongsTo(User)
 
 // Products belong to shopping carts
-Product.belongsToMany(Cart)
+// Product.belongsToMany(Cart, {through: 'itemsToBuy'})
 // Carts have many products
-Cart.belongsToMany(Product)
+// Cart.belongsToMany(Product, {through: 'itemsToBuy'})
+
+User.belongsToMany(Product, {through: 'cart'})
+Product.belongsToMany(User, {through: 'cart'})
 
 // No relation between product and users other than through cart.
 
