@@ -5,6 +5,7 @@ import history from '../history'
  * ACTION TYPES
  */
 const GET_USER = 'GET_USER'
+const REMOVE_USER = 'REMOVE_USER'
 const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM'
 const ADD_CART_ITEM = `ADD_CART_ITEM`
 
