@@ -93,6 +93,7 @@ const getNamesFromGit = () =>
 
 /* Use the openssl command to encrypt an authentication token. */
 const encryptHerokuToken = async () => {
+  console.log(`Encrypting heroku token...`)
   await getOutputFromCommand('cmd', [
     '/c',
     'openssl',
@@ -155,7 +156,9 @@ const main = async () => {
   if (verbose) console.log('Received Heroku token', herokuToken.toString())
 
   /* Download the repo's public key supplied by Travis. */
-  const travisURL = `https://api.travis-ci.org/repos/${fullName}/key`
+  console.log(`Grabbing Travis key...`)
+  console.log(`fullName: ${fullName}`)
+  const travisURL = `https://api.travis-ci.com/repos/${fullName}/key`
   const travisResponse = await axios.get(travisURL)
   const key = travisResponse.data.key
   console.log(`Travis key: `, key)
