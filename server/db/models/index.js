@@ -1,8 +1,6 @@
-const Sequelize = require('sequelize')
 const User = require('./user')
 const Cart = require('./cart')
 const Product = require('./product')
-const db = require('../db')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -11,24 +9,27 @@ const db = require('../db')
  *    BlogPost.belongsTo(User)
  */
 
-const itemsToBuy = db.define(
-  'itemsToBuy',
-  {
-    quantity: {
-      type: Sequelize.INTEGER
-    }
-  },
-  {timestamp: false}
-)
+// const itemsToBuy = db.define(
+//   'itemsToBuy',
+//   {
+//     quantity: {
+//       type: Sequelize.INTEGER,
+//     },
+//   },
+//   {timestamps: false}
+// )
 // User has one shopping cart
-User.hasOne(Cart)
+// User.hasOne(Cart)
 // Cart belongs to user
-Cart.belongsTo(User)
+// Cart.belongsTo(User)
 
 // Products belong to shopping carts
-Product.belongsToMany(Cart, {through: 'itemsToBuy'})
+// Product.belongsToMany(Cart, {through: 'itemsToBuy'})
 // Carts have many products
-Cart.belongsToMany(Product, {through: 'itemsToBuy'})
+// Cart.belongsToMany(Product, {through: 'itemsToBuy'})
+
+User.belongsToMany(Product, {through: 'cart'})
+Product.belongsToMany(User, {through: 'cart'})
 
 // No relation between product and users other than through cart.
 
