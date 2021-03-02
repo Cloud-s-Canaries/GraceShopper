@@ -42,7 +42,9 @@ router.put('/:userId/:productId', async (req, res, next) => {
 
 // Post route to add an item to cart.
 router.post('/', async (req, res, next) => {
+  console.log(``, req.body)
   try {
+    console.log(req.body)
     const cart = await Cart.create(req.body)
     res.json(cart)
   } catch (err) {
