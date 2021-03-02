@@ -1,6 +1,9 @@
 const router = require('express').Router()
 const {Product} = require('../db/models')
 
+// We're in /api/products
+
+// Get route to get all offered products
 router.get('/', async (req, res, next) => {
   try {
     const product = await Product.findAll()
@@ -10,6 +13,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+// Get route to get info on a single product
 router.get('/:id', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id)
@@ -19,6 +23,7 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+// Post route to add a product to the database
 router.post('/', async (req, res, next) => {
   try {
     const product = await Product.create(req.body)
@@ -28,6 +33,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+// Put route to edit a product
 router.put('/:id', async (req, res, next) => {
   try {
     const product = await Product.update({
@@ -41,6 +47,7 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
+// Delete route to remove a product from database
 router.delete('/:id', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id)

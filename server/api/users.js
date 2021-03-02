@@ -16,6 +16,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+// Login request
 router.put('/login', async (req, res, next) => {
   try {
     const user = await User.findOne({

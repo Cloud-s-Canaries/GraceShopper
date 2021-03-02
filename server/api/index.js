@@ -1,8 +1,10 @@
 const router = require('express').Router()
 module.exports = router
 
+// We're in /api
 router.use('/users', require('./users'))
 router.use('/products', require('./products'))
+router.use('/carts', require('./cart'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')
