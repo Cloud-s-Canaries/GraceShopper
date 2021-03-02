@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {getProductsThunk} from '../store/allProducts'
+import {addToCartThunk} from '../store/cart'
 
 class AllProducts extends React.Component {
   constructor() {
@@ -11,13 +12,17 @@ class AllProducts extends React.Component {
 
   componentDidMount() {
     this.props.loadProducts()
+
+    //this.props.addToCart()
   }
 
-  handleClick() {}
+  handleClick(clickedItem) {
+    this.props.addToCart(clickedItem)
+  }
 
   render() {
+    console.log(`PROS`, this.props)
     const products = this.props.products || []
-
     return (
       <div>
         {products.map(prod => {
@@ -28,7 +33,10 @@ class AllProducts extends React.Component {
                 <div> {prod.rating}</div>
                 <img src={`../images/${prod.imageUrl}`} />
               </Link>
-              <button> Add To Cart</button>
+              <button onClick={() => this.handleClick(prod)}>
+                {' '}
+                Add To Cart
+              </button>
             </div>
           )
         })}
@@ -45,7 +53,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadProducts: () => dispatch(getProductsThunk())
+    loadProducts: () => dispatch(getProductsThunk()),
+    addToCart: newItem => dispatch(addToCartThunk(newItem))
   }
 }
 
