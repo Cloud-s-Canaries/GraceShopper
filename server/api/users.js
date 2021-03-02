@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
-module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
@@ -16,23 +15,25 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-// Login request
-router.put('/login', async (req, res, next) => {
-  try {
-    const user = await User.findOne({
-      where: {
-        email: req.body.email
-      }
-    })
-    if (!user) {
-      res.sendStatus(401)
-    }
-    if (user.correctPassword(req.body.password)) {
-      res.json(user)
-    } else {
-      res.send('Incorrect password')
-    }
-  } catch (error) {
-    next(error)
-  }
-})
+// // Login request - Unneeded cuz it's in /auth folder already
+// router.put('/login', async (req, res, next) => {
+//   try {
+//     const user = await User.findOne({
+//       where: {
+//         email: req.body.email
+//       }
+//     })
+//     if (!user) {
+//       res.sendStatus(401)
+//     }
+//     if (user.correctPassword(req.body.password)) {
+//       res.json(user)
+//     } else {
+//       res.send('Incorrect password')
+//     }
+//   } catch (error) {
+//     next(error)
+//   }
+// })
+
+module.exports = router
