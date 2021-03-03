@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {getProductsThunk} from '../store/allProducts'
+import {getProductsThunk, deleteItemThunk} from '../store/allProducts'
 
 import AddProductForm from './AddProductForm'
 
@@ -13,12 +13,14 @@ class Admin extends React.Component {
 
   componentDidMount() {
     this.props.loadProducts()
-
-    //this.props.addToCart()
   }
 
   handleClick(clickedItem) {
     // this.props.addToCart(clickedItem)
+  }
+
+  handleDelete(itemId) {
+    this.props.deleteProduct(itemId)
   }
 
   render() {
@@ -37,9 +39,13 @@ class Admin extends React.Component {
                 {' '}
                 Add To Cart
               </button>
+              <button type="button" onClick={() => this.handleDelete(prod)}>
+                Delete this product
+              </button>
             </div>
           )
         })}
+        <br />
         <AddProductForm />
       </div>
     )
@@ -54,7 +60,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadProducts: () => dispatch(getProductsThunk())
+    loadProducts: () => dispatch(getProductsThunk()),
+    deleteProduct: id => dispatch(deleteItemThunk(id))
   }
 }
 
