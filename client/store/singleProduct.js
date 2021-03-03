@@ -23,7 +23,7 @@ export const updateItem = updatedItem => {
 export const getItemThunk = itemID => {
   return async dispatch => {
     try {
-      const {data} = await axios.get(`/api/${itemID}`)
+      const {data} = await axios.get(`/api/products/${itemID}`)
       dispatch(getItem(data))
     } catch (error) {
       console.log(error)
@@ -50,9 +50,9 @@ const initState = {}
 export default function(state = initState, action) {
   switch (action.type) {
     case GET_ITEM:
-      return {...action.item}
+      return action.item
     case UPDATE_ITEM:
-      return {...action.updatedItem}
+      return action.updatedItem
     default:
       return state
   }
