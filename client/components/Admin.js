@@ -4,19 +4,16 @@ import {connect} from 'react-redux'
 import {getProductsThunk, deleteItemThunk} from '../store/allProducts'
 
 import AddProductForm from './AddProductForm'
+import EditProductForm from './EditProductForm'
 
 class Admin extends React.Component {
   constructor() {
     super()
-    this.handleClick = this.handleClick.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   componentDidMount() {
     this.props.loadProducts()
-  }
-
-  handleClick(clickedItem) {
-    // this.props.addToCart(clickedItem)
   }
 
   handleDelete(itemId) {
@@ -35,18 +32,16 @@ class Admin extends React.Component {
                 <div> {prod.rating}</div>
                 <img src={`../images/${prod.imageUrl}`} />
               </Link>
-              <button type="button" onClick={() => this.handleClick(prod)}>
-                {' '}
-                Add To Cart
-              </button>
-              <button type="button" onClick={() => this.handleDelete(prod)}>
+              <button type="button" onClick={() => this.handleDelete(prod.id)}>
                 Delete this product
               </button>
+              <button type="button">Edit this product</button>
             </div>
           )
         })}
         <br />
         <AddProductForm />
+        {/* <EditProductForm /> */}
       </div>
     )
   }
