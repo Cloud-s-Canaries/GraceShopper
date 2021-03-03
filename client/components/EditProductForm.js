@@ -1,38 +1,34 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {addItemThunk} from '../store/allProducts'
+import {getItemThunk, updateItemThunk} from '../store/singleProduct'
 
-class AddProductForm extends React.Component {
+class EditProductForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      name: '',
-      rating: 0,
-      price: 0,
-      description: '',
-      imageUrl: ''
-    }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleSubmit(evt) {
-    evt.preventDefault()
-    this.props.AddProduct(this.state)
+  componentDidMount() {
+    this.props.loadItem(this.props.match.params.id)
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+  handleSubmit = event => {
+    const itemUpdate = {
+      name: event.target.name.value,
+      rating: event.target.rating.value,
+      price: event.target.price.value,
+      imageUrl: event.target.imageUrl.value,
+      description: event.target.description.value
+    }
+    event.preventDefault()
+    this.props.updateItem(this.props.item.id, itemUpdate)
   }
 
   render() {
-    const {name, rating, price, description, imageUrl} = this.state
-
+    const {name, rating, price, description, imageUrl} = this.props.item
+    console.log('this.props.item', this.props.item)
     return (
       <div>
-        <h1>Add New Product</h1>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="name">
@@ -73,7 +69,7 @@ class AddProductForm extends React.Component {
             />
           </div>
           <div>
-            <button type="submit">Add New Product </button>
+            <button type="submit">Edit Product </button>
           </div>
         </form>
       </div>
@@ -81,10 +77,18 @@ class AddProductForm extends React.Component {
   }
 }
 
-const mapDispatch = dispatch => {
+const mapState = state => {
   return {
-    AddProduct: newProduct => dispatch(addItemThunk(newProduct))
+    singleProduct: state.singleProduct
   }
 }
 
-export default connect(null, mapDispatch)(AddProductForm)
+const mapDispatch = dispatch => {
+  return {
+    loadItem: id => dispatch(getItemThunk(id)),
+    updateItem: (itemId, itemUpdate) =>
+      dispatch(updateItemThunk(itemId, itemUpdate))
+  }
+}
+
+export default connect(mapState, mapDispatch)(EditProductForm)
