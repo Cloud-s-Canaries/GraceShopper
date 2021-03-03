@@ -7,8 +7,9 @@ const Cart = db.define(
     quantity: {
       type: Sequelize.INTEGER,
       validate: {
-        min: 0
-      }
+        min: 1
+      },
+      defaultValue: 1
     }
   },
   {

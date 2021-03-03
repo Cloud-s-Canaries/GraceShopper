@@ -23,8 +23,8 @@ class Routes extends Component {
       <div>
         <Switch>
           {/* Routes placed here are available to all visitors */}
+          <Route path="/products/:id" component={SingleItem} />
           <Route path="/products" component={AllProducts} />
-          <Route exact path="/products/:id" component={SingleItem} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           {isLoggedIn && (

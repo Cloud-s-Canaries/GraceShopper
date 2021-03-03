@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getCartItemsThunk} from '../store/cart'
+import {getCartItemsThunk, addToCartThunk} from '../store/cart'
 
 class Cart extends React.Component {
   constructor() {

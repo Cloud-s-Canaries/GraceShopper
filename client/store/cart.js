@@ -40,7 +40,6 @@ export const getCartItemsThunk = userID => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/carts/${userID}`)
-      //Console.log Data
       dispatch(getCart(data))
     } catch (error) {
       console.log(error)
@@ -48,11 +47,21 @@ export const getCartItemsThunk = userID => {
   }
 }
 
-export const addToCartThunk = newItem => {
+export const addToCartThunk = (userId, productId, quantity) => {
   return async dispatch => {
     try {
-      const {data} = await axios.post(`/api/carts`, newItem)
-      dispatch(addToCart(data))
+      const {data} = await axios.post(`/api/carts`, {
+        userId,
+        productId,
+        quantity
+      })
+
+      if (typeof data === 'string') {
+        console.log('In cart already')
+        alert('This Item is already in your cart!')
+      } else {
+        dispatch(addToCart(data))
+      }
     } catch (error) {
       console.log(error)
     }
@@ -66,7 +75,7 @@ export default function(state = initState, action) {
     case GET_CART:
       return action.cartItems
     case ADD_TO_CART:
-      return [...action.newItem, ...state]
+      return [action.newItem, ...state]
     case DELETE_FROM_CART: {
       const itemsLeft = [...state].filter(item => item.id !== action.itemID)
       return itemsLeft
