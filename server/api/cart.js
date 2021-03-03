@@ -42,7 +42,7 @@ router.put('/:userId/:productId', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   console.log(`REQBODY`, req.body)
   try {
-    console.log(req.body)
+    //console.log(req.body)
     const cart = await Cart.findOrCreate({
       where: req.body
     })
