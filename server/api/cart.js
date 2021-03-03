@@ -6,14 +6,12 @@ const {Cart, User, Product} = require('../db/models')
 // Get route to get a cart belonging to a user
 router.get('/:userId', async (req, res, next) => {
   try {
+    console.log('==========REQBODY==============', req.body)
     const cart = await User.findOne({
       where: {
         id: Number(req.params.userId)
       },
       include: [
-        {
-          model: Cart
-        },
         {
           model: Product
         }
@@ -42,10 +40,18 @@ router.put('/:userId/:productId', async (req, res, next) => {
 
 // Post route to add an item to cart.
 router.post('/', async (req, res, next) => {
+  console.log(`REQBODY`, req.body)
   try {
-    // console.log(req.body)
-    const cart = await Cart.create(req.body)
-    res.json(cart)
+    //console.log(req.body)
+    const cart = await Cart.findOrCreate({
+      where: req.body
+    })
+    console.log('CART', cart)
+    if (cart[1]) {
+      res.json(cart[0])
+    } else {
+      res.send('You already have this item in your cart')
+    }
   } catch (err) {
     next(err)
   }

@@ -1,13 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getCartItemsThunk} from '../store/cart'
+import {getCartItemsThunk, addToCartThunk} from '../store/cart'
 
 class Cart extends React.Component {
   constructor() {
     super()
   }
   componentDidMount() {
-    this.props.loadCartItems()
+    this.props.loadCartItems(this.props.match.params.userID)
   }
 
   render() {
@@ -21,7 +21,7 @@ class Cart extends React.Component {
               <div key={item.id}>
                 <> {item.name} </>
                 <> {item.price}</>
-                <> Quantity: </>
+                <> Quantity: {item.cart.quantity} </>
               </div>
             )
           })
@@ -41,7 +41,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadCartItems: () => dispatch(getCartItemsThunk())
+    loadCartItems: userID => dispatch(getCartItemsThunk(userID))
   }
 }
 
