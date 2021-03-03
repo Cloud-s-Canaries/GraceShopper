@@ -16,13 +16,14 @@ class AllProducts extends React.Component {
     //this.props.addToCart()
   }
 
-  handleClick(clickedItem) {
-    this.props.addToCart(clickedItem)
+  handleClick(userID, itemID) {
+    this.props.addToCart(userID, itemID, 1)
   }
 
   render() {
     console.log(`PROS`, this.props)
     const products = this.props.products || []
+    const userID = this.props.user.id
     return (
       <div>
         {products.map(prod => {
@@ -33,7 +34,10 @@ class AllProducts extends React.Component {
                 <div> {prod.rating}</div>
                 <img src={`../images/${prod.imageUrl}`} />
               </Link>
-              <button type="button" onClick={() => this.handleClick(prod)}>
+              <button
+                type="button"
+                onClick={() => this.handleClick(userID, prod.id)}
+              >
                 {' '}
                 Add To Cart
               </button>
@@ -47,6 +51,7 @@ class AllProducts extends React.Component {
 
 const mapState = state => {
   return {
+    user: state.user,
     products: state.allProducts
   }
 }
@@ -54,7 +59,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     loadProducts: () => dispatch(getProductsThunk()),
-    addToCart: newItem => dispatch(addToCartThunk(newItem))
+    addToCart: (userID, prodID, quant) =>
+      dispatch(addToCartThunk(userID, prodID, quant))
   }
 }
 

@@ -28,10 +28,10 @@ export const deleteFromCart = itemID => {
   }
 }
 
-export const cartItemQuantity = newQuantity => {
+export const cartItemQuantity = updatedCart => {
   return {
     type: CART_ITEM_QUANTITY,
-    newQuantity
+    updatedCart
   }
 }
 
@@ -69,6 +69,19 @@ export const addToCartThunk = (userId, productId, quantity) => {
   }
 }
 
+export const updateQuantityThunk = (userID, itemID, quantity) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(`/api/carts/${userID}/${itemID}`, {
+        quantity
+      })
+      dispatch(cartItemQuantity(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 const initState = []
 
 export default function(state = initState, action) {
@@ -76,7 +89,12 @@ export default function(state = initState, action) {
     case GET_CART:
       return action.cartItems
     case ADD_TO_CART:
-      return [action.newItem, ...state]
+      return [...state, action.newItem]
+    case CART_ITEM_QUANTITY:
+      const updatedItem = [...state].filter(
+        item => item.id !== action.updatedCart.id
+      )
+      return [...updatedItem, action.updatedCart]
     case DELETE_FROM_CART: {
       const itemsLeft = [...state].filter(item => item.id !== action.itemID)
       return itemsLeft
