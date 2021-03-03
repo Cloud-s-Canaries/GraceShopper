@@ -7,6 +7,7 @@ const axios = require('axios')
 const GitUrlParse = require('git-url-parse')
 const simpleGit = require('simple-git')()
 const YAML = require('yaml')
+const token = require('../secrets')
 
 /* Specific message contents stored as constants */
 
@@ -156,10 +157,16 @@ const main = async () => {
   if (verbose) console.log('Received Heroku token', herokuToken.toString())
 
   /* Download the repo's public key supplied by Travis. */
-  console.log(`Grabbing Travis key...`)
-  console.log(`fullName: ${fullName}`)
-  const travisURL = `https://api.travis-ci.com/repos/${fullName}/key`
-  const travisResponse = await axios.get(travisURL)
+  const v3URL = fullName.split('/').join('%2f')
+  console.log(`FullName: ${fullName}\nv3URL: ${v3URL}`)
+  // const travisURLv3 = `https://api.travis-ci.com/repos/${v3URL}/key_pair/generated`
+  const travisURLv1 = `https://api.travis-ci.com/repos/${fullName}/key`
+  const travisResponse = await axios.get(travisURLv1, {
+    headers: {
+      Authorization: 'token ' + token
+    }
+  })
+  console.log(`Fetched data: `, travisResponse.data)
   const key = travisResponse.data.key
   console.log(`Travis key: `, key)
   const keyBuffer = Buffer.from(key, 'utf-8')
