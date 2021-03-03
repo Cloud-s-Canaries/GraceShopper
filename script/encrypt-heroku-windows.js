@@ -7,6 +7,7 @@ const axios = require('axios')
 const GitUrlParse = require('git-url-parse')
 const simpleGit = require('simple-git')()
 const YAML = require('yaml')
+const token = require('../secrets')
 
 /* Specific message contents stored as constants */
 
@@ -161,7 +162,7 @@ const main = async () => {
   const travisURLv1 = `https://api.travis-ci.com/repos/${fullName}/key`
   const travisResponse = await axios.get(travisURLv1, {
     headers: {
-      Authorization: 'token -EF1rqWVgFw8WTT0NPpOAA'
+      Authorization: 'token ' + token
     }
   })
   console.log(`Fetched data: `, travisResponse.data)
