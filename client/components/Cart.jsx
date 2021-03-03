@@ -41,7 +41,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadCartItems: () => dipatch(getCartItemsThunk())
+    loadCartItems: () => dispatch(getCartItemsThunk())
   }
 }
 
