@@ -31,16 +31,6 @@ export const getItemThunk = itemID => {
   }
 }
 
-export const addToCart = (userId, productId, quantity) => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.post('/', {userId, productId, quantity})
-    } catch (err) {
-      console.error(err)
-    }
-  }
-}
-
 export const updateItemThunk = (itemID, submittedChanges) => {
   return async dispatch => {
     try {
