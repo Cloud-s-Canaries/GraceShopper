@@ -2,9 +2,10 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {getProductsThunk} from '../store/allProducts'
-import {addToCartThunk} from '../store/cart'
 
-class AllProducts extends React.Component {
+import AddProductForm from './AddProductForm'
+
+class Admin extends React.Component {
   constructor() {
     super()
     this.handleClick = this.handleClick.bind(this)
@@ -17,11 +18,10 @@ class AllProducts extends React.Component {
   }
 
   handleClick(clickedItem) {
-    this.props.addToCart(clickedItem)
+    // this.props.addToCart(clickedItem)
   }
 
   render() {
-    console.log(`PROS`, this.props)
     const products = this.props.products || []
     return (
       <div>
@@ -40,6 +40,7 @@ class AllProducts extends React.Component {
             </div>
           )
         })}
+        <AddProductForm />
       </div>
     )
   }
@@ -53,9 +54,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadProducts: () => dispatch(getProductsThunk()),
-    addToCart: newItem => dispatch(addToCartThunk(newItem))
+    loadProducts: () => dispatch(getProductsThunk())
   }
 }
 
-export default connect(mapState, mapDispatch)(AllProducts)
+export default connect(mapState, mapDispatch)(Admin)
