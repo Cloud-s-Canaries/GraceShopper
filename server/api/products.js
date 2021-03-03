@@ -36,7 +36,7 @@ router.post('/', async (req, res, next) => {
 // Put route to edit a product
 router.put('/:id', async (req, res, next) => {
   try {
-    const product = await Product.update({
+    const product = await Product.update(req.body, {
       where: {
         id: req.params.id
       }

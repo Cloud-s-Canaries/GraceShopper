@@ -1,10 +1,11 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {getProductsThunk} from '../store/allProducts'
-import {addToCartThunk} from '../store/cart'
+import {getProductsThunk, deleteItemThunk} from '../store/allProducts'
 
-class AllProducts extends React.Component {
+import AddProductForm from './AddProductForm'
+
+class Admin extends React.Component {
   constructor() {
     super()
     this.handleClick = this.handleClick.bind(this)
@@ -12,16 +13,17 @@ class AllProducts extends React.Component {
 
   componentDidMount() {
     this.props.loadProducts()
-
-    //this.props.addToCart()
   }
 
   handleClick(clickedItem) {
-    this.props.addToCart(clickedItem)
+    // this.props.addToCart(clickedItem)
+  }
+
+  handleDelete(itemId) {
+    this.props.deleteProduct(itemId)
   }
 
   render() {
-    console.log(`PROS`, this.props)
     const products = this.props.products || []
     return (
       <div>
@@ -37,9 +39,14 @@ class AllProducts extends React.Component {
                 {' '}
                 Add To Cart
               </button>
+              <button type="button" onClick={() => this.handleDelete(prod)}>
+                Delete this product
+              </button>
             </div>
           )
         })}
+        <br />
+        <AddProductForm />
       </div>
     )
   }
@@ -54,8 +61,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     loadProducts: () => dispatch(getProductsThunk()),
-    addToCart: newItem => dispatch(addToCartThunk(newItem))
+    deleteProduct: id => dispatch(deleteItemThunk(id))
   }
 }
 
-export default connect(mapState, mapDispatch)(AllProducts)
+export default connect(mapState, mapDispatch)(Admin)
