@@ -7,7 +7,7 @@ class Cart extends React.Component {
     super()
   }
   componentDidMount() {
-    this.props.loadCartItems()
+    this.props.loadCartItems(this.props.match.params.userID)
   }
 
   render() {
@@ -21,7 +21,7 @@ class Cart extends React.Component {
               <div key={item.id}>
                 <> {item.name} </>
                 <> {item.price}</>
-                <> Quantity: </>
+                <> Quantity: {item.cart.quantity} </>
               </div>
             )
           })
@@ -41,7 +41,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadCartItems: () => dipatch(getCartItemsThunk())
+    loadCartItems: userID => dispatch(getCartItemsThunk(userID))
   }
 }
 

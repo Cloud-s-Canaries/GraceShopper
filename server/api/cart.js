@@ -6,6 +6,7 @@ const {Cart, User, Product} = require('../db/models')
 // Get route to get a cart belonging to a user
 router.get('/:userId', async (req, res, next) => {
   try {
+    console.log('==========REQBODY==============', req.body)
     const cart = await User.findOne({
       where: {
         id: Number(req.params.userId)

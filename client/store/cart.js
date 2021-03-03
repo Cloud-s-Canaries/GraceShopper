@@ -40,7 +40,8 @@ export const getCartItemsThunk = userID => {
   return async dispatch => {
     try {
       const {data} = await axios.get(`/api/carts/${userID}`)
-      dispatch(getCart(data))
+      const items = data.products
+      dispatch(getCart(items))
     } catch (error) {
       console.log(error)
     }
