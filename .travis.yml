@@ -17,11 +17,14 @@ before_script:
 script:
   - npm test # test the code
   - npm run build-client # make the bundle
-# before_deploy:
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE # see README
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: cloud-canary-shopper
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: G5cqE1J5FV4AWLWsruJJ94iCn4HdArUmhwkhjby8lK5qfLWCoF5vftv9m774JnFlu2F+uyoxYJYL12h96UtfbEPxx4j6YkLWm+QqF7EH/jqaA1WOKGtceQT9Yu5A8KqAaNYeXb3hQpm3f4okYA6hQsAwx1B2YtRbji+MCtIBC7T1+l4jydENSC2gf1dLOtyno3E/IqYtaYyVFmxIhq6VFyKV9qBpeBNTlJWwnxyWcx+wJysoUPlKbVz87qM6seAvL5ZkhAlVy+/l/+oKjwbTP3k6OanO+il2F5n05/hj6SmJtg8LzRS1ajDl2ylMLA42rMcLJXf4fmLSIMlAI0nSAMKgYTnXZBAnLam3W4bxT/hHD9IKdcIwSmBvdOC/0gD8BloH8/9NqcucjTGAMcKoMzElx5UjYbNEqBPLyFeMJy2R/CnwuAVOz35CpxFm9eg7e+z68bQXp7QXzszUj4Ye1Z7yEd5hUZr7yLilklPodTeZT8LhnzdbHOCBM8r4VLcyCW205uYOfCtAj+5oAyah6q50HJ+/GYDtnshZhXhLu94w7pXGWQ5/utkNKcWgn+UZZvY34S99dW3hbqMmT3lwkf7PLqKwwWxPhv/99IhvYvpaD85zeSgy0skwJVzivjBHdE7jUZIrEAmdheBzzNHzE295agKp1HHe5dKgbwxUQYA=
