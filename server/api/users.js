@@ -3,7 +3,8 @@ const {User} = require('../db/models')
 
 // const isAdminMiddleware = (req, res, next)=>{
 
-//     if(req.user.admin) next()
+//     if(!req.user.admin) console.log("you should not be doing that")
+//     else next()
 
 // }
 
