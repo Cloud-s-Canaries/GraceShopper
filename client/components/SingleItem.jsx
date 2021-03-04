@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getItemThunk} from '../store/singleProduct'
 import {getCartItemsThunk, addToCartThunk} from '../store/cart'
+import {toGuestCartThunk} from '../store/guestCart'
 
 class SingleItem extends React.Component {
   constructor() {
@@ -9,8 +10,13 @@ class SingleItem extends React.Component {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  handleClick(userID, itemID) {
-    this.props.addToCart(userID, itemID, 1)
+  handleClick(userID, itemID, entireItem) {
+    if (userID) {
+      this.props.addToCart(userID, itemID, 1)
+    }
+    if (!userID) {
+      this.props.toGuestCart(entireItem)
+    }
   }
 
   componentDidMount() {
@@ -32,7 +38,9 @@ class SingleItem extends React.Component {
         <h4> {rating}</h4>
         <img src={`../images/${imageUrl}`} />
         <p>{description} </p>
-        <button onClick={() => this.handleClick(userID, prodID)}>
+        <button
+          onClick={() => this.handleClick(userID, prodID, this.props.item)}
+        >
           Add To Cart{' '}
         </button>
       </div>
@@ -51,7 +59,8 @@ const mapDispatch = dispatch => {
   return {
     loadItem: itemID => dispatch(getItemThunk(itemID)),
     addToCart: (userID, prodID, quant) =>
-      dispatch(addToCartThunk(userID, prodID, quant))
+      dispatch(addToCartThunk(userID, prodID, quant)),
+    toGuestCart: newItem => dispatch(toGuestCartThunk(newItem))
   }
 }
 

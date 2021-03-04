@@ -10,12 +10,19 @@ import Cart from './components/Cart'
 import Admin from './components/Admin'
 import Checkout from './components/Checkout'
 import GuestCart from './components/GuestCart'
+import {getGuestCartThunk} from './store/guestCart'
 
 /**
  * COMPONENT
  */
 class Routes extends Component {
   componentDidMount() {
+    let savedCart = JSON.parse(localStorage.getItem('Guest_Cart'))
+    console.log(`GUEST COMPIONTIDNIKND`, savedCart)
+
+    if (savedCart) {
+      this.props.getGuestCart(savedCart)
+    }
     this.props.loadInitialData()
   }
 
@@ -62,6 +69,7 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
+    guestCart: state.guestCart,
     isLoggedIn: !!state.user.id,
     isAdmin: state.user.admin
   }
@@ -71,7 +79,8 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-    }
+    },
+    getGuestCart: cartItems => dispatch(getGuestCartThunk(cartItems))
   }
 }
 
