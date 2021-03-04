@@ -8,6 +8,8 @@ import AllProducts from './components/AllProducts'
 import SingleItem from './components/SingleItem'
 import Cart from './components/Cart'
 import Admin from './components/Admin'
+import Checkout from './components/Checkout'
+
 /**
  * COMPONENT
  */
@@ -28,7 +30,6 @@ class Routes extends Component {
           <Route path="/products" component={AllProducts} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
-
           {isAdmin && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
@@ -39,6 +40,7 @@ class Routes extends Component {
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route path="/home" component={UserHome} />
+              <Route path="/checkout" component={Checkout} />
               <Route path="/:userID/cart" component={Cart} />
             </Switch>
           )}
