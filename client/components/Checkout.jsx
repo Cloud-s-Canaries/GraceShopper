@@ -64,12 +64,15 @@ class Checkout extends React.Component {
         })}
         <br />
         <br />
-        <label htmlFor="paymethod">Payment Method</label>
-        <select>
-          <option> Bitcoin</option>
-          <option> Etherum</option>
-        </select>
-        <button>Place Order</button>
+
+        <div id="placeorderbutton">
+          <label htmlFor="paymethod">Payment Method</label>
+          <select>
+            <option> Bitcoin</option>
+            <option> Etherum</option>
+          </select>
+          <button>Place Order</button>
+        </div>
       </div>
     )
   }
