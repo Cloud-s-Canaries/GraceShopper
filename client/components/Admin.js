@@ -28,20 +28,21 @@ class Admin extends React.Component {
           return (
             <div key={prod.id}>
               <Link to={`/products/${prod.id}`}>
-                <div> {prod.name} </div>
-                <div> {prod.rating}</div>
+                <div> Name: {prod.name} </div>
+                <div> Rating: {prod.rating} </div>
+                <div> Price: {prod.price} </div>
                 <img src={`../images/${prod.imageUrl}`} />
               </Link>
+              <div> Description: {prod.description} </div>
               <button type="button" onClick={() => this.handleDelete(prod.id)}>
                 Delete this product
               </button>
-              <button type="button">Edit this product</button>
+              <EditProductForm value={prod} />
             </div>
           )
         })}
         <br />
         <AddProductForm />
-        {/* <EditProductForm /> */}
       </div>
     )
   }

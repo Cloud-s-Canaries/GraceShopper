@@ -1,34 +1,37 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getItemThunk, updateItemThunk} from '../store/singleProduct'
+import {updateItemThunk} from '../store/singleProduct'
 
 class EditProductForm extends React.Component {
   constructor(props) {
     super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  componentDidMount() {
-    this.props.loadItem(this.props.match.params.id)
-  }
-
-  handleSubmit = event => {
-    const itemUpdate = {
-      name: event.target.name.value,
-      rating: event.target.rating.value,
-      price: event.target.price.value,
-      imageUrl: event.target.imageUrl.value,
-      description: event.target.description.value
+    this.state = {
+      name: this.props.value.name,
+      rating: this.props.value.rating,
+      price: this.props.value.price,
+      description: this.props.value.description || '',
+      imageUrl: this.props.value.imageUrl
     }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleSubmit(event) {
     event.preventDefault()
-    this.props.updateItem(this.props.item.id, itemUpdate)
+    this.props.updateItem(this.props.value.id, this.state)
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
 
   render() {
-    const {name, rating, price, description, imageUrl} = this.props.item
-    console.log('this.props.item', this.props.item)
+    const {name, rating, price, description, imageUrl} = this.state
     return (
       <div>
+        <h3>Edit Product</h3>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="name">
@@ -85,7 +88,6 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadItem: id => dispatch(getItemThunk(id)),
     updateItem: (itemId, itemUpdate) =>
       dispatch(updateItemThunk(itemId, itemUpdate))
   }
