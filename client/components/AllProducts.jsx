@@ -42,7 +42,7 @@ class AllProducts extends React.Component {
               </Link>
               <button
                 type="button"
-                onClick={() => this.handleClick(userID, prod.id)}
+                onClick={() => this.handleClick(userID, prod.id, prod)}
               >
                 {' '}
                 Add To Cart

@@ -6,7 +6,7 @@ import {
   updateQuantityThunk,
   deleteFromCartThunk
 } from '../store/cart'
-import {} from '../store/guestCart'
+import {getGuestCartThunk} from '../store/guestCart'
 
 class GuestCart extends React.Component {
   constructor() {
@@ -17,10 +17,6 @@ class GuestCart extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
-  }
-
-  componentDidMount() {
-    this.props.loadCartItems(this.props.match.params.userID)
   }
 
   handleChange(evt) {
@@ -40,8 +36,20 @@ class GuestCart extends React.Component {
   }
 
   render() {
-    const cartItems = this.props.cartItems || []
+    let cartItems = []
+    let savedCart = JSON.parse(localStorage.getItem('Guest_Cart'))
+    console.log(`GUESTCRRR`, savedCart)
+    if (this.props.cartItems.length > 0) {
+      cartItems = this.props.cartItems
+    } else if (savedCart.length > 0) {
+      this.props.getGuestCart(savedCart)
+    } else {
+      cartItems = []
+    }
+
     const optionsArr = Array(25).fill(1)
+
+    console.log(`KARTITEMS`, this.props.cartItems)
     return (
       <div>
         {cartItems.length ? (
@@ -93,17 +101,15 @@ class GuestCart extends React.Component {
 
 const mapState = state => {
   return {
-    cartItems: state.cart
+    cartItems: state.guestCart
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    loadCartItems: userID => dispatch(getCartItemsThunk(userID)),
-    updateQuant: (userID, itemID, quant) =>
-      dispatch(updateQuantityThunk(userID, itemID, quant)),
     deleteItem: (userID, itemID) =>
-      dispatch(deleteFromCartThunk(userID, itemID))
+      dispatch(deleteFromCartThunk(userID, itemID)),
+    getGuestCart: cartItems => dispatch(getGuestCartThunk(cartItems))
   }
 }
 

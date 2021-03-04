@@ -37,11 +37,12 @@ export const guestCartItemQuantity = updatedCart => {
 
 ///"Thunk" Creators
 
-export function toGuestCartThunk(itemID) {
+export function toGuestCartThunk(newItem) {
   return dispatch => {
-    console.log(`ITEMID (THUNK`, itemID)
+    console.log(`ITEM (THUNK`, newItem)
     //Window Storage
-    dispatch(toGuestCart(itemID))
+
+    dispatch(toGuestCart(newItem))
   }
 }
 
@@ -60,6 +61,11 @@ export default function(state = initState, action) {
       return action.cartItems
     case ADD_TO_GUEST_CART:
       ///LOCAL STORAGE.SETITEM HERE
+      localStorage.setItem(
+        'Guest_Cart',
+        JSON.stringify([...state, action.newItem])
+      )
+
       return [...state, action.newItem]
     case DELETE_FROM_GUEST_CART:
       const itemsLeft = [...state].filter(
