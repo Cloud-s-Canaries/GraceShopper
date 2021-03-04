@@ -51,7 +51,7 @@ class GuestCart extends React.Component {
                   <div> {item.name} </div>
                   <div> {item.price}</div>
                   <img src={`../images/${item.imageUrl}`} />
-                  <div> Quantity: {item.cart ? item.cart.quantity : 1} </div>
+                  <div> Quantity: {item.quantity} </div>
                   <label htmlFor="quantity">Select Quantity</label>
                   <form onSubmit={evt => this.handleSubmit(item, evt)}>
                     <select name="quantity" id={`quantity-${item.id}`}>
