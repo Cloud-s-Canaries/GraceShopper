@@ -27,6 +27,7 @@ class Cart extends React.Component {
   }
 
   handleSubmit(itemID) {
+    console.log(`HANDLE SUBMIT CART RUNS`)
     this.props.updateQuant(
       this.props.match.params.userID,
       itemID,

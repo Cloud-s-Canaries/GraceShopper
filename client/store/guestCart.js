@@ -4,7 +4,7 @@ import axios from 'axios'
 const GET_GUEST_CART = `GET_GUEST_CART`
 const ADD_TO_GUEST_CART = `ADD_TO_GUEST_CART`
 const DELETE_FROM_GUEST_CART = `DELETE_FROM_GUEST_CART`
-const GUEST_CART_ITEM_QUANTITY = `CART_ITEM_QUANTITY`
+const GUEST_CART_ITEM_QUANTITY = ` GUEST_CART_ITEM_QUANTITY`
 
 //Action creators
 export const getGuestCart = cartItems => {
@@ -35,11 +35,18 @@ export const guestCartItemQuantity = updatedCart => {
   }
 }
 
+export const updateGCQuantity = (item, quantity) => {
+  return {
+    type: GUEST_CART_ITEM_QUANTITY,
+    item,
+    quantity
+  }
+}
+
 ///"Thunk" Creators
 
 export function toGuestCartThunk(newItem) {
   return dispatch => {
-    console.log(`ITEM (THUNK`, newItem)
     //Window Storage
 
     dispatch(toGuestCart(newItem))
@@ -53,6 +60,18 @@ export function getGuestCartThunk(cartItems) {
   }
 }
 
+export function deleteFromGuestCartThunk(item) {
+  return dispatch => {
+    dispatch(deleteFromGuestCart(item))
+  }
+}
+
+export function updateGCQuantThunk(item, quantity) {
+  return dispatch => {
+    dispatch(updateGCQuantity(item, quantity))
+  }
+}
+
 const initState = []
 
 export default function(state = initState, action) {
@@ -61,22 +80,35 @@ export default function(state = initState, action) {
       return action.cartItems
     case ADD_TO_GUEST_CART:
       ///LOCAL STORAGE.SETITEM HERE
-      localStorage.setItem(
-        'Guest_Cart',
-        JSON.stringify([...state, action.newItem])
-      )
 
-      return [...state, action.newItem]
+      const itemExists = state.filter(item => item.id === action.newItem.id)
+
+      if (itemExists.length) {
+        window.alert('You already have this meme in your cart! (GUEST CART)')
+        return state
+      } else {
+        localStorage.setItem(
+          'Guest_Cart',
+          JSON.stringify([...state, action.newItem])
+        )
+        return [...state, action.newItem]
+      }
     case DELETE_FROM_GUEST_CART:
-      const itemsLeft = [...state].filter(
-        item => item.id !== action.item.productId
-      )
+      const itemsLeft = [...state].filter(item => item.id !== action.item.id)
+      localStorage.setItem('Guest_Cart', JSON.stringify(itemsLeft))
       return itemsLeft
     case GUEST_CART_ITEM_QUANTITY:
-      const updatedItem = [...state].filter(
-        item => item.id !== action.updatedCart.id
+      console.log(`GC QUANT REDUCER RUNS`)
+      const updatedItems = [...state].filter(item => item.id !== action.item.id)
+      const newItem = action.item
+      newItem.quantity = Number(action.quantity)
+      console.log(`NUUUUITEM`, newItem)
+      localStorage.setItem(
+        'Guest_Cart',
+        JSON.stringify([...updatedItems, newItem])
       )
-      return [...updatedItem, action.updatedCart]
+      //JSON.pparlocalStorage.getItem('Guest_Cart') // Start here ??
+      return [...updatedItems, newItem]
     default:
       return state
   }

@@ -1,51 +1,34 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
+
 import {
-  getCartItemsThunk,
-  updateQuantityThunk,
-  deleteFromCartThunk
-} from '../store/cart'
-import {getGuestCartThunk} from '../store/guestCart'
+  getGuestCartThunk,
+  deleteFromGuestCartThunk,
+  updateGCQuantThunk
+} from '../store/guestCart'
 
 class GuestCart extends React.Component {
   constructor() {
     super()
-    this.state = {
-      itemQuant: 1
-    }
-    this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleDelete = this.handleDelete.bind(this)
   }
 
-  handleChange(evt) {
-    this.setState({itemQuant: evt.target.value})
+  handleSubmit(item, evt) {
+    //console.log(`EVENT TARGET VAL `, evt.target.quantity)
+    const quant = document.getElementById(`quantity-${item.id}`).value
+    console.log(`QUANT`, quant)
+    evt.preventDefault()
+    this.props.updateGCQuant(item, quant)
   }
 
-  handleSubmit(itemID) {
-    this.props.updateQuant(
-      this.props.match.params.userID,
-      itemID,
-      this.state.itemQuant
-    )
-  }
-
-  handleDelete(itemID) {
-    this.props.deleteItem(Number(this.props.match.params.userID), itemID)
+  handleDelete(entireItem) {
+    this.props.deleteItem(entireItem)
   }
 
   render() {
-    let cartItems = []
-    let savedCart = JSON.parse(localStorage.getItem('Guest_Cart'))
-    console.log(`GUESTCRRR`, savedCart)
-    if (this.props.cartItems.length > 0) {
-      cartItems = this.props.cartItems
-    } else if (savedCart.length > 0) {
-      this.props.getGuestCart(savedCart)
-    } else {
-      cartItems = []
-    }
+    const cartItems = this.props.cartItems || []
 
     const optionsArr = Array(25).fill(1)
 
@@ -70,19 +53,16 @@ class GuestCart extends React.Component {
                   <img src={`../images/${item.imageUrl}`} />
                   <div> Quantity: {item.cart ? item.cart.quantity : 1} </div>
                   <label htmlFor="quantity">Select Quantity</label>
-                  <select
-                    name="quantity"
-                    value={this.state.itemQuant}
-                    onChange={this.handleChange}
-                  >
-                    {optionsArr.map((val, idx) => {
-                      return <option value={val + idx}> {val + idx} </option>
-                    })}
-                  </select>
-                  <button onClick={() => this.handleSubmit(item.id)}>
-                    Change
-                  </button>
-                  <button onClick={() => this.handleDelete(Number(item.id))}>
+                  <form onSubmit={evt => this.handleSubmit(item, evt)}>
+                    <select name="quantity" id={`quantity-${item.id}`}>
+                      {optionsArr.map((val, idx) => {
+                        return <option value={val + idx}> {val + idx} </option>
+                      })}
+                    </select>
+
+                    <input type="submit" />
+                  </form>
+                  <button onClick={() => this.handleDelete(item)}>
                     {' '}
                     Delete{' '}
                   </button>
@@ -107,9 +87,10 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    deleteItem: (userID, itemID) =>
-      dispatch(deleteFromCartThunk(userID, itemID)),
-    getGuestCart: cartItems => dispatch(getGuestCartThunk(cartItems))
+    deleteItem: entireItem => dispatch(deleteFromGuestCartThunk(entireItem)),
+    getGuestCart: cartItems => dispatch(getGuestCartThunk(cartItems)),
+    updateGCQuant: (wholeItem, quant) =>
+      dispatch(updateGCQuantThunk(wholeItem, quant))
   }
 }
 
