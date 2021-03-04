@@ -4,6 +4,7 @@ import axios from 'axios'
 const GET_PRODUCTS = `GET_PRODUCTS`
 const ADD_ITEM = `ADD_ITEM`
 const DELETE_ITEM = `DELETE_ITEM`
+const UPDATE_ITEM = `UPDATE_ITEM`
 
 //ACTION CREATORS
 export const getProducts = products => {
@@ -24,6 +25,13 @@ export const deleteItem = itemID => {
   return {
     type: DELETE_ITEM,
     itemID
+  }
+}
+
+export const updateItem = updatedItem => {
+  return {
+    type: UPDATE_ITEM,
+    updatedItem
   }
 }
 
@@ -57,6 +65,20 @@ export const deleteItemThunk = itemID => {
   }
 }
 
+export const updateItemThunk = (itemID, submittedChanges) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(
+        `/api/products/${itemID}`,
+        submittedChanges
+      )
+      dispatch(updateItem(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 const initState = []
 
 export default function(state = initState, action) {
@@ -65,6 +87,13 @@ export default function(state = initState, action) {
       return action.products
     case ADD_ITEM:
       return [action.newItem, ...state]
+    case UPDATE_ITEM: {
+      console.log(`Updated item: `, action.updateItem)
+      const itemsLeft = [...state].filter(
+        item => item.id !== action.updatedItem.id
+      )
+      return [...itemsLeft, action.updatedItem]
+    }
     case DELETE_ITEM: {
       const itemsLeft = [...state].filter(item => item.id !== action.itemID)
       return itemsLeft
