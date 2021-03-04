@@ -18,7 +18,6 @@ class EditProductForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    console.log(`ID: `, this.props.value.id)
     this.props.updateItem(this.props.value.id, this.state)
   }
 
