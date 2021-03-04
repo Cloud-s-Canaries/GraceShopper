@@ -28,6 +28,13 @@ export const deleteItem = itemID => {
   }
 }
 
+export const updateItem = updatedItem => {
+  return {
+    type: UPDATE_ITEM,
+    updatedItem
+  }
+}
+
 ///THUNK CREATORS
 export const getProductsThunk = () => {
   return async dispatch => {
@@ -58,6 +65,20 @@ export const deleteItemThunk = itemID => {
   }
 }
 
+export const updateItemThunk = (itemID, submittedChanges) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.put(
+        `/api/products/${itemID}`,
+        submittedChanges
+      )
+      dispatch(updateItem(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
 const initState = []
 
 export default function(state = initState, action) {
@@ -67,10 +88,10 @@ export default function(state = initState, action) {
     case ADD_ITEM:
       return [action.newItem, ...state]
     case UPDATE_ITEM: {
+      console.log(`Updated item: `, action.updateItem)
       const itemsLeft = [...state].filter(
         item => item.id !== action.updatedItem.id
       )
-      console.log('updating all products')
       return [...itemsLeft, action.updatedItem]
     }
     case DELETE_ITEM: {

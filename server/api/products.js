@@ -39,9 +39,10 @@ router.put('/:id', async (req, res, next) => {
     const product = await Product.update(req.body, {
       where: {
         id: req.params.id
-      }
+      },
+      returning: true
     })
-    res.send(product)
+    res.send(product[1][0])
   } catch (error) {
     next(error)
   }

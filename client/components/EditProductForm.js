@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {updateItemThunk} from '../store/singleProduct'
+import {updateItemThunk} from '../store/allProducts'
 
 class EditProductForm extends React.Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class EditProductForm extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault()
+    console.log(`ID: `, this.props.value.id)
     this.props.updateItem(this.props.value.id, this.state)
   }
 
@@ -80,12 +81,6 @@ class EditProductForm extends React.Component {
   }
 }
 
-const mapState = state => {
-  return {
-    singleProduct: state.singleProduct
-  }
-}
-
 const mapDispatch = dispatch => {
   return {
     updateItem: (itemId, itemUpdate) =>
@@ -93,4 +88,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(EditProductForm)
+export default connect(null, mapDispatch)(EditProductForm)
