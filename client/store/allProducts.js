@@ -88,7 +88,6 @@ export default function(state = initState, action) {
     case ADD_ITEM:
       return [action.newItem, ...state]
     case UPDATE_ITEM: {
-      console.log(`Updated item: `, action.updateItem)
       const itemsLeft = [...state].filter(
         item => item.id !== action.updatedItem.id
       )
