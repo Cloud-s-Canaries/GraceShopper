@@ -6,8 +6,9 @@ import {
   updateQuantityThunk,
   deleteFromCartThunk
 } from '../store/cart'
+import {} from '../store/guestCart'
 
-class Cart extends React.Component {
+class GuestCart extends React.Component {
   constructor() {
     super()
     this.state = {
@@ -106,4 +107,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(Cart)
+export default connect(mapState, mapDispatch)(GuestCart)

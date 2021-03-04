@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {getProductsThunk} from '../store/allProducts'
 import {addToCartThunk} from '../store/cart'
+import {toGuestCartThunk} from '../store/guestCart'
 
 class AllProducts extends React.Component {
   constructor() {
@@ -16,8 +17,13 @@ class AllProducts extends React.Component {
     //this.props.addToCart()
   }
 
-  handleClick(userID, itemID) {
-    this.props.addToCart(userID, itemID, 1)
+  handleClick(userID, itemID, entireItem) {
+    if (userID) {
+      this.props.addToCart(userID, itemID, 1)
+    }
+    if (!userID) {
+      this.props.toGuestCart(entireItem)
+    }
   }
 
   render() {
@@ -60,7 +66,8 @@ const mapDispatch = dispatch => {
   return {
     loadProducts: () => dispatch(getProductsThunk()),
     addToCart: (userID, prodID, quant) =>
-      dispatch(addToCartThunk(userID, prodID, quant))
+      dispatch(addToCartThunk(userID, prodID, quant)),
+    toGuestCart: newItem => dispatch(toGuestCartThunk(newItem))
   }
 }
 
