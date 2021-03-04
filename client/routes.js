@@ -9,6 +9,7 @@ import SingleItem from './components/SingleItem'
 import Cart from './components/Cart'
 import Admin from './components/Admin'
 import Checkout from './components/Checkout'
+import GuestCart from './components/GuestCart'
 
 /**
  * COMPONENT
@@ -30,6 +31,7 @@ class Routes extends Component {
           <Route path="/products" component={AllProducts} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route path="/guestcart" component={GuestCart} />
           {isAdmin && (
             <Switch>
               {/* Routes placed here are only available after logging in */}

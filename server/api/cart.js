@@ -67,7 +67,8 @@ router.delete('/:userId/:productId', async (req, res, next) => {
       }
     })
     await cart.destroy()
-    res.send(cart)
+
+    res.json(cart)
   } catch (error) {
     next(error)
   }
