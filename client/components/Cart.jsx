@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {getCartItemsThunk, updateQuantityThunk} from '../store/cart'
 
 class Cart extends React.Component {
@@ -12,12 +13,12 @@ class Cart extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleChange(evt) {
-    this.setState({itemQuant: evt.target.value})
-  }
-
   componentDidMount() {
     this.props.loadCartItems(this.props.match.params.userID)
+  }
+
+  handleChange(evt) {
+    this.setState({itemQuant: evt.target.value})
   }
 
   handleSubmit(itemID) {
@@ -34,34 +35,41 @@ class Cart extends React.Component {
 
     return (
       <div>
-        {' '}
         {cartItems.length ? (
-          cartItems.map(item => {
-            console.log(`ITEM`, item)
-            return (
-              <div key={item.id}>
-                <div> {item.name} </div>
-                <div> {item.price}</div>
-                <img src={`../images/${item.imageUrl}`} />
-                <div> Quantity: {item.cart ? item.cart.quantity : 1} </div>
-                <label htmlFor="quantity">Select Quantity</label>
-                <select
-                  name="quantity"
-                  value={this.state.itemQuant}
-                  onChange={this.handleChange}
-                >
-                  {optionsArr.map((val, idx) => {
-                    return <option value={val + idx}> {val + idx} </option>
-                  })}
-                </select>
-                <button onClick={() => this.handleSubmit(item.id)}>
-                  {' '}
-                  Change
-                </button>
-                <br />
-              </div>
-            )
-          })
+          <div>
+            <Link to="/checkout">
+              <button id="checkoutbutton"> Proceed to Checkout</button>
+            </Link>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            {cartItems.map(item => {
+              return (
+                <div key={item.id}>
+                  <div> {item.name} </div>
+                  <div> {item.price}</div>
+                  <img src={`../images/${item.imageUrl}`} />
+                  <div> Quantity: {item.cart ? item.cart.quantity : 1} </div>
+                  <label htmlFor="quantity">Select Quantity</label>
+                  <select
+                    name="quantity"
+                    value={this.state.itemQuant}
+                    onChange={this.handleChange}
+                  >
+                    {optionsArr.map((val, idx) => {
+                      return <option value={val + idx}> {val + idx} </option>
+                    })}
+                  </select>
+                  <button onClick={() => this.handleSubmit(item.id)}>
+                    Change
+                  </button>
+                  <br />
+                </div>
+              )
+            })}
+          </div>
         ) : (
           <div> Your Cart is Empty</div>
         )}
