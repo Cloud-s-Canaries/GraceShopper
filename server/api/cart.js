@@ -3,8 +3,8 @@ const {Cart, User, Product} = require('../db/models')
 
 // We're in /api/carts/
 
-function isAdmin(req, res, next) {
-  if (req.user.admin) {
+function isUser(req, res, next) {
+  if (req.user.id === Number(req.params.userId)) {
     next()
   } else {
     res.sendStatus(403)
@@ -12,38 +12,26 @@ function isAdmin(req, res, next) {
 }
 
 // Get route to get a cart belonging to a user
-router.get(
-  '/:userId',
-  (req, res, next) => {
-    if (req.user.id === Number(req.params.userId)) {
-      console.log(`User matches, please proceed`)
-      next()
-    } else {
-      console.log(`Out, impostor!`)
-      res.sendStatus(403)
-    }
-  },
-  async (req, res, next) => {
-    try {
-      const cart = await User.findOne({
-        where: {
-          id: Number(req.params.userId)
-        },
-        include: [
-          {
-            model: Product
-          }
-        ]
-      })
-      res.json(cart)
-    } catch (error) {
-      next(error)
-    }
+router.get('/:userId', isUser, async (req, res, next) => {
+  try {
+    const cart = await User.findOne({
+      where: {
+        id: Number(req.params.userId)
+      },
+      include: [
+        {
+          model: Product
+        }
+      ]
+    })
+    res.json(cart)
+  } catch (error) {
+    next(error)
   }
-)
+})
 
 // Put route to update quantity of a product inside a user's cart
-router.put('/:userId/:productId', isAdmin, async (req, res, next) => {
+router.put('/:userId/:productId', isUser, async (req, res, next) => {
   try {
     const cart = await Cart.update(
       {quantity: req.body.quantity},
@@ -61,33 +49,40 @@ router.put('/:userId/:productId', isAdmin, async (req, res, next) => {
 })
 
 // Post route to add an item to cart.
-router.post('/', isAdmin, async (req, res, next) => {
-  try {
-    //console.log(req.body)
-    const cart = await Cart.findOrCreate({
-      where: {
-        userId: req.body.userId,
-        productId: req.body.productId,
-        quantity: req.body.quantity || 1
-      }
-    })
-    console.log('CART', cart)
-    if (cart[1]) {
-      res.json(cart[0])
+router.post(
+  '/',
+  (req, res, next) => {
+    if (req.user.id === Number(req.body.userId)) {
+      next()
     } else {
-      res.send('You already have this item in your cart')
+      res.sendStatus(403)
     }
-  } catch (err) {
-    next(err)
+  },
+  async (req, res, next) => {
+    try {
+      //console.log(req.body)
+      const cart = await Cart.findOrCreate({
+        where: {
+          userId: req.body.userId,
+          productId: req.body.productId,
+          quantity: req.body.quantity || 1
+        }
+      })
+      if (cart[1]) {
+        res.json(cart[0])
+      } else {
+        res.send('You already have this item in your cart')
+      }
+    } catch (err) {
+      next(err)
+    }
   }
-})
+)
 
 // Post route for when guest logs in -> Creates a new cart with guest ID + product ID + quantity
 router.post('/guestlogin', async (req, res, next) => {
   try {
-    console.log(`======REQ.BODY.ARRAY=============`, req.body.array)
     const cart = await Cart.bulkCreate(req.body.array)
-    console.log(`RETURNED CART`, cart)
     res.sendStatus(201)
   } catch (err) {
     next(err)
@@ -95,7 +90,7 @@ router.post('/guestlogin', async (req, res, next) => {
 })
 
 // Delete route to remove item from cart
-router.delete('/:userId/:productId', isAdmin, async (req, res, next) => {
+router.delete('/:userId/:productId', isUser, async (req, res, next) => {
   try {
     const cart = await Cart.findOne({
       where: {
@@ -112,7 +107,7 @@ router.delete('/:userId/:productId', isAdmin, async (req, res, next) => {
 })
 
 // Delete route to delete the entire cart
-router.delete('/:userId', isAdmin, async (req, res, next) => {
+router.delete('/:userId', isUser, async (req, res, next) => {
   try {
     const cart = await Cart.findAll({
       where: {

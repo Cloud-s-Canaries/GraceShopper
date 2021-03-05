@@ -13,15 +13,6 @@ function isAdmin(req, res, next) {
   } else {
     next()
   }
-  //   console.log(`We're not in a test environment`)
-  //   next()
-  // } else if (req.user) {
-  //   if (req.user.admin) {
-  //     next()
-  //   }
-  // } else {
-  //   res.sendStatus(403)
-  // }
 }
 
 router.get('/', isAdmin, async (req, res, next) => {
@@ -92,26 +83,5 @@ router.delete('/:id', isAdmin, async (req, res, next) => {
     next(error)
   }
 })
-
-// // Login request - Unneeded cuz it's in /auth folder already
-// router.put('/login', async (req, res, next) => {
-//   try {
-//     const user = await User.findOne({
-//       where: {
-//         email: req.body.email
-//       }
-//     })
-//     if (!user) {
-//       res.sendStatus(401)
-//     }
-//     if (user.correctPassword(req.body.password)) {
-//       res.json(user)
-//     } else {
-//       res.send('Incorrect password')
-//     }
-//   } catch (error) {
-//     next(error)
-//   }
-// })
 
 module.exports = router
