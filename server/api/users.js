@@ -2,12 +2,13 @@ const router = require('express').Router()
 const {User} = require('../db/models')
 
 function isAdmin(req, res, next) {
-  console.log(`process.env:xxx${process.env.NODE_ENV}xxx`)
-  if (process.env.NODE_ENV.trim() === 'production') {
-    if (req.user.admin) {
-      next()
+  if (process.env.NODE_ENV === 'production') {
+    if (req.user) {
+      if (req.user.admin) {
+        next()
+      }
     } else {
-      res.sendStatus(403)
+      res.status(403).send('Sorry, admins only party here. Go away')
     }
   } else {
     next()

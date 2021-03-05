@@ -82,6 +82,18 @@ router.post('/', isAdmin, async (req, res, next) => {
   }
 })
 
+// Post route for when guest logs in -> Creates a new cart with guest ID + product ID + quantity
+router.post('/guestlogin', async (req, res, next) => {
+  try {
+    console.log(`======REQ.BODY.ARRAY=============`, req.body.array)
+    const cart = await Cart.bulkCreate(req.body.array)
+    console.log(`RETURNED CART`, cart)
+    res.sendStatus(201)
+  } catch (err) {
+    next(err)
+  }
+})
+
 // Delete route to remove item from cart
 router.delete('/:userId/:productId', isAdmin, async (req, res, next) => {
   try {
