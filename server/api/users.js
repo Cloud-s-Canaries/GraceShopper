@@ -3,10 +3,12 @@ const {User} = require('../db/models')
 
 function isAdmin(req, res, next) {
   if (process.env.NODE_ENV === 'production') {
-    if (req.user.admin) {
-      next()
+    if (req.user) {
+      if (req.user.admin) {
+        next()
+      }
     } else {
-      res.sendStatus(403)
+      res.status(403).send('Sorry, admins only party here. Go away')
     }
   } else {
     next()
