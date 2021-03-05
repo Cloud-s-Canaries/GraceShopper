@@ -42,6 +42,7 @@ class Cart extends React.Component {
   render() {
     const cartItems = this.props.cartItems || []
     const optionsArr = Array(25).fill(1)
+    console.log(`Loading cart...`)
     return (
       <div>
         {cartItems.length ? (

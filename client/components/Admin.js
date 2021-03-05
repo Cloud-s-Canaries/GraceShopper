@@ -2,7 +2,11 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {getProductsThunk, deleteItemThunk} from '../store/allProducts'
-import {getAllUsersThunk, deleteUserThunk, updateUserThunk} from '../store/user'
+import {
+  getAllUsersThunk,
+  deleteUserThunk,
+  updateUserThunk
+} from '../store/allUsers'
 
 import AddProductForm from './AddProductForm'
 import EditProductForm from './EditProductForm'
@@ -81,7 +85,7 @@ class Admin extends React.Component {
 const mapState = state => {
   return {
     products: state.allProducts,
-    users: state.user.users
+    users: state.allUsers
   }
 }
 

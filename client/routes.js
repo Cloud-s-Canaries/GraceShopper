@@ -17,13 +17,14 @@ import {getGuestCartThunk} from './store/guestCart'
  */
 class Routes extends Component {
   componentDidMount() {
+    this.props.loadInitialData()
     let savedCart = JSON.parse(localStorage.getItem('Guest_Cart'))
-    console.log(`GUEST COMPIONTIDNIKND`, savedCart)
 
-    if (savedCart) {
+    if (savedCart && !this.props.isLoggedIn) {
+      console.log(`GUEST COMPIONTIDNIKND`, savedCart)
+      console.log(`Loading saved guest cart data...`)
       this.props.getGuestCart(savedCart)
     }
-    this.props.loadInitialData()
   }
 
   render() {
@@ -43,6 +44,8 @@ class Routes extends Component {
             <Switch>
               {/* Routes placed here are only available after logging in */}
               <Route path="/admin" component={Admin} />
+              <Route path="/checkout" component={Checkout} />
+              <Route path="/:userID/cart" component={Cart} />
             </Switch>
           )}
           {isLoggedIn && (

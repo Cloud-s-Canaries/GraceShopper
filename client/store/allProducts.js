@@ -21,10 +21,10 @@ export const addItem = newItem => {
   }
 }
 
-export const deleteItem = itemID => {
+export const deleteItem = item => {
   return {
     type: DELETE_ITEM,
-    itemID
+    item
   }
 }
 
@@ -94,7 +94,7 @@ export default function(state = initState, action) {
       return [...itemsLeft, action.updatedItem]
     }
     case DELETE_ITEM: {
-      const itemsLeft = [...state].filter(item => item.id !== action.itemID)
+      const itemsLeft = [...state].filter(item => item.id !== action.item.id)
       return itemsLeft
     }
     default:
