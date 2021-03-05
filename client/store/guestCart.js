@@ -93,11 +93,12 @@ export default function(state = initState, action) {
         )
         return [...state, action.newItem]
       }
-    case DELETE_FROM_GUEST_CART:
+    case DELETE_FROM_GUEST_CART: {
       const itemsLeft = [...state].filter(item => item.id !== action.item.id)
       localStorage.setItem('Guest_Cart', JSON.stringify(itemsLeft))
       return itemsLeft
-    case GUEST_CART_ITEM_QUANTITY:
+    }
+    case GUEST_CART_ITEM_QUANTITY: {
       console.log(`GC QUANT REDUCER RUNS`)
       const updatedItems = [...state].filter(item => item.id !== action.item.id)
       const newItem = action.item
@@ -109,6 +110,7 @@ export default function(state = initState, action) {
       )
       //JSON.pparlocalStorage.getItem('Guest_Cart') // Start here ??
       return [...updatedItems, newItem]
+    }
     default:
       return state
   }

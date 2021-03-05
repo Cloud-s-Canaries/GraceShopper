@@ -1,14 +1,15 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
 
-// const isAdminMiddleware = (req, res, next)=>{
+function isAdmin(req, res, next) {
+  if (req.user.admin) {
+    next()
+  } else {
+    res.sendStatus(403)
+  }
+}
 
-//     if(!req.user.admin) console.log("you should not be doing that")
-//     else next()
-
-// }
-
-router.get('/', async (req, res, next) => {
+router.get('/', isAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -23,7 +24,7 @@ router.get('/', async (req, res, next) => {
 })
 
 // Get route to get info on a single user
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', isAdmin, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
     res.json(user)
@@ -33,24 +34,33 @@ router.get('/:id', async (req, res, next) => {
 })
 
 // Post route to add a user to the database
-router.post('/', async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
   try {
-    const user = await User.create(req.body)
+    const user = await User.create({
+      email: req.body.email,
+      password: req.body.password
+    })
     res.send(user)
   } catch (error) {
     next(error)
   }
 })
 
-// Put route to edit a product
-router.put('/:id', async (req, res, next) => {
+// Put route to edit a user
+router.put('/:id', isAdmin, async (req, res, next) => {
   try {
-    const user = await User.update(req.body, {
-      where: {
-        id: req.params.id
+    const user = await User.update(
+      {
+        name: req.body.name,
+        password: req.body.password
       },
-      returning: true
-    })
+      {
+        where: {
+          id: req.params.id
+        },
+        returning: true
+      }
+    )
     res.send(user[1][0])
   } catch (error) {
     next(error)
@@ -58,7 +68,7 @@ router.put('/:id', async (req, res, next) => {
 })
 
 // Delete route to remove a user from database
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', isAdmin, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
     await user.destroy()
