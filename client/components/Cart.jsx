@@ -27,7 +27,6 @@ class Cart extends React.Component {
   }
 
   handleSubmit(itemID) {
-    console.log(`HANDLE SUBMIT CART RUNS`)
     this.props.updateQuant(
       this.props.match.params.userID,
       itemID,
@@ -42,7 +41,6 @@ class Cart extends React.Component {
   render() {
     const cartItems = this.props.cartItems || []
     const optionsArr = Array(25).fill(1)
-    console.log(`Loading cart...`)
     const subtotal =
       cartItems.reduce((accum, next) => {
         return accum + next.price * next.cart.quantity
