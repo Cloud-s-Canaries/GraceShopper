@@ -1,4 +1,4 @@
-# MEMAZON
+# MEME-AZON
 
 ### https://cloud-canary-shopper.herokuapp.com/
 
