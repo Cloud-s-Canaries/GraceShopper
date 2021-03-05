@@ -31,47 +31,89 @@ class Checkout extends React.Component {
 
   handleClick() {}
   render() {
-    console.log(`WATT`, this.props.user)
     const cartItems = this.props.cartItems || []
     const optionsArr = Array(25).fill(1)
+    const subtotal =
+      cartItems.reduce((accum, next) => {
+        return accum + next.price * next.cart.quantity
+      }, 0) / 100
+    const tax = 0.08 * subtotal
+    const total = subtotal + tax
     return (
-      <div>
-        {cartItems.map(item => {
-          console.log(`ITEM`, item)
-          return (
-            <div key={item.id}>
-              <div> {item.name} </div>
-              <div> {item.price}</div>
-              <img src={`../images/${item.imageUrl}`} />
-              <div> Quantity: {item.cart ? item.cart.quantity : 1} </div>
-              <label htmlFor="quantity">Select Quantity</label>
-              <select
-                name="quantity"
-                value={this.state.itemQuant}
-                onChange={this.handleChange}
-              >
-                {optionsArr.map((val, idx) => {
-                  return <option value={val + idx}> {val + idx} </option>
-                })}
-              </select>
-              <button onClick={() => this.handleSubmit(item.id)}>
-                {' '}
-                Change
-              </button>
-              <br />
+      <div className="checkout-container">
+        <div className="title">Checkout</div>
+        <div className="checkout-ui">
+          <div className="cart-items">
+            {cartItems.map(item => {
+              return (
+                <div key={item.id} className="item">
+                  <div className="image-preview">
+                    <img src={`../images/${item.imageUrl}`} />
+                  </div>
+                  <div className="info-container">
+                    <div className="item-name"> {item.name} </div>
+                    <div className="item-descrip">{item.description}</div>
+                    <div className="quantity-container">
+                      <div>
+                        {' '}
+                        Quantity: {item.cart ? item.cart.quantity : 1}{' '}
+                      </div>
+                      <label htmlFor="quantity">Select Quantity</label>
+                      <select
+                        name="quantity"
+                        value={this.state.itemQuant}
+                        onChange={this.handleChange}
+                      >
+                        {optionsArr.map((val, idx) => {
+                          return (
+                            <option key={val + idx} value={val + idx}>
+                              {' '}
+                              {val + idx}{' '}
+                            </option>
+                          )
+                        })}
+                      </select>
+                      <button
+                        type="button"
+                        onClick={() => this.handleSubmit(item.id)}
+                      >
+                        {' '}
+                        Change
+                      </button>
+                    </div>
+                  </div>
+                  <div className="price-container">
+                    <div> Price</div>
+                    <div> ${item.price / 100}</div>
+                  </div>
+                </div>
+              )
+            })}
+            <br />
+            <br />
+          </div>
+          <div className="placeorder">
+            <div className="subtotal">
+              <div className="flex">
+                Subtotal: <span className="right">{subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex">
+                Tax: <span className="right">{tax.toFixed(2)}</span>
+              </div>
+              <div>------------------------------ </div>
+              <div className="flex">
+                Total:<span className="right">{total.toFixed(2)}</span>
+              </div>
             </div>
-          )
-        })}
-        <br />
-        <br />
-
-        <div id="placeorderbutton">
-          <label htmlFor="paymethod">Payment Method</label>
-          <select>
-            <option> Bitcoin</option>
-            <option> Etherum</option>
-          </select>
-          <button>Place Order</button>
+            <div>
+              <label htmlFor="paymethod">Payment Method</label>
+              <select>
+                <option> Bitcoin</option>
+                <option> Etherum</option>
+              </select>
+              <button type="button">Place Order</button>
+            </div>
+          </div>
         </div>
       </div>
     )
