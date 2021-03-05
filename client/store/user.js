@@ -39,7 +39,12 @@ export const me = () => async dispatch => {
 
 export const auth = (email, password, method) => async dispatch => {
   let res
+
+  const savedCart = JSON.parse(localStorage.getItem('Guest_Cart'))
+  console.log(`Here's your savedCart`, savedCart)
+
   try {
+    console.log(`Posting new user to db...`)
     res = await axios.post(`/auth/${method}`, {email, password})
   } catch (authError) {
     return dispatch(getUser({error: authError}))
@@ -47,7 +52,23 @@ export const auth = (email, password, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
-    history.push('/home')
+    if (savedCart.length) {
+      // Call axios to put items from local storage into db here
+
+      const userId = res.data.id
+      const array = savedCart.map(prod => {
+        return {userId, productId: prod.id, quantity: prod.quantity}
+      })
+      await axios.post('/api/carts/guestlogin', {
+        array
+      })
+
+      localStorage.removeItem('Guest_Cart')
+
+      history.push(`/${res.data.id}/cart`)
+    } else {
+      history.push('/home')
+    }
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
