@@ -43,6 +43,10 @@ class Cart extends React.Component {
     const cartItems = this.props.cartItems || []
     const optionsArr = Array(25).fill(1)
     console.log(`Loading cart...`)
+    const subtotal =
+      cartItems.reduce((accum, next) => {
+        return accum + next.price * next.cart.quantity
+      }, 0) / 100
     return (
       <div>
         {cartItems.length ? (
@@ -80,6 +84,8 @@ class Cart extends React.Component {
                     Delete{' '}
                   </button>
                   <br />
+                  <br />
+                  <div>Subtotal: ${subtotal}</div>
                 </div>
               )
             })}

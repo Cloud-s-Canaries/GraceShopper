@@ -38,13 +38,13 @@ async function seed() {
   const product = await Promise.all([
     Product.create({
       name: 'test_meme',
-      price: 10.2,
+      price: 1002,
       description: 'A test to see if our things work',
       rating: 3.6
     }),
     Product.create({
       name: 'second_test_meme',
-      price: 6.2,
+      price: 6200,
       description: 'A second test item to see if our things work',
       rating: 4.6
     })
