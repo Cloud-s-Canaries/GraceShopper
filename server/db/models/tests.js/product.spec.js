@@ -1,7 +1,7 @@
 /* global describe beforeEach it */
 
 const {expect} = require('chai')
-const db = require('../index')
+const db = require('../../index')
 const Product = db.model('product')
 
 describe('Product model', () => {
@@ -60,7 +60,3 @@ describe('Product model', () => {
     expect(meme.imageUrl.length).to.be.greaterThan(1)
   })
 })
-
-// end describe('correctPassword')
-//   }) // end describe('instanceMethods')
-// }) // end describe('User model')
