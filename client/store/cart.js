@@ -72,9 +72,11 @@ export const addToCartThunk = (userId, productId, quantity) => {
 export const updateQuantityThunk = (userID, itemID, quantity) => {
   return async dispatch => {
     try {
+      console.log(`Running API...`)
       const {data} = await axios.put(`/api/carts/${userID}/${itemID}`, {
         quantity
       })
+      console.log(`API returned...`, data)
       dispatch(cartItemQuantity(data))
     } catch (error) {
       console.log(error)
@@ -103,10 +105,8 @@ export default function(state = initState, action) {
     case ADD_TO_CART:
       return [...state, action.newItem]
     case CART_ITEM_QUANTITY:
-      const updatedItem = [...state].filter(
-        item => item.id !== action.updatedCart.id
-      )
-      return [...updatedItem, action.updatedCart]
+      return action.updatedCart.products
+
     case DELETE_FROM_CART: {
       const itemsLeft = [...state].filter(
         item => item.id !== action.item.productId

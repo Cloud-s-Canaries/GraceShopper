@@ -11,6 +11,7 @@ import Admin from './components/Admin'
 import Checkout from './components/Checkout'
 import GuestCart from './components/GuestCart'
 import {getGuestCartThunk} from './store/guestCart'
+import Receipt from './components/Receipt'
 
 /**
  * COMPONENT
@@ -40,6 +41,7 @@ class Routes extends Component {
           <Route path="/checkout" component={Checkout} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route path="/receipt" component={Receipt} />
           <Route path="/guestcart" component={GuestCart} />
           {isAdmin && (
             <Switch>

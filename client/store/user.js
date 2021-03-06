@@ -9,6 +9,7 @@ const defaultUser = {}
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const DELETE_GUEST_CART = 'DELETE_GUEST_CART'
 
 /**
  * ACTION CREATORS
@@ -31,6 +32,7 @@ const getUser = user => ({type: GET_USER, user})
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
+
     dispatch(getUser(res.data || defaultUser))
   } catch (err) {
     console.error(err)
@@ -52,18 +54,19 @@ export const auth = (email, password, method) => async dispatch => {
 
   try {
     dispatch(getUser(res.data))
-    if (savedCart.length) {
+    if (savedCart) {
       // Call axios to put items from local storage into db here
 
       const userId = res.data.id
       const array = savedCart.map(prod => {
-        return {userId, productId: prod.id, quantity: prod.quantity}
+        return {userId, productId: prod.id, quantity: prod.cart.quantity || 1}
       })
       await axios.post('/api/carts/guestlogin', {
         array
       })
 
       localStorage.removeItem('Guest_Cart')
+      dispatch({type: DELETE_GUEST_CART})
 
       history.push(`/${res.data.id}/cart`)
     } else {

@@ -45,12 +45,16 @@ class Cart extends React.Component {
       cartItems.reduce((accum, next) => {
         return accum + next.price * next.cart.quantity
       }, 0) / 100
+    console.log(`CartItems: `, cartItems)
     return (
       <div>
         {cartItems.length ? (
           <div>
             <Link to="/checkout">
-              <button id="checkoutbutton"> Proceed to Checkout</button>
+              <button type="button" id="checkoutbutton">
+                {' '}
+                Proceed to Checkout
+              </button>
             </Link>
             <br />
             <br />
@@ -61,7 +65,7 @@ class Cart extends React.Component {
               return (
                 <div key={item.id}>
                   <div> {item.name} </div>
-                  <div> {item.price}</div>
+                  <div> {item.price / 100}</div>
                   <img src={`../images/${item.imageUrl}`} />
                   <div> Quantity: {item.cart ? item.cart.quantity : 1} </div>
                   <label htmlFor="quantity">Select Quantity</label>
@@ -71,19 +75,29 @@ class Cart extends React.Component {
                     onChange={this.handleChange}
                   >
                     {optionsArr.map((val, idx) => {
-                      return <option value={val + idx}> {val + idx} </option>
+                      return (
+                        <option key={val + idx} value={val + idx}>
+                          {' '}
+                          {val + idx}{' '}
+                        </option>
+                      )
                     })}
                   </select>
-                  <button onClick={() => this.handleSubmit(item.id)}>
+                  <button
+                    type="button"
+                    onClick={() => this.handleSubmit(item.id)}
+                  >
                     Change
                   </button>
-                  <button onClick={() => this.handleDelete(Number(item.id))}>
+                  <button
+                    type="button"
+                    onClick={() => this.handleDelete(Number(item.id))}
+                  >
                     {' '}
                     Delete{' '}
                   </button>
                   <br />
                   <br />
-                  <div>Subtotal: ${subtotal}</div>
                 </div>
               )
             })}
@@ -91,6 +105,7 @@ class Cart extends React.Component {
         ) : (
           <div> Your Cart is Empty</div>
         )}
+        <div>Subtotal: ${subtotal}</div>
       </div>
     )
   }
