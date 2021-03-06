@@ -1,44 +1,23 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {getCartItemsThunk, updateQuantityThunk} from '../store/cart'
+import {getCartItemsThunk} from '../store/cart'
 import {me} from '../store/user'
 
-class Checkout extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      itemQuant: 1
-    }
-    this.handleClick = this.handleClick.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+class Receipt extends React.Component {
+  constructor(props) {
+    super(props)
   }
 
   async componentDidMount() {
+    // Pretty sure I won't need this
     await this.props.me()
-
     this.props.loadCartItems(this.props.user.id)
   }
 
-  handleChange(evt) {
-    this.setState({itemQuant: evt.target.value})
-  }
-
-  handleSubmit(itemID) {
-    this.props.updateQuant(
-      this.props.match.params.userID,
-      itemID,
-      this.state.itemQuant
-    )
-  }
-
-  handleClick() {}
   render() {
     const cartItems = this.props.isLoggedIn
       ? this.props.cartItems ? this.props.cartItems : []
       : this.props.guestCart
-    const optionsArr = Array(25).fill(1)
     const subtotal =
       cartItems.reduce((accum, next) => {
         return accum + next.price * next.cart.quantity
@@ -47,7 +26,7 @@ class Checkout extends React.Component {
     const total = subtotal + tax
     return (
       <div className="checkout-container">
-        <div className="title">Checkout</div>
+        <div className="title">Receipt</div>
         <div className="checkout-ui">
           <div className="cart-items">
             {cartItems.map(item => {
@@ -64,28 +43,6 @@ class Checkout extends React.Component {
                         {' '}
                         Quantity: {item.cart ? item.cart.quantity : 1}{' '}
                       </div>
-                      <label htmlFor="quantity">Select Quantity</label>
-                      <select
-                        name="quantity"
-                        value={this.state.itemQuant}
-                        onChange={this.handleChange}
-                      >
-                        {optionsArr.map((val, idx) => {
-                          return (
-                            <option key={val + idx} value={val + idx}>
-                              {' '}
-                              {val + idx}{' '}
-                            </option>
-                          )
-                        })}
-                      </select>
-                      <button
-                        type="button"
-                        onClick={() => this.handleSubmit(item.id)}
-                      >
-                        {' '}
-                        Change
-                      </button>
                     </div>
                   </div>
                   <div className="price-container">
@@ -113,23 +70,13 @@ class Checkout extends React.Component {
             </div>
             <div className="email-form">
               {this.props.isLoggedIn ? (
-                <div>Deliver to: {this.props.user.email}</div>
+                <div>Delivered to: {this.props.user.email}</div>
               ) : (
                 <form>
                   <label htmlFor="email">Email: </label>
                   <input name="email" />
                 </form>
               )}
-            </div>
-            <div className="payment">
-              <label htmlFor="paymethod">Payment Method</label>
-              <select>
-                <option> Bitcoin</option>
-                <option> Etherum</option>
-              </select>
-              <Link to="/receipt">
-                <button type="submit">Place Order</button>
-              </Link>
             </div>
           </div>
         </div>
@@ -138,29 +85,20 @@ class Checkout extends React.Component {
   }
 }
 
-const mapState = state => {
+const mapStateToProps = state => {
   return {
-    user: state.user,
-    cartItems: state.cart,
     isLoggedIn: !!state.user.id,
-    guestCart: state.guestCart
+    guestCart: state.guestCart,
+    user: state.user,
+    cartItems: state.cart
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     loadCartItems: userID => dispatch(getCartItemsThunk(userID)),
-    updateQuant: (userID, itemID, quant) =>
-      dispatch(updateQuantityThunk(userID, itemID, quant)),
     me: () => dispatch(me())
   }
 }
 
-export default connect(mapState, mapDispatch)(Checkout)
-
-// Take to receipt page
-// Needs to load up all the items bought
-// Need to hard code the amount paid in case of price changes/updates
-// Then delete their cart
-// Eventually needs to be saved in previously bought items
-//
+export default connect(mapStateToProps, mapDispatchToProps)(Receipt)

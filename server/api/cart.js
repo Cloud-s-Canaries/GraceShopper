@@ -33,7 +33,7 @@ router.get('/:userId', isUser, async (req, res, next) => {
 // Put route to update quantity of a product inside a user's cart
 router.put('/:userId/:productId', isUser, async (req, res, next) => {
   try {
-    const cart = await Cart.update(
+    await Cart.update(
       {quantity: req.body.quantity},
       {
         where: {
@@ -42,7 +42,12 @@ router.put('/:userId/:productId', isUser, async (req, res, next) => {
         }
       }
     )
-    res.json(cart)
+    const user = await User.findOne({
+      where: {id: req.params.userId},
+      include: Product
+    })
+
+    res.json(user)
   } catch (error) {
     next(error)
   }
@@ -82,7 +87,16 @@ router.post(
 // Post route for when guest logs in -> Creates a new cart with guest ID + product ID + quantity
 router.post('/guestlogin', async (req, res, next) => {
   try {
-    const cart = await Cart.bulkCreate(req.body.array)
+    await req.body.array.forEach(async item => {
+      await Cart.findOrCreate({
+        where: {
+          userId: item.userId,
+          productId: item.productId,
+          quantity: item.quantity
+        }
+      })
+    })
+    // await Cart.bulkCreate(req.body.array)
     res.sendStatus(201)
   } catch (err) {
     next(err)

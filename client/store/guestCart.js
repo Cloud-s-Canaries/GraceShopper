@@ -5,6 +5,7 @@ const GET_GUEST_CART = `GET_GUEST_CART`
 const ADD_TO_GUEST_CART = `ADD_TO_GUEST_CART`
 const DELETE_FROM_GUEST_CART = `DELETE_FROM_GUEST_CART`
 const GUEST_CART_ITEM_QUANTITY = ` GUEST_CART_ITEM_QUANTITY`
+const DELETE_GUEST_CART = 'DELETE_GUEST_CART'
 
 //Action creators
 export const getGuestCart = cartItems => {
@@ -41,6 +42,10 @@ export const updateGCQuantity = (item, quantity) => {
     item,
     quantity
   }
+}
+
+export const deleteGuestCart = () => {
+  return {type: DELETE_GUEST_CART}
 }
 
 ///"Thunk" Creators
@@ -87,6 +92,7 @@ export default function(state = initState, action) {
         window.alert('You already have this meme in your cart! (GUEST CART)')
         return state
       } else {
+        action.newItem.cart = {quantity: 1}
         localStorage.setItem(
           'Guest_Cart',
           JSON.stringify([...state, action.newItem])
@@ -102,7 +108,7 @@ export default function(state = initState, action) {
       console.log(`GC QUANT REDUCER RUNS`)
       const updatedItems = [...state].filter(item => item.id !== action.item.id)
       const newItem = action.item
-      newItem.quantity = Number(action.quantity)
+      newItem.cart.quantity = Number(action.quantity)
       console.log(`NUUUUITEM`, newItem)
       localStorage.setItem(
         'Guest_Cart',
@@ -111,6 +117,9 @@ export default function(state = initState, action) {
       //JSON.pparlocalStorage.getItem('Guest_Cart') // Start here ??
       return [...updatedItems, newItem]
     }
+    case DELETE_GUEST_CART:
+      console.log(`Deleting the guest cart...`)
+      return initState
     default:
       return state
   }
