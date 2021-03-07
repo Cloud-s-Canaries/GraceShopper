@@ -4,7 +4,7 @@ import history from '../history'
 const defaultUser = {}
 /**
  * ACTION TYPES
- *
+ *  node-sass client/style.scss public/style.css
  *
  */
 const GET_USER = 'GET_USER'

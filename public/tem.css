@@ -21,12 +21,14 @@ form div {
 }
 
 /*=======================[CART PAGE]==========================================*/
+
 #checkoutbutton {
   float: left;
   margin-left: 66vw;
 }
 
 /*========================[CHECKOUT PAGE]=====================================*/
+
 .title {
   font-size: 70px;
   font-weight: bold;
@@ -64,7 +66,7 @@ form div {
   display: flex;
   flex-direction: row;
   height: auto;
-  background-color: #6db1f0;
+  background-color: rgb(109, 177, 240);
   margin-bottom: 30px;
   justify-content: space-between;
 }
