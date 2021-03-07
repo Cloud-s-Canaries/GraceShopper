@@ -82,3 +82,9 @@ form div {
   font-weight: bold;
   text-align: center;
 }
+
+/*=============================[Home Carousel]================================*/
+.home-carousel {
+  display: flex;
+  justify-content: center;
+}
