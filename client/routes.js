@@ -23,8 +23,6 @@ class Routes extends Component {
     let savedCart = JSON.parse(localStorage.getItem('Guest_Cart'))
 
     if (savedCart && !this.props.isLoggedIn) {
-      console.log(`GUEST COMPIONTIDNIKND`, savedCart)
-      console.log(`Loading saved guest cart data...`)
       this.props.getGuestCart(savedCart)
     }
   }

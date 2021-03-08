@@ -60,7 +60,6 @@ export function toGuestCartThunk(newItem) {
 
 export function getGuestCartThunk(cartItems) {
   return dispatch => {
-    console.log(`ITEMS (THUNK)`, cartItems)
     dispatch(getGuestCart(cartItems))
   }
 }
