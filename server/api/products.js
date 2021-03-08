@@ -12,8 +12,13 @@ function isAdmin(req, res, next) {
 // Get route to get all offered products
 router.get('/', async (req, res, next) => {
   try {
-    const product = await Product.findAll()
-    res.json(product)
+    const products = await Product.findAll()
+    if (!products) {
+      res.status(404).json(`There are no products in the database.`)
+    }
+    if (products) {
+      res.status(200).json(products)
+    }
   } catch (error) {
     next(error)
   }
@@ -23,6 +28,14 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id)
+
+    if (!product) {
+      res.status(404).json(`This product is not in the database.`)
+    }
+
+    if (product) {
+      res.status(200).json(product)
+    }
     res.json(product)
   } catch (error) {
     next(error)
@@ -39,7 +52,10 @@ router.post('/', isAdmin, async (req, res, next) => {
       imageUrl: req.body.imageUrl || 'default.png',
       rating: req.body.rating || 0
     })
-    res.send(product)
+
+    if (product) {
+      res.status(201).json(product)
+    }
   } catch (error) {
     next(error)
   }
@@ -63,7 +79,7 @@ router.put('/:id', isAdmin, async (req, res, next) => {
         returning: true
       }
     )
-    res.send(product[1][0])
+    res.status(200).json(product[1][0])
   } catch (error) {
     next(error)
   }
@@ -73,8 +89,13 @@ router.put('/:id', isAdmin, async (req, res, next) => {
 router.delete('/:id', isAdmin, async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id)
-    await product.destroy()
-    res.send(product)
+    if (!product) {
+      res.status(404).json(`This product is not in the database.`)
+    }
+    if (product) {
+      await product.destroy()
+      res.status(204).json(product)
+    }
   } catch (error) {
     next(error)
   }

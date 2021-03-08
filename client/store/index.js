@@ -8,6 +8,7 @@ import allProducts from './allProducts'
 import cart from './cart'
 import guestCart from './guestCart'
 import allUsers from './allUsers'
+import media from './media'
 
 const reducer = combineReducers({
   user,

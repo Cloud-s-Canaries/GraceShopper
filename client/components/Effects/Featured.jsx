@@ -6,11 +6,6 @@ import Carousel from 'react-material-ui-carousel'
 
 function Featured({products}) {
   let sliderColor = ''
-  let num = 0
-  //const chants = ['Yip-yip', 'Hooray!']
-  const [chant, setChant] = useState('yip yip')
-  console.log('render')
-
   const chants = ['Featured Memes', 'Get yours today!']
   return (
     <Carousel className="home-carousel-cont" fullHeightHover={false}>
