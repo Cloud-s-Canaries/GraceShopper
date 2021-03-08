@@ -13,8 +13,6 @@ class AllProducts extends React.Component {
 
   componentDidMount() {
     this.props.loadProducts()
-
-    //this.props.addToCart()
   }
 
   handleClick(userID, itemID, entireItem) {

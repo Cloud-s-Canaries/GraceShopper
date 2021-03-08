@@ -12,6 +12,7 @@ import Checkout from './components/Checkout'
 import GuestCart from './components/GuestCart'
 import {getGuestCartThunk} from './store/guestCart'
 import Receipt from './components/Receipt'
+import Home from './components/Home'
 
 /**
  * COMPONENT
@@ -61,7 +62,7 @@ class Routes extends Component {
           )}
 
           {/* Displays our Login component as a fallback */}
-          <Route component={Login} />
+          <Route component={Home} />
         </Switch>
       </div>
     )
