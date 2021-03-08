@@ -31,12 +31,9 @@ router.get('/:id', async (req, res, next) => {
 
     if (!product) {
       res.status(404).json(`This product is not in the database.`)
-    }
-
-    if (product) {
+    } else {
       res.status(200).json(product)
     }
-    res.json(product)
   } catch (error) {
     next(error)
   }
@@ -55,6 +52,8 @@ router.post('/', isAdmin, async (req, res, next) => {
 
     if (product) {
       res.status(201).json(product)
+    } else {
+      res.status(404)
     }
   } catch (error) {
     next(error)
@@ -79,7 +78,11 @@ router.put('/:id', isAdmin, async (req, res, next) => {
         returning: true
       }
     )
-    res.status(200).json(product[1][0])
+    if (product) {
+      res.status(200).json(product[1][0])
+    } else {
+      res.status(404)
+    }
   } catch (error) {
     next(error)
   }

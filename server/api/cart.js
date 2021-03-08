@@ -28,10 +28,8 @@ router.get('/:userId', isUser, async (req, res, next) => {
     })
     if (cart) {
       res.status(200).json(cart)
-      return
     } else if (!cart) {
       res.status(404).json('No cart found')
-      return
     }
   } catch (error) {
     next(error)
@@ -56,8 +54,9 @@ router.put('/:userId/:productId', isUser, async (req, res, next) => {
     })
 
     if (user) {
-      res.status(204).json(user)
-      return
+      res.status(200).json(user)
+    } else {
+      res.status(404)
     }
   } catch (error) {
     next(error)
@@ -128,8 +127,8 @@ router.delete('/:userId/:productId', isUser, async (req, res, next) => {
     }
     if (cart) {
       await cart.destroy()
+      res.json(cart)
     }
-    res.json(cart)
   } catch (error) {
     next(error)
   }

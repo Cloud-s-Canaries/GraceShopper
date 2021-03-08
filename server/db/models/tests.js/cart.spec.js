@@ -4,7 +4,7 @@ const {expect} = require('chai')
 const db = require('../../index')
 const Cart = db.model('cart')
 
-xdescribe('Cart model', () => {
+describe('Cart model', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
