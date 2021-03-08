@@ -4,11 +4,13 @@ const {Cart, User, Product} = require('../db/models')
 // We're in /api/carts/
 
 function isUser(req, res, next) {
-  if (req.user.id === Number(req.params.userId)) {
-    next()
-  } else {
-    res.sendStatus(403)
-  }
+  if (process.env.NODE_ENV === 'production') {
+    if (req.user.id === Number(req.params.userId)) {
+      next()
+    } else {
+      res.sendStatus(403)
+    }
+  } else next()
 }
 
 // Get route to get a cart belonging to a user
