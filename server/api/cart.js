@@ -26,7 +26,13 @@ router.get('/:userId', isUser, async (req, res, next) => {
         }
       ]
     })
-    res.json(cart)
+    if (cart) {
+      res.status(200).json(cart)
+      return
+    } else if (!cart) {
+      res.status(404).json('No cart found')
+      return
+    }
   } catch (error) {
     next(error)
   }
@@ -49,7 +55,10 @@ router.put('/:userId/:productId', isUser, async (req, res, next) => {
       include: Product
     })
 
-    res.json(user)
+    if (user) {
+      res.status(204).json(user)
+      return
+    }
   } catch (error) {
     next(error)
   }
@@ -98,7 +107,6 @@ router.post('/guestlogin', async (req, res, next) => {
         }
       })
     })
-    // await Cart.bulkCreate(req.body.array)
     res.sendStatus(201)
   } catch (err) {
     next(err)
@@ -114,8 +122,13 @@ router.delete('/:userId/:productId', isUser, async (req, res, next) => {
         productId: req.params.productId
       }
     })
-    await cart.destroy()
 
+    if (!cart) {
+      res.status(404).json('The cart item is not in the database')
+    }
+    if (cart) {
+      await cart.destroy()
+    }
     res.json(cart)
   } catch (error) {
     next(error)
@@ -130,10 +143,15 @@ router.delete('/:userId', isUser, async (req, res, next) => {
         userId: req.params.userId
       }
     })
-    cart.forEach(async singleCart => {
-      await singleCart.destroy()
-    })
-    res.send(cart)
+    if (!cart) {
+      res.status(404).json(`This cart does not exist`)
+    }
+    if (cart) {
+      cart.forEach(async singleCart => {
+        await singleCart.destroy()
+      })
+      res.status(204).json(cart)
+    }
   } catch (error) {
     next(error)
   }

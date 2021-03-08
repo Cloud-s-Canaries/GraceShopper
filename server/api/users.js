@@ -23,7 +23,12 @@ router.get('/', isAdmin, async (req, res, next) => {
       // send everything to anyone who asks!
       attributes: ['id', 'email']
     })
-    res.json(users)
+    if (!users) {
+      res.status(404).json(`There are no users in the database.`)
+    }
+    if (users) {
+      res.status(200).json(users)
+    }
   } catch (err) {
     next(err)
   }
@@ -33,7 +38,12 @@ router.get('/', isAdmin, async (req, res, next) => {
 router.get('/:id', isAdmin, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
-    res.json(user)
+    if (!user) {
+      res.status(404).json(`This user is not in the database.`)
+    }
+    if (user) {
+      res.status(200).json(user)
+    }
   } catch (error) {
     next(error)
   }
@@ -67,7 +77,12 @@ router.put('/:id', isAdmin, async (req, res, next) => {
         returning: true
       }
     )
-    res.send(user[1][0])
+    if (!user) {
+      res.status(404).json(`Cannot update a user that is not in the database.`)
+    }
+    if (user) {
+      res.status(204).json(user[1][0])
+    }
   } catch (error) {
     next(error)
   }
@@ -77,8 +92,13 @@ router.put('/:id', isAdmin, async (req, res, next) => {
 router.delete('/:id', isAdmin, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
-    await user.destroy()
-    res.send(user)
+    if (!user) {
+      res.status(404).json(`Cannot delete a user that is not in the database`)
+    }
+    if (user) {
+      await user.destroy()
+      res.status(204).json(user)
+    }
   } catch (error) {
     next(error)
   }

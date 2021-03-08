@@ -1,29 +1,30 @@
 import React from 'react'
 import axios from 'axios'
+import {connect} from 'react-redux'
 import {useEffect, useState} from 'react'
+import {getVideosThunk} from '../../store/media'
 
-export default function RandomVideo() {
-  const [videos, getVideoList] = useState([])
+export function RandomVideo({loadVideos, loadedVids}) {
+  const [videos, setVideoList] = useState([])
 
   const messages = ['Premium Vines \n Coming Soon', 'Better than cat videos']
 
   let videoTubelight = messages[Math.floor(Math.random() * messages.length)]
 
+  // useEffect(() => {}, [])
+  // console.log(`OUR VIDEOS`, videos)
+  // const getList = async () => {
+  //   const {data} = await axios.get('/api/media/videos')
+  //   console.log('veeeds', data)
+  //   getVideoList(data)
+  // }
+  console.log(`Videos, BEFORE!!!!`, videos)
   useEffect(() => {
-    async function fetchVidList() {
-      const {data} = await axios.get('/api/media/videos')
-      //console.log(`DATA`, data)
-      getVideoList(data)
-      return data
-    }
-    fetchVidList()
+    loadVideos().then(vids => {
+      setVideoList(vids)
+    })
   }, [])
-  console.log(`VIDEOS`, videos.join(''))
-  const getList = async () => {
-    const {data} = await axios.get('/api/media/videos')
-    console.log('veeeds', data)
-    getVideoList(data)
-  }
+  console.log(`Video!!!!`, videos)
 
   if (videos.length) {
     let randomOne = Math.floor(Math.random() * videos.length)
@@ -46,3 +47,17 @@ export default function RandomVideo() {
     return <div> Hah! Gotteeem </div>
   }
 }
+
+const mapState = state => {
+  return {
+    loadedVids: state.media
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    loadVideos: () => dispatch(getVideosThunk())
+  }
+}
+
+export default connect(mapState, mapDispatch)(RandomVideo)
