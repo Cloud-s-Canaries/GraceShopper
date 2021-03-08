@@ -8,6 +8,7 @@ import CustomSlider from './Effects/CustomSlider'
 import NicheMemes from './Effects/NicheMemes'
 import {Button, AccessAlarmsRounded} from '@material-ui/icons/'
 import RamdomVideo from './Effects/RandomVideo'
+import Searchbar from './Effects/SearchBar'
 
 class Home extends React.Component {
   constructor() {
@@ -23,8 +24,8 @@ class Home extends React.Component {
     const comps = [Featured, NicheMemes, AccessAlarmsRounded]
     return (
       <>
-        {' '}
-        <RamdomVideo />{' '}
+        <Featured />
+        <RamdomVideo />
       </>
     )
   }

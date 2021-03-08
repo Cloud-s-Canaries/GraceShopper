@@ -3,17 +3,21 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import Searchbar from './Effects/SearchBar'
+import {ShoppingCart} from '@material-ui/icons'
+import {Menu, MenuItem} from '@material-ui/core'
 
 const Navbar = ({handleClick, isLoggedIn, isAdmin, user}) => (
   <div>
-    <h1>memeazon</h1>
+    <Link to="/home">
+      <h1>memeazon</h1>
+    </Link>
     <nav>
+      <Searchbar className="search" />
       <Link to="/products"> Buy Memes</Link>
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-
           <Link to={`/${user.id}/cart`}> Cart </Link>
           {isAdmin ? <Link to="/admin"> Admin page</Link> : ''}
 
@@ -24,10 +28,13 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, user}) => (
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
-          <Link to="/home">Home</Link>
+
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
-          <Link to="/guestcart">Cart (Guest)</Link>
+          <Link to="/guestcart">
+            <ShoppingCart />
+            Guest
+          </Link>
         </div>
       )}
     </nav>
