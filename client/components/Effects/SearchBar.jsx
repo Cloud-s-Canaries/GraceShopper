@@ -9,11 +9,6 @@ import {Search} from '@material-ui/icons'
 
 function Searchbar({loadMemes, memes}) {
   const [inputItems, setInputItems] = useState([])
-  let theseMemes = []
-  useEffect(() => {
-    loadMemes()
-    //setMemes(memes)
-  }, [])
   const {
     isOpen,
     getMenuProps,

@@ -179,6 +179,7 @@ img {
   justify-content: center;
   align-items: center;
   background-color: #002626;
+  height: 25em;
 }
 
 .home-video {
@@ -202,7 +203,7 @@ img {
   line-height: 200%;
   color: green;
   position: relative;
-  font-size: 10vh;
+  font-size: 6vh;
   margin-top: 10px;
   margin-left: 100px;
   line-height: 0.7em;
