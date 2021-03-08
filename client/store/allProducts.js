@@ -49,8 +49,12 @@ export const getProductsThunk = () => {
 
 export const addItemThunk = newItem => {
   return async dispatch => {
-    const {data} = await axios.post('api/products', newItem)
-    dispatch(addItem(data))
+    try {
+      const {data} = await axios.post('api/products', newItem)
+      dispatch(addItem(data))
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 
