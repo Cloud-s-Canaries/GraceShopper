@@ -3,5 +3,5 @@ import Carousel from 'react-material-ui-carousel'
 
 function WelcomeSlide() {
   const components = [RandomVideo]
-  return <Carousel />
+  return <div> ...Welcome Slide coming soon</div>
 }

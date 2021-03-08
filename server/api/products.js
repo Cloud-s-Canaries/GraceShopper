@@ -36,7 +36,6 @@ router.get('/:id', async (req, res, next) => {
     if (product) {
       res.status(200).json(product)
     }
-    res.json(product)
   } catch (error) {
     next(error)
   }

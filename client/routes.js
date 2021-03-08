@@ -13,6 +13,7 @@ import GuestCart from './components/GuestCart'
 import {getGuestCartThunk} from './store/guestCart'
 import Receipt from './components/Receipt'
 import Home from './components/Home'
+import EditUser from './components/EditUser'
 
 /**
  * COMPONENT
@@ -49,6 +50,7 @@ class Routes extends Component {
               {/* Routes placed here are only available after logging in */}
               <Route path="/admin" component={Admin} />
               <Route path="/checkout" component={Checkout} />
+              <Route path="/:userID/edit" />
               <Route path="/:userID/cart" component={Cart} />
             </Switch>
           )}
