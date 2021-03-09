@@ -51,6 +51,7 @@ export const getCartItemsThunk = userID => {
 export const addToCartThunk = (userId, productId, quantity) => {
   return async dispatch => {
     try {
+      console.log(`We're in THUNK`)
       const {data} = await axios.post(`/api/carts`, {
         userId,
         productId,

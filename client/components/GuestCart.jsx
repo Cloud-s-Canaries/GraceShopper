@@ -16,9 +16,7 @@ class GuestCart extends React.Component {
   }
 
   handleSubmit(item, evt) {
-    //console.log(`EVENT TARGET VAL `, evt.target.quantity)
     const quant = document.getElementById(`quantity-${item.id}`).value
-    console.log(`QUANT`, quant)
     evt.preventDefault()
     this.props.updateGCQuant(item, quant)
   }
@@ -31,9 +29,6 @@ class GuestCart extends React.Component {
     const cartItems = this.props.cartItems || []
 
     const optionsArr = Array(25).fill(1)
-    console.log(`Guest cart loading...`)
-
-    console.log(`KARTITEMS`, this.props.cartItems)
     return (
       <div>
         {cartItems.length ? (
@@ -41,11 +36,7 @@ class GuestCart extends React.Component {
             <Link to="/checkout">
               <button id="checkoutbutton"> Proceed to Checkout</button>
             </Link>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
+
             {cartItems.map(item => {
               return (
                 <div key={item.id}>
@@ -67,7 +58,6 @@ class GuestCart extends React.Component {
                     {' '}
                     Delete{' '}
                   </button>
-                  <br />
                 </div>
               )
             })}

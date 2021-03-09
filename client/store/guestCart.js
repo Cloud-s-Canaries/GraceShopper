@@ -84,12 +84,15 @@ export default function(state = initState, action) {
       return action.cartItems
     case ADD_TO_GUEST_CART:
       ///LOCAL STORAGE.SETITEM HERE
-
       const itemExists = state.filter(item => item.id === action.newItem.id)
-
       if (itemExists.length) {
-        window.alert('You already have this meme in your cart! (GUEST CART)')
-        return state
+        const storedItems = JSON.parse(localStorage.getItem('Guest_Cart'))
+        const toUpdateIdx = storedItems.findIndex(
+          item => item.id === action.newItem.id
+        )
+        storedItems[toUpdateIdx].cart.quantity++
+        localStorage.setItem('Guest_Cart', JSON.stringify(storedItems))
+        return storedItems
       } else {
         action.newItem.cart = {quantity: 1}
         localStorage.setItem(
@@ -104,11 +107,9 @@ export default function(state = initState, action) {
       return itemsLeft
     }
     case GUEST_CART_ITEM_QUANTITY: {
-      console.log(`GC QUANT REDUCER RUNS`)
       const updatedItems = [...state].filter(item => item.id !== action.item.id)
       const newItem = action.item
       newItem.cart.quantity = Number(action.quantity)
-      console.log(`NUUUUITEM`, newItem)
       localStorage.setItem(
         'Guest_Cart',
         JSON.stringify([...updatedItems, newItem])
@@ -117,7 +118,6 @@ export default function(state = initState, action) {
       return [...updatedItems, newItem]
     }
     case DELETE_GUEST_CART:
-      console.log(`Deleting the guest cart...`)
       return initState
     default:
       return state
