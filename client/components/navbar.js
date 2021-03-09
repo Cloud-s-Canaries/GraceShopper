@@ -19,7 +19,15 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin, user}) => (
         <div>
           {/* The navbar will show these links after you log in */}
           <Link to={`/${user.id}/cart`}> Cart </Link>
-          {isAdmin ? <Link to="/admin"> Admin page</Link> : ''}
+          {isAdmin ? (
+            <div>
+              {' '}
+              <Link to="/admin/products"> Admin-Products</Link>{' '}
+              <Link to="/admin/users"> Admin-Users</Link>{' '}
+            </div>
+          ) : (
+            ''
+          )}
 
           <a href="#" onClick={handleClick}>
             Logout

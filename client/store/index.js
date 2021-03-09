@@ -19,7 +19,7 @@ const reducer = combineReducers({
   guestCart,
   allUsers,
   checkedOut,
-  singleUser,
+  singleUser
 })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

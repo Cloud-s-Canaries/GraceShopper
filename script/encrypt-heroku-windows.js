@@ -94,6 +94,7 @@ const getNamesFromGit = () =>
 
 /* Use the openssl command to encrypt an authentication token. */
 const encryptHerokuToken = async () => {
+  console.log(`Encrypting heroku token...`)
   await getOutputFromCommand('cmd', [
     '/c',
     'openssl',
