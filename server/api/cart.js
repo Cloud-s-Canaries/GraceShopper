@@ -82,7 +82,6 @@ router.post(
           quantity: req.body.quantity || 1
         }
       })
-      console.log(`CART======`, cart)
       if (cart[1]) {
         const updatedCart = await User.findOne({
           where: {

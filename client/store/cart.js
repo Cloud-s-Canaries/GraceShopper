@@ -55,17 +55,20 @@ export const getCartItemsThunk = userID => {
   }
 }
 
-export const addToCartThunk = (userId, productId, quantity) => {
+export const addToCartThunk = (userId, productId, wholeProduct) => {
   return async dispatch => {
     try {
-      console.log(`We're in THUNK`)
       const {data} = await axios.post(`/api/carts`, {
         userId,
         productId,
-        quantity
+        quantity: 1
       })
       if (data === 'You already have this item in your cart') {
-        alert('This Item is already in your cart!')
+        console.log('WHATTTTTT', wholeProduct)
+        //alert('This Item is already in your cart!')
+        wholeProduct.cart.quantity = 1
+        wholeProduct.cart.quantity++
+        dispatch(addToCartThunk(wholeProductc))
       } else {
         dispatch(addToCart(data))
       }
