@@ -34,7 +34,7 @@ class SingleItem extends React.Component {
     return (
       <div>
         <h3> {name} </h3>
-        <h4> {rating}</h4>
+        <h4> Rating: {rating}</h4>
         <img src={`../images/${imageUrl}`} />
         <p>{description} </p>
         <button

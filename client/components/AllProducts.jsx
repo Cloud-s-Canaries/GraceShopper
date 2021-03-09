@@ -17,7 +17,9 @@ class AllProducts extends React.Component {
 
   handleClick(userID, itemID, entireItem) {
     if (userID) {
-      this.props.addToCart(userID, itemID, 1)
+      console.log(`HANDLING CLICK`)
+      this.props.addToCart(userID, itemID, entireItem)
+
     }
     if (!userID) {
       this.props.toGuestCart(entireItem)
@@ -33,8 +35,8 @@ class AllProducts extends React.Component {
           return (
             <div key={prod.id}>
               <Link to={`/products/${prod.id}`}>
-                <div> {prod.name} </div>
-                <div> {prod.rating}</div>
+                <h4> {prod.name} </h4>
+                <div>Rating: {prod.rating}</div>
                 <img src={`../images/${prod.imageUrl}`} />
               </Link>
               <button
