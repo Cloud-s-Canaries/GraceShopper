@@ -34,7 +34,6 @@ class EditUser extends React.Component {
 
   render() {
     const {admin, email, password} = this.state
-    console.log(`This PROPS`, this.props)
     return (
       <div>
         <h3>Edit User {this.props.user.email}</h3>

@@ -30,8 +30,7 @@ class SingleItem extends React.Component {
     const description = item.description || 'No description available'
     const userID = this.props.user.id
     const prodID = Number(this.props.match.params.id)
-    //console.log(`PROPS`, this.props)
-    console.log(`USER`, this.props.user)
+
     return (
       <div>
         <h3> {name} </h3>

@@ -34,7 +34,6 @@ class Admin extends React.Component {
 
   render() {
     const products = this.props.products || []
-    console.log('props', this.props, 'state', this.state)
     const users = this.props.users || []
 
     return (
@@ -59,7 +58,6 @@ class Admin extends React.Component {
             </div>
           )
         })}
-        <br />
         <AddProductForm />
         <div>
           <h3>Users</h3>
