@@ -23,7 +23,6 @@ class AdminUsers extends React.Component {
 
   render() {
     const users = this.props.users || []
-    console.log('this.props-------->', this.props.users)
     return (
       <div>
         <div>

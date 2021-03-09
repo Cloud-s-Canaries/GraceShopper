@@ -77,13 +77,13 @@ router.put('/:id', isAdmin, async (req, res, next) => {
         returning: true
       }
     )
-    console.log('user------->', user)
+    console.log('user-----------', user)
     if (!user[0]) {
-      console.log('user not found----->')
+      console.log('user not found-----------')
       res.status(404).json(`Cannot update a user that is not in the database.`)
     }
     if (user[0]) {
-      console.log('user found------>', user[1][0])
+      console.log('user found-----------')
       res.status(204).json(user[1][0])
     }
   } catch (error) {

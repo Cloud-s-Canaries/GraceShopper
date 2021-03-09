@@ -1,7 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {updateUserThunk} from '../store/allUsers'
-import {getOneUserThunk} from '../store/singleUser'
+import {getOneUserThunk, updateUserThunk} from '../store/singleUser'
 
 //googleId, admin, email, & password
 
@@ -10,8 +9,7 @@ class EditUser extends React.Component {
     super(props)
     this.state = {
       id: '',
-      email: '',
-      password: ''
+      email: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -20,15 +18,14 @@ class EditUser extends React.Component {
   async componentDidMount() {
     await this.props.getOneUser(this.props.match.params.id)
     this.setState({
-      id: this.props.changeUser.id || '',
-      email: this.props.changeUser.email || '',
-      password: this.props.changeUser.password || ''
+      id: this.props.match.params.id || '',
+      email: this.props.changeUser.email || ''
     })
   }
 
   async handleSubmit(event) {
     event.preventDefault()
-    await this.props.updateUser(this.props.match.params.id, this.state)
+    await this.props.updateUser(this.props.changeUser.id, this.state)
     this.props.getOneUser(this.props.match.params.id)
   }
 
@@ -39,11 +36,11 @@ class EditUser extends React.Component {
   }
 
   render() {
-    const {admin, email, password} = this.state
+    const {email, id} = this.state
     return (
       <div>
         <h3>Edit User: {email}</h3>
-        <div>Password: {password}</div>
+        <div>User ID: {id}</div>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="email">
@@ -52,18 +49,7 @@ class EditUser extends React.Component {
             <input name="email" onChange={this.handleChange} value={email} />
           </div>
           <div>
-            <label htmlFor="password">
-              <small>Password</small>
-            </label>
-            <input
-              name="password"
-              onChange={this.handleChange}
-              value={password}
-            />
-          </div>
-
-          <div>
-            <button type="submit">Save Change </button>
+            <button type="submit">Save Changes </button>
           </div>
         </form>
       </div>
