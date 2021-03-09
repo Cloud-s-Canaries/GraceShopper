@@ -9,6 +9,7 @@ class EditUser extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      id: '',
       email: '',
       password: ''
     }
@@ -19,6 +20,7 @@ class EditUser extends React.Component {
   async componentDidMount() {
     await this.props.getOneUser(this.props.match.params.id)
     this.setState({
+      id: this.props.changeUser.id || '',
       email: this.props.changeUser.email || '',
       password: this.props.changeUser.password || ''
     })
@@ -78,7 +80,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     getOneUser: userID => dispatch(getOneUserThunk(userID)),
-    updateUser: userID => dispatch(updateUserThunk(userID))
+    updateUser: (userID, userUpdate) =>
+      dispatch(updateUserThunk(userID, userUpdate))
   }
 }
 
