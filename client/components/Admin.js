@@ -10,6 +10,7 @@ import {
 
 import AddProductForm from './AddProductForm'
 import EditProductForm from './EditProductForm'
+import EditUser from './EditUser'
 
 class Admin extends React.Component {
   constructor() {
@@ -66,7 +67,9 @@ class Admin extends React.Component {
             return (
               <div key={user.id}>
                 <div> name:{user.email}</div>
-                <div>id: {user.id}</div>{' '}
+                <div>id: {user.id}</div>
+                <EditUser user={user} />
+
                 <button
                   type="button"
                   onClick={() => this.handleUserDelete(user.id)}

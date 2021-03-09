@@ -4,20 +4,13 @@ import {connect} from 'react-redux'
 import {useEffect, useState} from 'react'
 import {getVideosThunk} from '../../store/media'
 
-export function RandomVideo({loadVideos, loadedVids}) {
+export function RandomVideo({loadVideos}) {
   const [videos, setVideoList] = useState([])
 
   const messages = ['Premium Vines \n Coming Soon', 'Better than cat videos']
 
   let videoTubelight = messages[Math.floor(Math.random() * messages.length)]
 
-  // useEffect(() => {}, [])
-  // console.log(`OUR VIDEOS`, videos)
-  // const getList = async () => {
-  //   const {data} = await axios.get('/api/media/videos')
-  //   console.log('veeeds', data)
-  //   getVideoList(data)
-  // }
   console.log(`Videos, BEFORE!!!!`, videos)
   useEffect(() => {
     loadVideos().then(vids => {
@@ -48,16 +41,10 @@ export function RandomVideo({loadVideos, loadedVids}) {
   }
 }
 
-const mapState = state => {
-  return {
-    loadedVids: state.media
-  }
-}
-
 const mapDispatch = dispatch => {
   return {
     loadVideos: () => dispatch(getVideosThunk())
   }
 }
 
-export default connect(mapState, mapDispatch)(RandomVideo)
+export default connect(null, mapDispatch)(RandomVideo)

@@ -23,18 +23,10 @@ function Featured({products}) {
   )
 }
 
-function Changer() {
-  return <div> </div>
-}
-
 const mapState = state => {
   return {
     products: state.allProducts
   }
-}
-
-const mapDispatch = dispatch => {
-  return {}
 }
 
 export default connect(mapState, null)(Featured)
