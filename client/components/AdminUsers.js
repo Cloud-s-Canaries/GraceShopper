@@ -12,7 +12,7 @@ import AddProductForm from './AddProductForm'
 import EditProductForm from './EditProductForm'
 import EditUser from './EditUser'
 
-class Admin extends React.Component {
+class AdminUsers extends React.Component {
   constructor() {
     super()
     this.handleItemDelete = this.handleItemDelete.bind(this)
@@ -21,7 +21,6 @@ class Admin extends React.Component {
 
   componentDidMount() {
     this.props.loadProducts()
-    this.props.loadUsers()
   }
 
   handleItemDelete(itemId) {
@@ -87,18 +86,15 @@ class Admin extends React.Component {
 
 const mapState = state => {
   return {
-    products: state.allProducts,
     users: state.allUsers
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    loadProducts: () => dispatch(getProductsThunk()),
-    deleteProduct: id => dispatch(deleteItemThunk(id)),
     loadUsers: () => dispatch(getAllUsersThunk()),
     deleteUser: id => dispatch(deleteUserThunk(id))
   }
 }
 
-export default connect(mapState, mapDispatch)(Admin)
+export default connect(mapState, mapDispatch)(AdminUsers)
