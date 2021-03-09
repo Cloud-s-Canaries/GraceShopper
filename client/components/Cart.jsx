@@ -45,7 +45,7 @@ class Cart extends React.Component {
       cartItems.reduce((accum, next) => {
         return accum + next.price * next.cart.quantity
       }, 0) / 100
-    console.log(`CartItems: `, cartItems)
+
     return (
       <div>
         {cartItems.length ? (

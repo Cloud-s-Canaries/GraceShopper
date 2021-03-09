@@ -84,7 +84,13 @@ router.post(
         }
       })
       if (cart[1]) {
-        res.json(cart[0])
+        const updatedCart = await User.findOne({
+          where: {
+            id: req.body.userId
+          },
+          include: Product
+        })
+        res.json(updatedCart.products)
       } else {
         res.send('You already have this item in your cart')
       }
