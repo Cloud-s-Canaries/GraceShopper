@@ -21,10 +21,10 @@ export const addToCart = newItem => {
   }
 }
 
-export const deleteFromCart = itemID => {
+export const deleteFromCart = item => {
   return {
     type: DELETE_FROM_CART,
-    itemID
+    item
   }
 }
 
@@ -57,8 +57,8 @@ export const addToCartThunk = (userId, productId, quantity) => {
         quantity
       })
 
-      if (typeof data === 'string') {
-        console.log('In cart already')
+      if (data === 'You already have this item in your cart') {
+        console.log('HERE', data)
         alert('This Item is already in your cart!')
       } else {
         dispatch(addToCart(data))
@@ -72,10 +72,24 @@ export const addToCartThunk = (userId, productId, quantity) => {
 export const updateQuantityThunk = (userID, itemID, quantity) => {
   return async dispatch => {
     try {
+      console.log(`Running API...`)
       const {data} = await axios.put(`/api/carts/${userID}/${itemID}`, {
         quantity
       })
+      console.log(`API returned...`, data)
       dispatch(cartItemQuantity(data))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const deleteFromCartThunk = (userID, itemID) => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.delete(`/api/carts/${userID}/${itemID}`)
+      console.log(`DATAAAAA`, data)
+      dispatch(deleteFromCart(data))
     } catch (error) {
       console.log(error)
     }
@@ -91,12 +105,12 @@ export default function(state = initState, action) {
     case ADD_TO_CART:
       return [...state, action.newItem]
     case CART_ITEM_QUANTITY:
-      const updatedItem = [...state].filter(
-        item => item.id !== action.updatedCart.id
-      )
-      return [...updatedItem, action.updatedCart]
+      return action.updatedCart.products
+
     case DELETE_FROM_CART: {
-      const itemsLeft = [...state].filter(item => item.id !== action.itemID)
+      const itemsLeft = [...state].filter(
+        item => item.id !== action.item.productId
+      )
       return itemsLeft
     }
     default:

@@ -7,8 +7,15 @@ import {me} from './store'
 import AllProducts from './components/AllProducts'
 import SingleItem from './components/SingleItem'
 import Cart from './components/Cart'
-import Admin from './components/Admin'
+import AdminProducts from './components/AdminProducts'
+import AdminUsers from './components/AdminUsers'
+import EditProductForm from './components/EditProductForm'
+import EditUserForm from './components/EditUserForm'
 import Checkout from './components/Checkout'
+import GuestCart from './components/GuestCart'
+import {getGuestCartThunk} from './store/guestCart'
+import Receipt from './components/Receipt'
+import Home from './components/Home'
 
 /**
  * COMPONENT
@@ -16,6 +23,11 @@ import Checkout from './components/Checkout'
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
+    let savedCart = JSON.parse(localStorage.getItem('Guest_Cart'))
+
+    if (savedCart && !this.props.isLoggedIn) {
+      this.props.getGuestCart(savedCart)
+    }
   }
 
   render() {
@@ -28,12 +40,21 @@ class Routes extends Component {
           {/* Routes placed here are available to all visitors */}
           <Route path="/products/:id" component={SingleItem} />
           <Route path="/products" component={AllProducts} />
+          <Route path="/checkout" component={Checkout} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route path="/receipt" component={Receipt} />
+          <Route path="/guestcart" component={GuestCart} />
           {isAdmin && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
-              <Route path="/admin" component={Admin} />
+              <Route path="/admin/products" component={AdminProducts} />
+              <Route path="/edit/products/:id" component={EditProductForm} />
+              <Route path="/admin/users" component={AdminUsers} />
+              <Route path="/edit/users/:id" component={EditUserForm} />
+              <Route path="/checkout" component={Checkout} />
+              <Route path="/:userID/edit" />
+              <Route path="/:userID/cart" component={Cart} />
             </Switch>
           )}
           {isLoggedIn && (
@@ -46,7 +67,7 @@ class Routes extends Component {
           )}
 
           {/* Displays our Login component as a fallback */}
-          <Route component={Login} />
+          <Route component={Home} />
         </Switch>
       </div>
     )
@@ -60,6 +81,7 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
+    guestCart: state.guestCart,
     isLoggedIn: !!state.user.id,
     isAdmin: state.user.admin
   }
@@ -69,7 +91,8 @@ const mapDispatch = dispatch => {
   return {
     loadInitialData() {
       dispatch(me())
-    }
+    },
+    getGuestCart: cartItems => dispatch(getGuestCartThunk(cartItems))
   }
 }
 

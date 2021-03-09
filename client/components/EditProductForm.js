@@ -1,34 +1,51 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getItemThunk, updateItemThunk} from '../store/singleProduct'
+import {updateItemThunk} from '../store/allProducts'
+import {getItemThunk} from '../store/singleProduct'
 
 class EditProductForm extends React.Component {
   constructor(props) {
     super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  componentDidMount() {
-    this.props.loadItem(this.props.match.params.id)
-  }
-
-  handleSubmit = event => {
-    const itemUpdate = {
-      name: event.target.name.value,
-      rating: event.target.rating.value,
-      price: event.target.price.value,
-      imageUrl: event.target.imageUrl.value,
-      description: event.target.description.value
+    this.state = {
+      name: '',
+      rating: '',
+      price: 0,
+      description: '',
+      imageUrl: ''
     }
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  async componentDidMount() {
+    await this.props.singleItem(this.props.match.params.id)
+    this.setState(this.props.item)
+  }
+
+  async handleSubmit(event) {
     event.preventDefault()
-    this.props.updateItem(this.props.item.id, itemUpdate)
+    await this.props.updateItem(this.props.match.params.id, this.state)
+    this.props.singleItem(this.props.match.params.id)
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
 
   render() {
-    const {name, rating, price, description, imageUrl} = this.props.item
-    console.log('this.props.item', this.props.item)
+    const {name, rating, price, description, imageUrl} = this.state
     return (
       <div>
+        <h3>Edit Product</h3>
+
+        <div> Name: {name} </div>
+        <div> Rating: {rating} </div>
+        <div> Price: {price} </div>
+        <img src={imageUrl} />
+
+        <div> Description: {description} </div>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="name">
@@ -69,7 +86,7 @@ class EditProductForm extends React.Component {
             />
           </div>
           <div>
-            <button type="submit">Edit Product </button>
+            <button type="submit">Save Changes </button>
           </div>
         </form>
       </div>
@@ -79,15 +96,15 @@ class EditProductForm extends React.Component {
 
 const mapState = state => {
   return {
-    singleProduct: state.singleProduct
+    item: state.singleProduct
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    loadItem: id => dispatch(getItemThunk(id)),
     updateItem: (itemId, itemUpdate) =>
-      dispatch(updateItemThunk(itemId, itemUpdate))
+      dispatch(updateItemThunk(itemId, itemUpdate)),
+    singleItem: itemId => dispatch(getItemThunk(itemId))
   }
 }
 

@@ -2,8 +2,8 @@
 
 const {expect} = require('chai')
 const request = require('supertest')
-const db = require('../db')
-const app = require('../index')
+const db = require('../../db')
+const app = require('../../index')
 const User = db.model('user')
 
 describe('User routes', () => {
@@ -28,5 +28,5 @@ describe('User routes', () => {
       expect(res.body).to.be.an('array')
       expect(res.body[0].email).to.be.equal(codysEmail)
     })
-  }) // end describe('/api/users')
-}) // end describe('User routes')
+  })
+})

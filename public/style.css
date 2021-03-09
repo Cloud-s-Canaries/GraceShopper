@@ -20,11 +20,285 @@ form div {
   display: inline-block;
 }
 
-/*=======================[CART PAGE]==========================================*/
+nav {
+  display: flex;
+  justify-content: flex-start;
+}
 
+ul {
+  list-style-type: none;
+}
+
+a,
+a:link,
+a:visited {
+  text-decoration: none;
+  color: #007185;
+}
+
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #c7511f;
+}
+
+img {
+  vertical-align: top;
+}
+/*=======================[CART PAGE]==========================================*/
 #checkoutbutton {
   float: left;
   margin-left: 66vw;
 }
 
 /*========================[CHECKOUT PAGE]=====================================*/
+.title {
+  font-size: 70px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.checkout-ui {
+  display: flex;
+  flex-direction: row;
+}
+
+.placeorder {
+  margin-left: auto;
+  margin-right: 100px;
+}
+
+.right {
+  margin-left: auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.subtotal {
+  margin-bottom: 40px;
+}
+
+.cart-items {
+  margin-left: 20vw;
+}
+
+.item {
+  width: 50vw;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  background-color: #6db1f0;
+  margin-bottom: 30px;
+  justify-content: space-between;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  width: 30vw;
+}
+
+.item-name {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/*=============================[Home Carousel]================================*/
+.home-carousel {
+  display: flex;
+  background-color: black;
+  justify-content: center;
+}
+
+.home-carousel-blue {
+  display: flex;
+  justify-content: center;
+  background-color: blue;
+}
+
+.home-carousel-purple {
+  display: flex;
+  justify-content: center;
+  background-color: blueviolet;
+}
+
+/*==========[Custom Slider]====================*/
+.custom-slider {
+  position: relative;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-slide-pic {
+  width: 500px;
+  height: 600px;
+  border-radius: 10px;
+}
+
+.right-arrow {
+  position: absolute;
+  top: 50%;
+  right: 32px;
+  font-size: 3rem;
+  color: black;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+}
+
+.left-arrow {
+  position: absolute;
+  top: 50%;
+  left: 32px;
+  font-size: 3rem;
+  color: black;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+}
+
+.slide {
+  opacity: 0;
+  transition-duration: 1s ease;
+}
+
+.slide.active {
+  opacity: 1;
+  transition-duration: 1s;
+  transform: scale(1.08);
+}
+
+.home-video-cont {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #002626;
+  height: 25em;
+}
+
+.home-video {
+  display: flex;
+  justify-content: center;
+  line-height: 1.6;
+}
+
+.home-vide,
+.ramdomvid-text {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.randomvid-sign {
+  font-family: arial;
+  letter-spacing: 10px;
+  line-height: 200%;
+  color: green;
+  position: relative;
+  font-size: 6vh;
+  margin-top: 10px;
+  margin-left: 100px;
+  line-height: 0.7em;
+  outline: none;
+  text-transform: uppercase;
+  animation: animate 5s linear infinite;
+  -webkit-box-reflect: below 1px linear-gradient(transparent, #0008);
+}
+
+.spaceit {
+  width: 60000px;
+}
+.randomvid-text {
+  position: absolute;
+  z-index: 10;
+  top: 2.5rem;
+  left: 0;
+  margin-left: 900px;
+  font-family: arial;
+  letter-spacing: 10px;
+  line-height: 200%;
+  color: green;
+  font-size: 14vh;
+  margin-top: 100px;
+  outline: none;
+  text-transform: uppercase;
+  animation: animate 5s linear infinite;
+}
+
+.vidtext-cont {
+  position: sticky;
+  right: 3rem;
+}
+
+@keyframes animate {
+  0%,
+  18%,
+  20%,
+  50.1%,
+  60%,
+  65.1%,
+  80%,
+  90.1%,
+  92% {
+    color: #004040;
+    text-shadow: none;
+  }
+  18.1%,
+  20.1%,
+  30%,
+  50%,
+  60.1%,
+  65%,
+  80.1%,
+  90%,
+  92.1%,
+  100% {
+    color: #fff;
+    text-shadow: 0 0 10px, teal, 0 0 20px, teal, 0 0 40px, teal, 0 0 80px, teal,
+      0 0 160px, teal;
+  }
+}
+
+/*=======================[Searchbar]==========================================*/
+.searchbutton-cont {
+  margin-bottom: 20;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex end;
+  border: 10px blue;
+}
+
+.searchinput {
+  height: 30px;
+  font-size: 14pt;
+}
+
+.search {
+  position: absolute;
+}
+
+.searchIcon {
+  position: relative;
+  display: block;
+  height: 30px;
+  width: 100%;
+  font-size: 14px;
+  padding: 0;
+  margin-bottom: 30px;
+  cursor: pointer;
+  outline: 0;
+  background-color: rgb(240, 171, 68);
+  color: blue;
+  border: 10px blue;
+  border: none;
+  text-indent: -1000px;
+  line-height: 1px;
+}

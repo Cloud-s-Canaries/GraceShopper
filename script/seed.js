@@ -2,10 +2,28 @@
 
 const db = require('../server/db')
 const {User, Cart, Product} = require('../server/db/models')
+const faker = require('faker')
+
+function generateProducts() {
+  const products = []
+  for (let i = 0; i <= 100; i++) {
+    products.push({
+      name: faker.random.words(),
+      price: faker.random.number(),
+      description: faker.commerce.productDescription(),
+      rating: Math.floor(Math.random() * 5)
+    })
+  }
+  console.log(`Seeding products`)
+  products.forEach(async productItem => {
+    await Product.create(productItem)
+  })
+}
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
+  generateProducts()
 
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
@@ -20,13 +38,13 @@ async function seed() {
   const product = await Promise.all([
     Product.create({
       name: 'test_meme',
-      price: 10.2,
+      price: 1002,
       description: 'A test to see if our things work',
       rating: 3.6
     }),
     Product.create({
       name: 'second_test_meme',
-      price: 6.2,
+      price: 6200,
       description: 'A second test item to see if our things work',
       rating: 4.6
     })
