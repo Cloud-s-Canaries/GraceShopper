@@ -5,6 +5,7 @@ const GET_CART = `GET_CART`
 const ADD_TO_CART = `ADD_TO_CART`
 const DELETE_FROM_CART = `DELETE_FROM_CART`
 const CART_ITEM_QUANTITY = `CART_ITEM_QUANTITY`
+const RESET_CART = `RESET_CART`
 
 //Action Creators
 export const getCart = cartItems => {
@@ -35,6 +36,12 @@ export const cartItemQuantity = updatedCart => {
   }
 }
 
+export const resetCart = () => {
+  return {
+    type: RESET_CART
+  }
+}
+
 //Thunk Creators
 export const getCartItemsThunk = userID => {
   return async dispatch => {
@@ -51,14 +58,13 @@ export const getCartItemsThunk = userID => {
 export const addToCartThunk = (userId, productId, quantity) => {
   return async dispatch => {
     try {
+      console.log(`We're in THUNK`)
       const {data} = await axios.post(`/api/carts`, {
         userId,
         productId,
         quantity
       })
-
       if (data === 'You already have this item in your cart') {
-        console.log('HERE', data)
         alert('This Item is already in your cart!')
       } else {
         dispatch(addToCart(data))
@@ -88,10 +94,20 @@ export const deleteFromCartThunk = (userID, itemID) => {
   return async dispatch => {
     try {
       const {data} = await axios.delete(`/api/carts/${userID}/${itemID}`)
-      console.log(`DATAAAAA`, data)
       dispatch(deleteFromCart(data))
     } catch (error) {
       console.log(error)
+    }
+  }
+}
+
+export const resetCartThunk = userID => {
+  return async dispatch => {
+    try {
+      const {data} = await axios.delete(`/api/carts/${userID}`)
+      dispatch(resetCart())
+    } catch (err) {
+      console.error(err)
     }
   }
 }
@@ -103,7 +119,7 @@ export default function(state = initState, action) {
     case GET_CART:
       return action.cartItems
     case ADD_TO_CART:
-      return [...state, action.newItem]
+      return action.newItem
     case CART_ITEM_QUANTITY:
       return action.updatedCart.products
 

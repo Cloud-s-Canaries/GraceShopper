@@ -24,7 +24,7 @@ export const getAllUsersThunk = () => {
       const {data} = await axios.get('/api/users')
       dispatch(getAllUsers(data))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }
@@ -35,7 +35,7 @@ export const deleteUserThunk = userID => {
       const {data} = await axios.delete(`api/users/${userID}`)
       dispatch(removeUser(data))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }
@@ -47,7 +47,7 @@ export const updateUserThunk = (userID, updatedUser) => {
       console.log('data------->', data)
       dispatch(updateUser(data[1]))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }
