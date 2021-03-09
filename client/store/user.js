@@ -9,6 +9,7 @@ const defaultUser = {}
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const DELETE_GUEST_CART = 'DELETE_GUEST_CART'
 /**
  * ACTION CREATORS
  */
@@ -57,9 +58,9 @@ export const auth = (email, password, method) => async dispatch => {
       localStorage.removeItem('Guest_Cart')
       dispatch({type: DELETE_GUEST_CART})
 
-      history.push(`/${res.data.id}/cart`)
+      history.push(`/cart`)
     } else {
-      history.push('/home')
+      history.push('/')
     }
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)

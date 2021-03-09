@@ -1,26 +1,38 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {
-  getCartItemsThunk,
-  updateQuantityThunk,
-  deleteFromCartThunk
-} from '../store/cart'
+import {getCartItemsThunk, deleteFromCartThunk} from '../store/cart'
+import {deleteFromGuestCartThunk} from '../store/guestCart'
+import {me} from '../store/user'
+import QuantityForm from './QuantityForm'
 
 class Cart extends React.Component {
   constructor(props) {
     super(props)
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
-  componentDidMount() {
-    this.props.loadCartItems(this.props.match.params.userID)
+  async componentDidMount() {
+    if (this.props.isLoggedIn) {
+      await this.props.me()
+      this.props.loadCartItems(this.props.user.id)
+    }
+  }
+
+  handleDelete(item) {
+    if (this.props.isLoggedIn) {
+      this.props.deleteItem(this.props.user.id, item.id)
+    } else {
+      this.props.deleteGuestItem(item)
+    }
   }
 
   render() {
     const cartItems = this.props.isLoggedIn
-      ? this.props.cartIems ? this.props.cartItems : []
+      ? this.props.userCart ? this.props.userCart : []
       : this.props.guestCart
-    const optionsArr = Array(25).fill(1)
+    console.log(`Cart Items`, cartItems)
+
     const subtotal =
       cartItems.reduce((accum, next) => {
         return accum + next.price * next.cart.quantity
@@ -39,16 +51,7 @@ class Cart extends React.Component {
                   <div> {item.price / 100}</div>
                   <img src={`../images/${item.imageUrl}`} />
                   <div> Quantity: {item.cart.quantity || 1} </div>
-                  <label htmlFor="quantity">Select Quantity</label>
-                  <form onSubmit={evt => this.handleSubmit(item, evt)}>
-                    <select name="quantity" id={`quantity-${item.id}`}>
-                      {optionsArr.map((val, idx) => {
-                        return <option value={val + idx}> {val + idx} </option>
-                      })}
-                    </select>
-
-                    <input type="submit" />
-                  </form>
+                  <QuantityForm item={item} />
                   <button onClick={() => this.handleDelete(item)}>
                     {' '}
                     Delete{' '}
@@ -61,6 +64,7 @@ class Cart extends React.Component {
         ) : (
           <div> Your Cart is Empty</div>
         )}
+        <div>Subtotal: ${subtotal}</div>
       </div>
     )
   }
@@ -70,17 +74,19 @@ const mapStateToProps = state => {
   return {
     guestCart: state.guestCart,
     isLoggedIn: !!state.user.id,
-    cartItems: state.cart
+    userCart: state.cart,
+    user: state.user
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     loadCartItems: userID => dispatch(getCartItemsThunk(userID)),
-    updateQuant: (userID, itemID, quant) =>
-      dispatch(updateQuantityThunk(userID, itemID, quant)),
     deleteItem: (userID, itemID) =>
-      dispatch(deleteFromCartThunk(userID, itemID))
+      dispatch(deleteFromCartThunk(userID, itemID)),
+    me: () => dispatch(me()),
+    deleteGuestItem: entireItem =>
+      dispatch(deleteFromGuestCartThunk(entireItem))
   }
 }
 
