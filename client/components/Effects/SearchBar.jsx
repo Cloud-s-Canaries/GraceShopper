@@ -9,6 +9,7 @@ import {Search} from '@material-ui/icons'
 
 function Searchbar({loadMemes, memes}) {
   const [inputItems, setInputItems] = useState([])
+
   const {
     isOpen,
     getMenuProps,
@@ -50,7 +51,6 @@ function Searchbar({loadMemes, memes}) {
                 style={highlightedIndex === index ? {background: '#ede'} : {}}
               >
                 <Link to={`/products/${item.id}`}>
-                  {' '}
                   <h4>{item.name}</h4>
                 </Link>
               </li>
