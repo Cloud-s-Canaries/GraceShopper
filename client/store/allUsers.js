@@ -3,7 +3,6 @@ import axios from 'axios'
 // Action types
 const GET_ALL_USERS = 'GET_ALL_USERS'
 const DELETE_USER = 'DELETE_USER'
-const UPDATE_USER = 'UPDATE_USER'
 
 // Action creators
 const getAllUsers = users => {
@@ -14,8 +13,6 @@ const getAllUsers = users => {
 }
 
 const removeUser = user => ({type: DELETE_USER, user})
-
-const updateUser = updatedUser => ({type: UPDATE_USER, updatedUser})
 
 // Thunks
 export const getAllUsersThunk = () => {
@@ -40,18 +37,6 @@ export const deleteUserThunk = userID => {
   }
 }
 
-export const updateUserThunk = (userID, updatedUser) => {
-  return async dispatch => {
-    try {
-      const {data} = await axios.put(`/api/users/${userID}`, updatedUser)
-      console.log('data------->', data)
-      dispatch(updateUser(data[1]))
-    } catch (err) {
-      console.error(err)
-    }
-  }
-}
-
 // Initial state
 const initialState = []
 
@@ -64,11 +49,6 @@ export default function(state = initialState, action) {
       const remainingUsers = state.filter(user => user.id !== action.user.id)
       return remainingUsers
     }
-    case UPDATE_USER: {
-      const remainingUsers = state.filter(user => user.id !== action.user.id)
-      return [...remainingUsers, action.updatedUser]
-    }
-
     default:
       return state
   }

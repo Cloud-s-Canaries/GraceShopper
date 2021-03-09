@@ -52,9 +52,10 @@ function Navbar({handleClick, isLoggedIn, isAdmin, user, cart, guestCart}) {
           <div>
             {/* The navbar will show these links before you log in */}
 
+
             <Link to="/login">Login</Link>
             <Link to="/signup">Sign Up</Link>
-            <Link to="/guestcart">
+            <Link to="/cart">
               <ShoppingCart />
               Guest {totalItems > 0 ? totalItems : ''}
             </Link>
@@ -65,6 +66,7 @@ function Navbar({handleClick, isLoggedIn, isAdmin, user, cart, guestCart}) {
     </div>
   )
 }
+
 
 /**
  * CONTAINER

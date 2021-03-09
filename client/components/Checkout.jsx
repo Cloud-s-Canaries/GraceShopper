@@ -123,7 +123,6 @@ class Checkout extends React.Component {
             <form
               onSubmit={event => {
                 event.preventDefault()
-                console.log(`==========EVENT INFO=======`, event)
                 this.handleCheckout(cartItems)
               }}
             >
