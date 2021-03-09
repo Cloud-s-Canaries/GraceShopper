@@ -42,7 +42,7 @@ export const getProductsThunk = () => {
       const {data} = await axios.get('/api/products')
       dispatch(getProducts(data))
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 }
@@ -64,7 +64,7 @@ export const deleteItemThunk = itemID => {
       const {data} = await axios.delete(`api/products/${itemID}`)
       dispatch(deleteItem(data))
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 }
@@ -78,7 +78,7 @@ export const updateItemThunk = (itemID, submittedChanges) => {
       )
       dispatch(updateItem(data))
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 }

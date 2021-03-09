@@ -17,6 +17,7 @@ class AllProducts extends React.Component {
 
   handleClick(userID, itemID, entireItem) {
     if (userID) {
+      console.log(`HANDLING CLICK`)
       this.props.addToCart(userID, itemID, 1)
     }
     if (!userID) {
@@ -25,7 +26,6 @@ class AllProducts extends React.Component {
   }
 
   render() {
-    console.log(`PROS`, this.props)
     const products = this.props.products || []
     const userID = this.props.user.id
     return (

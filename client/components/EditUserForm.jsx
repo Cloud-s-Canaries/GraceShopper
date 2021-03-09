@@ -39,7 +39,7 @@ class EditUser extends React.Component {
   }
 
   render() {
-    const {email, password} = this.state
+    const {admin, email, password} = this.state
     return (
       <div>
         <h3>Edit User: {email}</h3>

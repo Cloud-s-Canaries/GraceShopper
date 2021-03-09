@@ -17,7 +17,7 @@ export const getOneUserThunk = userID => {
       const {data} = await axios.get(`/api/users/${userID}`)
       dispatch(getOneUser(data))
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 }

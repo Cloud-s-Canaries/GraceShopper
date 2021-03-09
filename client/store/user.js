@@ -34,10 +34,8 @@ export const auth = (email, password, method) => async dispatch => {
   let res
 
   const savedCart = JSON.parse(localStorage.getItem('Guest_Cart'))
-  console.log(`Here's your savedCart`, savedCart)
 
   try {
-    console.log(`Posting new user to db...`)
     res = await axios.post(`/auth/${method}`, {email, password})
   } catch (authError) {
     return dispatch(getUser({error: authError}))

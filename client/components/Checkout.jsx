@@ -1,8 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {getCartItemsThunk, updateQuantityThunk} from '../store/cart'
+import {
+  resetCartThunk,
+  getCartItemsThunk,
+  updateQuantityThunk
+} from '../store/cart'
 import {me} from '../store/user'
+import {checkoutThunk} from '../store/checkedOut'
+import {deleteGuestCartThunk} from '../store/guestCart'
 
 class Checkout extends React.Component {
   constructor() {
@@ -10,9 +15,9 @@ class Checkout extends React.Component {
     this.state = {
       itemQuant: 1
     }
-    this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleCheckout = this.handleCheckout.bind(this)
   }
 
   async componentDidMount() {
@@ -26,14 +31,20 @@ class Checkout extends React.Component {
   }
 
   handleSubmit(itemID) {
-    this.props.updateQuant(
-      this.props.match.params.userID,
-      itemID,
-      this.state.itemQuant
-    )
+    this.props.updateQuant(this.props.user.id, itemID, this.state.itemQuant)
   }
 
-  handleClick() {}
+  handleCheckout(cartItems) {
+    this.props.checkout(cartItems)
+    if (this.props.isLoggedIn) {
+      this.props.resetCart(this.props.user.id)
+    } else {
+      localStorage.removeItem('Guest_Cart')
+      this.props.resetGuestCart()
+    }
+    this.props.history.push('/receipt')
+  }
+
   render() {
     const cartItems = this.props.isLoggedIn
       ? this.props.cartItems ? this.props.cartItems : []
@@ -95,8 +106,6 @@ class Checkout extends React.Component {
                 </div>
               )
             })}
-            <br />
-            <br />
           </div>
           <div className="placeorder">
             <div className="subtotal">
@@ -111,26 +120,32 @@ class Checkout extends React.Component {
                 Total:<span className="right">${total.toFixed(2)}</span>
               </div>
             </div>
-            <div className="email-form">
-              {this.props.isLoggedIn ? (
-                <div>Deliver to: {this.props.user.email}</div>
-              ) : (
-                <form>
-                  <label htmlFor="email">Email: </label>
-                  <input name="email" />
-                </form>
-              )}
-            </div>
-            <div className="payment">
-              <label htmlFor="paymethod">Payment Method</label>
-              <select>
-                <option> Bitcoin</option>
-                <option> Etherum</option>
-              </select>
-              <Link to="/receipt">
+            <form
+              onSubmit={event => {
+                event.preventDefault()
+                console.log(`==========EVENT INFO=======`, event)
+                this.handleCheckout(cartItems)
+              }}
+            >
+              <div className="email-form">
+                {this.props.isLoggedIn ? (
+                  <div>Deliver to: {this.props.user.email}</div>
+                ) : (
+                  <div>
+                    <label htmlFor="email">Email: </label>
+                    <input name="email" />
+                  </div>
+                )}
+              </div>
+              <div className="payment">
+                <label htmlFor="paymethod">Payment Method</label>
+                <select>
+                  <option> Bitcoin</option>
+                  <option> Etherum</option>
+                </select>
                 <button type="submit">Place Order</button>
-              </Link>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -152,7 +167,10 @@ const mapDispatch = dispatch => {
     loadCartItems: userID => dispatch(getCartItemsThunk(userID)),
     updateQuant: (userID, itemID, quant) =>
       dispatch(updateQuantityThunk(userID, itemID, quant)),
-    me: () => dispatch(me())
+    me: () => dispatch(me()),
+    resetCart: userID => dispatch(resetCartThunk(userID)),
+    checkout: items => dispatch(checkoutThunk(items)),
+    resetGuestCart: () => dispatch(deleteGuestCartThunk())
   }
 }
 
