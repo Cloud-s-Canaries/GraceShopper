@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import {getProductsThunk, deleteItemThunk} from '../store/allProducts'
 
 import AddProductForm from './AddProductForm'
-import EditProductForm from './EditProductForm'
 
 class AdminProducts extends React.Component {
   constructor() {
