@@ -1,24 +1,31 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {updateItemThunk} from '../store/allProducts'
+import {getItemThunk} from '../store/singleProduct'
 
 class EditProductForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: this.props.value.name,
-      rating: this.props.value.rating,
-      price: this.props.value.price,
-      description: this.props.value.description || '',
-      imageUrl: this.props.value.imageUrl
+      name: '',
+      rating: '',
+      price: 0,
+      description: '',
+      imageUrl: ''
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleSubmit(event) {
+  async componentDidMount() {
+    await this.props.singleItem(this.props.match.params.id)
+    this.setState(this.props.item)
+  }
+
+  async handleSubmit(event) {
     event.preventDefault()
-    this.props.updateItem(this.props.value.id, this.state)
+    await this.props.updateItem(this.props.match.params.id, this.state)
+    this.props.singleItem(this.props.match.params.id)
   }
 
   handleChange(event) {
@@ -32,6 +39,13 @@ class EditProductForm extends React.Component {
     return (
       <div>
         <h3>Edit Product</h3>
+
+        <div> Name: {name} </div>
+        <div> Rating: {rating} </div>
+        <div> Price: {price} </div>
+        <img src={imageUrl} />
+
+        <div> Description: {description} </div>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="name">
@@ -72,7 +86,7 @@ class EditProductForm extends React.Component {
             />
           </div>
           <div>
-            <button type="submit">Edit Product </button>
+            <button type="submit">Save Changes </button>
           </div>
         </form>
       </div>
@@ -80,11 +94,18 @@ class EditProductForm extends React.Component {
   }
 }
 
-const mapDispatch = dispatch => {
+const mapState = state => {
   return {
-    updateItem: (itemId, itemUpdate) =>
-      dispatch(updateItemThunk(itemId, itemUpdate))
+    item: state.singleProduct
   }
 }
 
-export default connect(null, mapDispatch)(EditProductForm)
+const mapDispatch = dispatch => {
+  return {
+    updateItem: (itemId, itemUpdate) =>
+      dispatch(updateItemThunk(itemId, itemUpdate)),
+    singleItem: itemId => dispatch(getItemThunk(itemId))
+  }
+}
+
+export default connect(mapState, mapDispatch)(EditProductForm)

@@ -24,7 +24,7 @@ export const getAllUsersThunk = () => {
       const {data} = await axios.get('/api/users')
       dispatch(getAllUsers(data))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }
@@ -35,7 +35,7 @@ export const deleteUserThunk = userID => {
       const {data} = await axios.delete(`api/users/${userID}`)
       dispatch(removeUser(data))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }
@@ -44,9 +44,10 @@ export const updateUserThunk = (userID, updatedUser) => {
   return async dispatch => {
     try {
       const {data} = await axios.put(`/api/users/${userID}`, updatedUser)
+      console.log('data------->', data)
       dispatch(updateUser(data[1]))
     } catch (err) {
-      console.log(err)
+      console.error(err)
     }
   }
 }
@@ -65,7 +66,7 @@ export default function(state = initialState, action) {
     }
     case UPDATE_USER: {
       const remainingUsers = state.filter(user => user.id !== action.user.id)
-      return [...remainingUsers, action.updateUser]
+      return [...remainingUsers, action.updatedUser]
     }
 
     default:

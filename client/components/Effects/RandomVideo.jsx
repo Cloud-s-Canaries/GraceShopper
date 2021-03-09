@@ -1,57 +1,30 @@
 import React from 'react'
-import axios from 'axios'
 import {connect} from 'react-redux'
 import {useEffect, useState} from 'react'
-import {getVideosThunk} from '../../store/media'
 
-export function RandomVideo({loadVideos, loadedVids}) {
-  const [videos, setVideoList] = useState([])
+export function RandomVideo({loadVideos}) {
+  //const [videos, setVideoList] = useState([])
+  const videos = ['../videos/goatsaysyeah.mp4']
 
-  const messages = ['Premium Vines \n Coming Soon', 'Better than cat videos']
+  const messages = ['Better than cat videos!', 'Premium vines coming soon!']
 
-  let videoTubelight = messages[Math.floor(Math.random() * messages.length)]
+  let randomMessage = messages[Math.floor(Math.random() * messages.length)]
 
-  // useEffect(() => {}, [])
-  // console.log(`OUR VIDEOS`, videos)
-  // const getList = async () => {
-  //   const {data} = await axios.get('/api/media/videos')
-  //   console.log('veeeds', data)
-  //   getVideoList(data)
-  // }
-  console.log(`Videos, BEFORE!!!!`, videos)
-  useEffect(() => {
-    loadVideos().then(vids => {
-      setVideoList(vids)
-    })
-  }, [])
-  console.log(`Video!!!!`, videos)
+  let randomVideo = videos[Math.floor(Math.random() * videos.length)]
 
-  if (videos.length) {
-    let randomOne = Math.floor(Math.random() * videos.length)
-
-    return (
-      <div className="home-video-cont">
-        <br className="spaceit" />
-        <div className="randomvid-sign">{videoTubelight}</div>
-        <div className="actual-video-cont">
-          <div className="vidtext-cont">
-            <div className="randomvid-text"> </div>
-          </div>
-          <video autoPlay loop muted className="home-video">
-            <source src={videos[randomOne]} />
-          </video>
+  return (
+    <div className="home-video-cont">
+      <div className="randomvid-sign">{randomMessage}</div>
+      <div className="actual-video-cont">
+        <div className="vidtext-cont">
+          <div className="randomvid-text"> </div>
         </div>
+        <video autoPlay loop muted className="home-video">
+          <source src={randomVideo} />
+        </video>
       </div>
-    )
-  } else {
-    return <div> Hah! Gotteeem </div>
-  }
-}
-
-const mapState = state => {
-  return {
-    loadedVids: state.media
-  }
+    </div>
+  )
 }
 
 const mapDispatch = dispatch => {
@@ -60,4 +33,4 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(RandomVideo)
+export default connect(null, mapDispatch)(RandomVideo)

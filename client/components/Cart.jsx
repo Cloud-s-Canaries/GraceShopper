@@ -56,11 +56,6 @@ class Cart extends React.Component {
                 Proceed to Checkout
               </button>
             </Link>
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
             {cartItems.map(item => {
               return (
                 <div key={item.id}>
@@ -96,8 +91,6 @@ class Cart extends React.Component {
                     {' '}
                     Delete{' '}
                   </button>
-                  <br />
-                  <br />
                 </div>
               )
             })}

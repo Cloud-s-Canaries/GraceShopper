@@ -9,8 +9,6 @@ const defaultUser = {}
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
-const DELETE_GUEST_CART = 'DELETE_GUEST_CART'
-
 /**
  * ACTION CREATORS
  */
@@ -18,13 +16,6 @@ const DELETE_GUEST_CART = 'DELETE_GUEST_CART'
 const removeUser = () => ({type: REMOVE_USER})
 
 const getUser = user => ({type: GET_USER, user})
-
-// const removeCartItem = (itemID) => {
-//   return {
-//     action: REMOVE_CART_ITEM,
-//     itemID,
-//   }
-// }
 
 /**
  * THUNK CREATORS
@@ -43,10 +34,8 @@ export const auth = (email, password, method) => async dispatch => {
   let res
 
   const savedCart = JSON.parse(localStorage.getItem('Guest_Cart'))
-  console.log(`Here's your savedCart`, savedCart)
 
   try {
-    console.log(`Posting new user to db...`)
     res = await axios.post(`/auth/${method}`, {email, password})
   } catch (authError) {
     return dispatch(getUser({error: authError}))
