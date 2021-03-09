@@ -8,6 +8,7 @@ import allProducts from './allProducts'
 import cart from './cart'
 import guestCart from './guestCart'
 import allUsers from './allUsers'
+import checkedOut from './checkedOut'
 import singleUser from './singleUser'
 
 const reducer = combineReducers({
@@ -17,6 +18,7 @@ const reducer = combineReducers({
   cart,
   guestCart,
   allUsers,
+  checkedOut,
   singleUser
 })
 const middleware = composeWithDevTools(

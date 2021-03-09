@@ -2,34 +2,21 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {getProductsThunk, deleteItemThunk} from '../store/allProducts'
-import {
-  getAllUsersThunk,
-  deleteUserThunk,
-  updateUserThunk
-} from '../store/allUsers'
 
 import AddProductForm from './AddProductForm'
-import EditProductForm from './EditProductForm'
-import EditUser from './EditUser'
 
-class Admin extends React.Component {
+class AdminProducts extends React.Component {
   constructor() {
     super()
     this.handleItemDelete = this.handleItemDelete.bind(this)
-    this.handleUserDelete = this.handleUserDelete.bind(this)
   }
 
   componentDidMount() {
     this.props.loadProducts()
-    this.props.loadUsers()
   }
 
   handleItemDelete(itemId) {
     this.props.deleteProduct(itemId)
-  }
-
-  handleUserDelete(userId) {
-    this.props.deleteUser(userId)
   }
 
   render() {
@@ -54,30 +41,13 @@ class Admin extends React.Component {
               >
                 Delete this product
               </button>
-              <EditProductForm value={prod} />
+              <Link to={`/edit/products/${prod.id}`}>
+                <button type="button">Edit Product</button>
+              </Link>
             </div>
           )
         })}
         <AddProductForm />
-        <div>
-          <h3>Users</h3>
-          {users.map(user => {
-            return (
-              <div key={user.id}>
-                <div> name:{user.email}</div>
-                <div>id: {user.id}</div>
-                <EditUser user={user} />
-
-                <button
-                  type="button"
-                  onClick={() => this.handleUserDelete(user.id)}
-                >
-                  Delete this User
-                </button>
-              </div>
-            )
-          })}
-        </div>
       </div>
     )
   }
@@ -85,18 +55,15 @@ class Admin extends React.Component {
 
 const mapState = state => {
   return {
-    products: state.allProducts,
-    users: state.allUsers
+    products: state.allProducts
   }
 }
 
 const mapDispatch = dispatch => {
   return {
     loadProducts: () => dispatch(getProductsThunk()),
-    deleteProduct: id => dispatch(deleteItemThunk(id)),
-    loadUsers: () => dispatch(getAllUsersThunk()),
-    deleteUser: id => dispatch(deleteUserThunk(id))
+    deleteProduct: id => dispatch(deleteItemThunk(id))
   }
 }
 
-export default connect(mapState, mapDispatch)(Admin)
+export default connect(mapState, mapDispatch)(AdminProducts)

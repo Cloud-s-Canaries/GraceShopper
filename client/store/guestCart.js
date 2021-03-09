@@ -76,6 +76,12 @@ export function updateGCQuantThunk(item, quantity) {
   }
 }
 
+export function deleteGuestCartThunk() {
+  return dispatch => {
+    dispatch(deleteGuestCart())
+  }
+}
+
 const initState = []
 
 export default function(state = initState, action) {

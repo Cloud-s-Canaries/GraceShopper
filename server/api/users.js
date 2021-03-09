@@ -67,7 +67,7 @@ router.put('/:id', isAdmin, async (req, res, next) => {
   try {
     const user = await User.update(
       {
-        name: req.body.name,
+        email: req.body.email,
         password: req.body.password
       },
       {
@@ -77,10 +77,13 @@ router.put('/:id', isAdmin, async (req, res, next) => {
         returning: true
       }
     )
-    if (!user) {
+    console.log('user------->', user)
+    if (!user[0]) {
+      console.log('user not found----->')
       res.status(404).json(`Cannot update a user that is not in the database.`)
     }
-    if (user) {
+    if (user[0]) {
+      console.log('user found------>', user[1][0])
       res.status(204).json(user[1][0])
     }
   } catch (error) {

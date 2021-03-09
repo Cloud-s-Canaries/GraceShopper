@@ -11,13 +11,11 @@ class Receipt extends React.Component {
   async componentDidMount() {
     // Pretty sure I won't need this
     await this.props.me()
-    this.props.loadCartItems(this.props.user.id)
+    // this.props.loadCartItems(this.props.user.id)
   }
 
   render() {
-    const cartItems = this.props.isLoggedIn
-      ? this.props.cartItems ? this.props.cartItems : []
-      : this.props.guestCart
+    const cartItems = this.props.cartItems
     const subtotal =
       cartItems.reduce((accum, next) => {
         return accum + next.price * next.cart.quantity
@@ -70,10 +68,7 @@ class Receipt extends React.Component {
               {this.props.isLoggedIn ? (
                 <div>Delivered to: {this.props.user.email}</div>
               ) : (
-                <form>
-                  <label htmlFor="email">Email: </label>
-                  <input name="email" />
-                </form>
+                <div />
               )}
             </div>
           </div>
@@ -86,9 +81,8 @@ class Receipt extends React.Component {
 const mapStateToProps = state => {
   return {
     isLoggedIn: !!state.user.id,
-    guestCart: state.guestCart,
     user: state.user,
-    cartItems: state.cart
+    cartItems: state.checkedOut
   }
 }
 

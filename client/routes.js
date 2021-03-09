@@ -7,13 +7,15 @@ import {me} from './store'
 import AllProducts from './components/AllProducts'
 import SingleItem from './components/SingleItem'
 import Cart from './components/Cart'
-import Admin from './components/Admin'
+import AdminProducts from './components/AdminProducts'
+import AdminUsers from './components/AdminUsers'
+import EditProductForm from './components/EditProductForm'
+import EditUserForm from './components/EditUserForm'
 import Checkout from './components/Checkout'
 import GuestCart from './components/GuestCart'
 import {getGuestCartThunk} from './store/guestCart'
 import Receipt from './components/Receipt'
 import Home from './components/Home'
-import EditUser from './components/EditUser'
 
 /**
  * COMPONENT
@@ -46,7 +48,10 @@ class Routes extends Component {
           {isAdmin && (
             <Switch>
               {/* Routes placed here are only available after logging in */}
-              <Route path="/admin" component={Admin} />
+              <Route path="/admin/products" component={AdminProducts} />
+              <Route path="/edit/products/:id" component={EditProductForm} />
+              <Route path="/admin/users" component={AdminUsers} />
+              <Route path="/edit/users/:id" component={EditUserForm} />
               <Route path="/checkout" component={Checkout} />
               <Route path="/:userID/edit" />
               <Route path="/:userID/cart" component={Cart} />

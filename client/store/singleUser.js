@@ -27,7 +27,7 @@ const initState = {}
 export default function(state = initState, action) {
   switch (action.type) {
     case GET_ONE_USER:
-      return action.singleUser
+      return action.user
     default:
       return state
   }

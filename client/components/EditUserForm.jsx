@@ -9,7 +9,7 @@ class EditUser extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      admin: '',
+      id: '',
       email: '',
       password: ''
     }
@@ -17,13 +17,19 @@ class EditUser extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  componentDidMount() {
-    this.props.getOneUser(this.props.user.id)
+  async componentDidMount() {
+    await this.props.getOneUser(this.props.match.params.id)
+    this.setState({
+      id: this.props.changeUser.id || '',
+      email: this.props.changeUser.email || '',
+      password: this.props.changeUser.password || ''
+    })
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault()
-    this.props.updateUser(this.props.value.id, this.state)
+    await this.props.updateUser(this.props.match.params.id, this.state)
+    this.props.getOneUser(this.props.match.params.id)
   }
 
   handleChange(event) {
@@ -36,14 +42,9 @@ class EditUser extends React.Component {
     const {admin, email, password} = this.state
     return (
       <div>
-        <h3>Edit User {this.props.user.email}</h3>
+        <h3>Edit User: {email}</h3>
+        <div>Password: {password}</div>
         <form onSubmit={this.handleSubmit}>
-          <div>
-            <label htmlFor="admin">
-              <small>Admin Status</small>
-            </label>
-            <input name="admin" onChange={this.handleChange} value={admin} />
-          </div>
           <div>
             <label htmlFor="email">
               <small>Email Address</small>
@@ -62,7 +63,7 @@ class EditUser extends React.Component {
           </div>
 
           <div>
-            <button type="submit">Edit Product </button>
+            <button type="submit">Save Change </button>
           </div>
         </form>
       </div>
@@ -72,14 +73,15 @@ class EditUser extends React.Component {
 
 const mapState = state => {
   return {
-    user: state.user
+    changeUser: state.singleUser
   }
 }
 
 const mapDispatch = dispatch => {
   return {
     getOneUser: userID => dispatch(getOneUserThunk(userID)),
-    updateUser: () => dispatch(updateUserThunk())
+    updateUser: (userID, userUpdate) =>
+      dispatch(updateUserThunk(userID, userUpdate))
   }
 }
 
