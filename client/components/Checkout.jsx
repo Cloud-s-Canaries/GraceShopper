@@ -106,8 +106,6 @@ class Checkout extends React.Component {
                 </div>
               )
             })}
-            <br />
-            <br />
           </div>
           <div className="placeorder">
             <div className="subtotal">

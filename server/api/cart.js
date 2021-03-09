@@ -75,7 +75,6 @@ router.post(
   },
   async (req, res, next) => {
     try {
-      //console.log(req.body)
       const cart = await Cart.findOrCreate({
         where: {
           userId: req.body.userId,
@@ -83,6 +82,7 @@ router.post(
           quantity: req.body.quantity || 1
         }
       })
+      console.log(`CART======`, cart)
       if (cart[1]) {
         const updatedCart = await User.findOne({
           where: {

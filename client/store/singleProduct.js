@@ -18,7 +18,7 @@ export const getItemThunk = itemID => {
       const {data} = await axios.get(`/api/products/${itemID}`)
       dispatch(getItem(data))
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 }
