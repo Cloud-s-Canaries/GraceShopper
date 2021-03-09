@@ -17,7 +17,6 @@ class AllProducts extends React.Component {
 
   handleClick(userID, itemID, entireItem) {
     if (userID) {
-      console.log(`HANDLING CLICK`)
       this.props.addToCart(userID, itemID, 1)
     }
     if (!userID) {
