@@ -25,10 +25,7 @@ export default function CustomSlider({slides}) {
         return (
           <div className={idx === current ? 'slide active' : 'slide'} key={idx}>
             {idx === current && (
-              <img
-                src={`../images/${slide.imageUrl}`}
-                className="custom-slide-pic"
-              />
+              <img src={slide.imageUrl} className="custom-slide-pic" />
             )}
           </div>
         )

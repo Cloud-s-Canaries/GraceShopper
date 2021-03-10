@@ -30,7 +30,7 @@ class Featured extends React.Component {
               <h1>{chants[i]}</h1>
               <div> {prod.name} </div>
               <div> {prod.rating}</div>
-              <img src={`../images/${prod.imageUrl}`} />
+              <img src={prod.imageUrl} />
             </Link>
           </div>
         ))}

@@ -43,7 +43,7 @@ class EditProductForm extends React.Component {
         <div> Name: {this.props.item.name} </div>
         <div> Rating: {this.props.item.rating} </div>
         <div> Price: {this.props.item.price} </div>
-        <img src={`../images/${this.props.item.imageUrl}`} />
+        <img src={this.props.item.imageUrl} />
 
         <div> Description: {description} </div>
         <form onSubmit={this.handleSubmit}>

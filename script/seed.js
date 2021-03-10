@@ -6,7 +6,7 @@ const faker = require('faker')
 
 function generateProducts() {
   const products = []
-  for (let i = 0; i <= 100; i++) {
+  for (let i = 0; i <= 10; i++) {
     products.push({
       name: faker.random.words(),
       price: faker.random.number(),
@@ -23,7 +23,7 @@ function generateProducts() {
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
-  generateProducts()
+  // generateProducts()
 
   const users = await Promise.all([
     User.create({email: 'cody@email.com', password: '123'}),
@@ -47,6 +47,35 @@ async function seed() {
       price: 6200,
       description: 'A second test item to see if our things work',
       rating: 4.6
+    }),
+    Product.create({
+      name: 'trying young things',
+      price: 250,
+      description: 'How to appear cool',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/aXoYpwd_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    }),
+    Product.create({
+      name: 'Check the Bank',
+      price: 1,
+      description: 'If this meme is accurate and we hope you can afford it',
+      imageUrl:
+        'https://cdn.vox-cdn.com/thumbor/FOIV1c1Eq9Y1HQq-Sn1RgReLp0E=/0x0:735x500/920x613/filters:focal(310x192:426x308):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/66727168/image.0.png ',
+      rating: Math.floor(Math.random() * 5)
+    }),
+    Product.create({
+      name: 'Downloading Video',
+      price: 300,
+      description: 'I wanna watch that so bad!',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/a1rQA5b_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    }),
+    Product.create({
+      name: 'Student things',
+      price: 600,
+      description: 'Hey you are going to be late!',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/aLpgK25_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
     })
   ])
 

@@ -35,7 +35,7 @@ class AllProducts extends React.Component {
               <Link to={`/products/${prod.id}`}>
                 <h4> {prod.name} </h4>
                 <div>Rating: {prod.rating}</div>
-                <img src={`../images/${prod.imageUrl}`} />
+                <img src={prod.imageUrl} />
               </Link>
               <button
                 type="button"

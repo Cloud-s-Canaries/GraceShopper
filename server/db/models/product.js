@@ -18,7 +18,7 @@ const Product = db.define('product', {
   },
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: 'default.png'
+    defaultValue: 'https://memegenerator.net/img/instances/72838539.jpg'
   },
   rating: {
     type: Sequelize.FLOAT,

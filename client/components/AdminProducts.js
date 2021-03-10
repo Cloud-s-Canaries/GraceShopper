@@ -32,7 +32,7 @@ class AdminProducts extends React.Component {
                 <div> Name: {prod.name} </div>
                 <div> Rating: {prod.rating} </div>
                 <div> Price: {prod.price} </div>
-                <img src={`../images/${prod.imageUrl}`} />
+                <img src={prod.imageUrl} />
               </Link>
               <div> Description: {prod.description} </div>
               <button
