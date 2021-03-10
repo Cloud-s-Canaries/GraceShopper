@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import Searchbar from './Effects/SearchBar'
 import {ShoppingCart} from '@material-ui/icons'
-import {Menu, MenuItem} from '@material-ui/core'
 
 function Navbar({handleClick, isLoggedIn, isAdmin, user, cart, guestCart}) {
   let kart = []

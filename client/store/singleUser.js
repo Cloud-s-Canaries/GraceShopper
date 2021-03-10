@@ -28,7 +28,6 @@ export const updateUserThunk = (userID, updatedUser) => {
   return async dispatch => {
     try {
       const {data} = await axios.put(`/api/users/${userID}`, updatedUser)
-      console.log('data-------------', data)
       dispatch(updateUser(data))
     } catch (err) {
       console.error(err)

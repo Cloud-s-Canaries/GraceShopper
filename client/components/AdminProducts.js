@@ -21,7 +21,6 @@ class AdminProducts extends React.Component {
 
   render() {
     const products = this.props.products || []
-    const users = this.props.users || []
 
     return (
       <div>

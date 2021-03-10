@@ -1,5 +1,4 @@
-import React from 'react'
-import {useState} from 'react'
+import React, {useState} from 'react'
 import {ArrowLeft, ArrowRight} from '@material-ui/icons'
 
 export default function CustomSlider({slides}) {

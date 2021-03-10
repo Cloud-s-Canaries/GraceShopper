@@ -14,7 +14,6 @@ class Featured extends React.Component {
   }
 
   render() {
-    console.log(`props`, this.props)
     const {products} = this.props
     let sliderColor = ''
     const chants = ['Featured Memes', 'Get yours today!']

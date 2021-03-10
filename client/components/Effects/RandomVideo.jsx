@@ -1,8 +1,6 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {useEffect, useState} from 'react'
 
-export function RandomVideo({loadVideos}) {
+function RandomVideo() {
   //const [videos, setVideoList] = useState([])
   const videos = ['../videos/goatsaysyeah.mp4']
 
@@ -27,10 +25,4 @@ export function RandomVideo({loadVideos}) {
   )
 }
 
-const mapDispatch = dispatch => {
-  return {
-    loadVideos: () => dispatch(getVideosThunk())
-  }
-}
-
-export default connect(null, mapDispatch)(RandomVideo)
+export default RandomVideo

@@ -11,7 +11,7 @@ const checkout = itemsArr => {
 
 // THUNK
 export const checkoutThunk = items => {
-  return async dispatch => {
+  return dispatch => {
     dispatch(checkout(items))
   }
 }

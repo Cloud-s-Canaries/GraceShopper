@@ -1,11 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {
-  getAllUsersThunk,
-  deleteUserThunk,
-  updateUserThunk
-} from '../store/allUsers'
+import {getAllUsersThunk, deleteUserThunk} from '../store/allUsers'
 
 class AdminUsers extends React.Component {
   constructor() {
