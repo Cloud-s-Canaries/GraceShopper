@@ -78,10 +78,10 @@ router.post(
       const cart = await Cart.findOrCreate({
         where: {
           userId: req.body.userId,
-          productId: req.body.productId,
-          quantity: req.body.quantity || 1
+          productId: req.body.productId
         }
       })
+
       if (cart[1]) {
         const updatedCart = await User.findOne({
           where: {
@@ -89,9 +89,18 @@ router.post(
           },
           include: Product
         })
+
         res.json(updatedCart.products)
       } else {
-        res.send('You already have this item in your cart')
+        cart[0].quantity = cart[0].quantity + 1
+        await cart[0].save()
+        const updatedCart = await User.findOne({
+          where: {
+            id: req.body.userId
+          },
+          include: Product
+        })
+        res.json(updatedCart.products)
       }
     } catch (err) {
       next(err)

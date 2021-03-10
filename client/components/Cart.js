@@ -15,6 +15,7 @@ class Cart extends React.Component {
   async componentDidMount() {
     if (this.props.isLoggedIn) {
       await this.props.me()
+      console.log(`Loading cart items...`)
       this.props.loadCartItems(this.props.user.id)
     }
   }
@@ -28,6 +29,7 @@ class Cart extends React.Component {
   }
 
   render() {
+    console.log(`Rendering cart...`)
     const cartItems = this.props.isLoggedIn
       ? this.props.userCart ? this.props.userCart : []
       : this.props.guestCart

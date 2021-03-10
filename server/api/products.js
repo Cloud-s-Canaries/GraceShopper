@@ -78,6 +78,7 @@ router.put('/:id', isAdmin, async (req, res, next) => {
         returning: true
       }
     )
+
     if (product) {
       res.status(200).json(product[1][0])
     } else {
@@ -93,11 +94,11 @@ router.delete('/:id', isAdmin, async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id)
     if (!product) {
-      res.status(404).json(`This product is not in the database.`)
+      res.status(404).send(`This product is not in the database.`)
     }
     if (product) {
       await product.destroy()
-      res.status(204).json(product)
+      res.json(product)
     }
   } catch (error) {
     next(error)

@@ -15,10 +15,10 @@ export const getCart = cartItems => {
   }
 }
 
-export const addToCart = newItem => {
+export const addToCart = updatedCart => {
   return {
     type: ADD_TO_CART,
-    newItem
+    updatedCart
   }
 }
 
@@ -68,7 +68,7 @@ export const addToCartThunk = (userId, productId, wholeProduct) => {
         //alert('This Item is already in your cart!')
         wholeProduct.cart.quantity = 1
         wholeProduct.cart.quantity++
-        dispatch(addToCartThunk(wholeProductc))
+        dispatch(addToCartThunk(wholeProduct))
       } else {
         dispatch(addToCart(data))
       }
@@ -122,7 +122,7 @@ export default function(state = initState, action) {
     case GET_CART:
       return action.cartItems
     case ADD_TO_CART:
-      return action.newItem
+      return action.updatedCart
     case CART_ITEM_QUANTITY:
       return action.updatedCart.products
 

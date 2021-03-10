@@ -29,7 +29,7 @@ export const getAllUsersThunk = () => {
 export const deleteUserThunk = userID => {
   return async dispatch => {
     try {
-      const {data} = await axios.delete(`api/users/${userID}`)
+      const {data} = await axios.delete(`/api/users/${userID}`)
       dispatch(removeUser(data))
     } catch (err) {
       console.error(err)
