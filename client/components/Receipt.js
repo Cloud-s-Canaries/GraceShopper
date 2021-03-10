@@ -31,7 +31,7 @@ class Receipt extends React.Component {
               return (
                 <div key={item.id} className="item">
                   <div className="image-preview">
-                    <img src={`../images/${item.imageUrl}`} />
+                    <img src={item.imageUrl} />
                   </div>
                   <div className="info-container">
                     <div className="item-name"> {item.name} </div>

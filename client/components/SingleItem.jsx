@@ -35,7 +35,7 @@ class SingleItem extends React.Component {
       <div>
         <h3> {name} </h3>
         <h4> Rating: {rating}</h4>
-        <img src={`../images/${imageUrl}`} />
+        <img src={imageUrl} />
         <p>{description} </p>
         <button
           onClick={() => this.handleClick(userID, prodID, this.props.item)}

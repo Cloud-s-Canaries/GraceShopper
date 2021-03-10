@@ -37,7 +37,6 @@ export const auth = (email, password, method) => async dispatch => {
   const savedCart = JSON.parse(localStorage.getItem('Guest_Cart'))
 
   try {
-    console.log(`Logging in....`)
     res = await axios.post(`/auth/${method}`, {email, password})
   } catch (authError) {
     return dispatch(getUser({error: authError}))
@@ -52,7 +51,7 @@ export const auth = (email, password, method) => async dispatch => {
       const array = savedCart.map(prod => {
         return {userId, productId: prod.id, quantity: prod.cart.quantity || 1}
       })
-      console.log(`Pushing guest cart to login cart`)
+
       await axios.post('/api/carts/guestlogin', {
         array
       })

@@ -51,7 +51,7 @@ class Cart extends React.Component {
                 <div key={item.id}>
                   <div> {item.name} </div>
                   <div> {item.price / 100}</div>
-                  <img src={`../images/${item.imageUrl}`} />
+                  <img src={item.imageUrl} />
                   <div> Quantity: {item.cart.quantity || 1} </div>
                   <QuantityForm item={item} />
                   <button onClick={() => this.handleDelete(item)}>

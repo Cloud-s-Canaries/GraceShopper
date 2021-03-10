@@ -125,7 +125,8 @@ export default function(state = initState, action) {
       return action.updatedCart
     case CART_ITEM_QUANTITY:
       return action.updatedCart.products
-
+    case RESET_CART:
+      return initState
     case DELETE_FROM_CART: {
       const itemsLeft = [...state].filter(
         item => item.id !== action.item.productId
