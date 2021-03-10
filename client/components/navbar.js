@@ -18,7 +18,6 @@ function Navbar({handleClick, isLoggedIn, isAdmin, user, cart, guestCart}) {
   if (kart.length) {
     kart.forEach(item => (totalItems += item.cart.quantity))
   }
-  console.log(`KART`, kart)
   return (
     <div>
       <Link to="/home">
@@ -30,7 +29,7 @@ function Navbar({handleClick, isLoggedIn, isAdmin, user, cart, guestCart}) {
         {isLoggedIn ? (
           <div>
             {/* The navbar will show these links after you log in */}
-            <Link to={`/${user.id}/cart`}>
+            <Link to="/cart">
               {' '}
               <ShoppingCart /> Cart {totalItems > 0 ? totalItems : ''}
             </Link>
@@ -52,7 +51,6 @@ function Navbar({handleClick, isLoggedIn, isAdmin, user, cart, guestCart}) {
           <div>
             {/* The navbar will show these links before you log in */}
 
-
             <Link to="/login">Login</Link>
             <Link to="/signup">Sign Up</Link>
             <Link to="/cart">
@@ -66,7 +64,6 @@ function Navbar({handleClick, isLoggedIn, isAdmin, user, cart, guestCart}) {
     </div>
   )
 }
-
 
 /**
  * CONTAINER
