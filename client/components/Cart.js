@@ -13,10 +13,8 @@ class Cart extends React.Component {
   }
 
   async componentDidMount() {
-    if (this.props.isLoggedIn) {
-      await this.props.me()
-      this.props.loadCartItems(this.props.user.id)
-    }
+    await this.props.me()
+    this.props.loadCartItems(this.props.user.id)
   }
 
   handleDelete(item) {
@@ -39,23 +37,31 @@ class Cart extends React.Component {
     return (
       <div>
         {cartItems.length ? (
-          <div>
-            <Link to="/checkout">
-              <button id="checkoutbutton"> Proceed to Checkout</button>
-            </Link>
+          <div className="cart-container">
             {cartItems.map(item => {
               return (
-                <div key={item.id}>
-                  <div> {item.name} </div>
-                  <div> {item.price / 100}</div>
-                  <img src={item.imageUrl} />
-                  <div> Quantity: {item.cart.quantity || 1} </div>
-                  <QuantityForm item={item} />
-                  <button onClick={() => this.handleDelete(item)}>
-                    {' '}
-                    Delete{' '}
-                  </button>
-                  <br />
+                <div key={item.id} className="cart-items cart-view">
+                  <div className="cart-image-preview">
+                    <img src={item.imageUrl} className="cart-image-preview" />
+                  </div>
+                  <div className="info-container cart-info">
+                    <div className="item-name"> Name: {item.name} </div>
+                    <div className="cart-price">Price: ${item.price / 100}</div>
+
+                    <div className="quantity">
+                      {' '}
+                      Quantity: {item.cart.quantity || 1}{' '}
+                    </div>
+                    <QuantityForm item={item} />
+                  </div>
+                  <div className="delete-button-container">
+                    <button
+                      className="delete-button"
+                      onClick={() => this.handleDelete(item)}
+                    >
+                      X
+                    </button>
+                  </div>
                 </div>
               )
             })}
@@ -63,7 +69,14 @@ class Cart extends React.Component {
         ) : (
           <div> Your Cart is Empty</div>
         )}
-        <div>Subtotal: ${subtotal}</div>
+        <div>
+          <div className="subtotal">Subtotal: ${subtotal.toFixed(2)}</div>
+          <div>
+            <Link to="/checkout">
+              <button id="checkoutbutton"> Proceed to Checkout</button>
+            </Link>
+          </div>
+        </div>
       </div>
     )
   }

@@ -25,21 +25,31 @@ class AllProducts extends React.Component {
   }
 
   render() {
+    const stars = [1, 2, 3, 4, 5]
     const products = this.props.products || []
     const userID = this.props.user.id
     return (
-      <div>
+      <div className="meme-container">
         {products.map(prod => {
           return (
-            <div key={prod.id}>
+            <div key={prod.id} className="meme-card">
+              <img src={prod.imageUrl} className="image-preview" />
               <Link to={`/products/${prod.id}`}>
-                <h4> {prod.name} </h4>
-                <div>Rating: {prod.rating}</div>
-                <img src={prod.imageUrl} />
+                <div className="meme-info">
+                  {' '}
+                  <h4> {prod.name} </h4>
+                </div>
               </Link>
+              <div>
+                Rating:{' '}
+                {stars.slice(0, prod.rating).map(star => {
+                  return <>⭐ </>
+                })}
+              </div>
               <button
                 type="button"
                 onClick={() => this.handleClick(userID, prod.id, prod)}
+                className="add-cart-button"
               >
                 {' '}
                 Add To Cart
