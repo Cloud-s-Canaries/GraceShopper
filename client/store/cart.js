@@ -64,7 +64,6 @@ export const addToCartThunk = (userId, productId, wholeProduct) => {
         quantity: 1
       })
       if (data === 'You already have this item in your cart') {
-        console.log('WHATTTTTT', wholeProduct)
         //alert('This Item is already in your cart!')
         wholeProduct.cart.quantity = 1
         wholeProduct.cart.quantity++
@@ -81,11 +80,9 @@ export const addToCartThunk = (userId, productId, wholeProduct) => {
 export const updateQuantityThunk = (userID, itemID, quantity) => {
   return async dispatch => {
     try {
-      console.log(`Running API...`)
       const {data} = await axios.put(`/api/carts/${userID}/${itemID}`, {
         quantity
       })
-      console.log(`API returned...`, data)
       dispatch(cartItemQuantity(data))
     } catch (error) {
       console.log(error)
@@ -107,7 +104,7 @@ export const deleteFromCartThunk = (userID, itemID) => {
 export const resetCartThunk = userID => {
   return async dispatch => {
     try {
-      const {data} = await axios.delete(`/api/carts/${userID}`)
+      await axios.delete(`/api/carts/${userID}`)
       dispatch(resetCart())
     } catch (err) {
       console.error(err)

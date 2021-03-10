@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 //Action Types
 const GET_GUEST_CART = `GET_GUEST_CART`
 const ADD_TO_GUEST_CART = `ADD_TO_GUEST_CART`
