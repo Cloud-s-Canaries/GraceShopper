@@ -2,23 +2,6 @@
 
 const db = require('../server/db')
 const {User, Cart, Product} = require('../server/db/models')
-// const faker = require('faker')
-
-// function generateProducts() {
-//   const products = []
-//   for (let i = 0; i <= 10; i++) {
-//     products.push({
-//       name: faker.random.words(),
-//       price: faker.random.number(),
-//       description: faker.commerce.productDescription(),
-//       rating: Math.floor(Math.random() * 5)
-//     })
-//   }
-//   console.log(`Seeding products`)
-//   products.forEach(async productItem => {
-//     await Product.create(productItem)
-//   })
-// }
 
 async function seed() {
   await db.sync({force: true})
@@ -78,11 +61,124 @@ async function seed() {
     })
   ])
 
+  const memes = [
+    {
+      name: 'Urine Test',
+      price: 500,
+      description: 'jus going in for an annual checkup',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/aRX3yXy_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'Crew',
+      price: 40,
+      description: ' Lets roll doggos',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/anQMrWq_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'Falling on Hard Times',
+      price: 20,
+      description: 'when you just need to kick back and relax',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/aGpjBW7_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'Icy',
+      price: 330,
+      description: 'Bad Breath and Thirsty!',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/a27owAY_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'The Truth',
+      price: 9990,
+      description: 'why is this so accurate?',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/ayMXNQM_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'Debuggin Like a boss',
+      price: 450,
+      description: 'How To Debug',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/a9EpX6D_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'Batman',
+      price: 250,
+      description: 'Greatest Detective',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/arMbBRy_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'We Did It Guys',
+      price: 20,
+      description: 'How we may all be feeling',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/axM1mKb_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'Ben ?',
+      price: 1,
+      description: ' Lofi is life',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/aO3rBV6_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'POSTMAN',
+      price: 8000,
+      description: 'Its a bird, no its a plane, no fool its POSTMAN!',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/av5LMAb_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'The 4 Horsemen of Coding',
+      price: 600,
+      description: 'How it feels to be a developer',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/aRXQLn2_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'Pie Chart of Pain',
+      price: 85,
+      description: 'Lets put it all together',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/azMrOnm_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: "Envy at it's Finest",
+      price: 123,
+      description: 'Thank God for Autocomplete',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/aAbV71g_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'Is Coding Really Hard?',
+      price: 8,
+      description: 'This about those who came before',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/amv3BO2_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    },
+    {
+      name: 'Happiness id Good',
+      price: 45,
+      description: 'When you are happy and u know it raise ur hand.',
+      imageUrl: 'https://img-9gag-fun.9cache.com/photo/a1WjvgG_460swp.webp',
+      rating: Math.floor(Math.random() * 5)
+    }
+  ]
+
+  memes.forEach(async meme => {
+    await Product.create(meme)
+  })
+
   const cart = await Promise.all([
     Cart.create({productId: 1, userId: 1, quantity: 3})
   ])
 
   console.log(`seeded ${users.length} users`)
+
   console.log(`Seeded ${product.length} users`)
   console.log(`Seeded ${cart.length} carts`)
   console.log(`seeded successfully`)
