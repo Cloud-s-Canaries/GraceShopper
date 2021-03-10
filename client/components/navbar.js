@@ -32,19 +32,18 @@ function Navbar({handleClick, isLoggedIn, isAdmin, user, cart, guestCart}) {
               {' '}
               <ShoppingCart /> Cart {totalItems > 0 ? totalItems : ''}
             </Link>
+            <a href="#" onClick={handleClick}>
+              Logout
+            </a>
             {isAdmin ? (
               <div>
                 {' '}
-                <Link to="/admin/products"> Admin-Products</Link>{' '}
-                <Link to="/admin/users"> Admin-Users</Link>{' '}
+                <Link to="/admin/products"> Admin-Edit-Products</Link>{' '}
+                <Link to="/admin/users"> Admin-Edit-Users</Link>{' '}
               </div>
             ) : (
               ''
             )}
-
-            <a href="#" onClick={handleClick}>
-              Logout
-            </a>
           </div>
         ) : (
           <div>
