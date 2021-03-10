@@ -31,7 +31,7 @@ class Receipt extends React.Component {
               return (
                 <div key={item.id} className="item">
                   <div className="image-preview">
-                    <img src={`../images/${item.imageUrl}`} />
+                    <img src={item.imageUrl} className="image-preview" />
                   </div>
                   <div className="info-container">
                     <div className="item-name"> {item.name} </div>
@@ -45,7 +45,7 @@ class Receipt extends React.Component {
                   </div>
                   <div className="price-container">
                     <div> Price</div>
-                    <div> ${item.price / 100}</div>
+                    <div> ${(item.price / 100).toFixed(2)}</div>
                   </div>
                 </div>
               )

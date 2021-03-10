@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {getItemThunk} from '../store/singleProduct'
-import {getCartItemsThunk, addToCartThunk} from '../store/cart'
+import {addToCartThunk} from '../store/cart'
 import {toGuestCartThunk} from '../store/guestCart'
 
 class SingleItem extends React.Component {
@@ -23,6 +23,7 @@ class SingleItem extends React.Component {
     this.props.loadItem(this.props.match.params.id)
   }
   render() {
+    const stars = [1, 2, 3, 4, 5]
     const item = this.props.item || {}
     const name = item.name || ''
     const rating = item.rating || 0
@@ -34,8 +35,14 @@ class SingleItem extends React.Component {
     return (
       <div>
         <h3> {name} </h3>
-        <h4> {rating}</h4>
-        <img src={`../images/${imageUrl}`} />
+        <h4>
+          {' '}
+          Rating:{' '}
+          {stars.slice(0, rating).map(star => {
+            return <>⭐ </>
+          })}
+        </h4>
+        <img src={imageUrl} />
         <p>{description} </p>
         <button
           onClick={() => this.handleClick(userID, prodID, this.props.item)}

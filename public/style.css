@@ -1,9 +1,12 @@
 body {
   font-family: sans-serif;
+  background-color: #3f3d51;
 }
 
 a {
   text-decoration: none;
+  color: #dd7596;
+  font-size: 20px;
 }
 
 label {
@@ -33,13 +36,15 @@ a,
 a:link,
 a:visited {
   text-decoration: none;
-  color: #007185;
+  color: #cf1259;
+  font-size: 20px;
 }
 
 a:hover {
   text-decoration: underline;
   cursor: pointer;
   color: #c7511f;
+  font-size: 20px;
 }
 
 img {
@@ -48,7 +53,7 @@ img {
 /*=======================[CART PAGE]==========================================*/
 #checkoutbutton {
   float: left;
-  margin-left: 66vw;
+  margin-left: 72vw;
 }
 
 /*========================[CHECKOUT PAGE]=====================================*/
@@ -82,6 +87,7 @@ img {
 
 .cart-items {
   margin-left: 20vw;
+  width: 60vw;
 }
 
 .item {
@@ -301,4 +307,87 @@ img {
   border: none;
   text-indent: -1000px;
   line-height: 1px;
+}
+
+.image-preview {
+  width: 300px;
+  height: 300px;
+}
+
+.meme-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.meme-card {
+  margin-right: 6vw;
+  margin-bottom: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+  background-color: #107e75;
+}
+
+.meme-info {
+  justify-self: center;
+  align-self: center;
+}
+
+.add-cart-button {
+  margin-left: auto;
+}
+
+.cart-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-view {
+  display: flex;
+  margin-bottom: 15px;
+  background-color: #20a4fe;
+}
+
+.cart-image-preview {
+  width: 400px;
+  height: 400px;
+}
+
+.delete-button {
+  margin-left: auto;
+  width: 25px;
+  height: 20px;
+  background-color: red;
+}
+
+.cart-info {
+  justify-content: space-between;
+}
+
+.subtotal {
+  margin-left: 67vw;
+  font-size: 30px;
+  color: #ff3366;
+}
+
+.subtotal-checkout {
+  margin-left: 10vw;
+  font-size: 30px;
+  color: #ff3366;
+}
+
+.checkout-form {
+  margin-left: 10vw;
+  font-size: 26px;
+  color: #ff3366;
+}
+
+.email-form {
+  margin-left: 10vw;
+  font-size: 25px;
+  color: #ff3366;
 }

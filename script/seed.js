@@ -2,6 +2,23 @@
 
 const db = require('../server/db')
 const {User, Cart, Product} = require('../server/db/models')
+const faker = require('faker')
+
+function generateProducts() {
+  const products = []
+  for (let i = 0; i <= 100; i++) {
+    products.push({
+      name: faker.random.words(),
+      price: faker.random.number(),
+      description: faker.commerce.productDescription(),
+      rating: Math.floor(Math.random() * 5)
+    })
+  }
+  console.log(`Seeding products`)
+  products.forEach(async productItem => {
+    await Product.create(productItem)
+  })
+}
 
 async function seed() {
   await db.sync({force: true})

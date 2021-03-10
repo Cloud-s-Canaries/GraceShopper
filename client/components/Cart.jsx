@@ -1,96 +1,67 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
-import {
-  getCartItemsThunk,
-  updateQuantityThunk,
-  deleteFromCartThunk
-} from '../store/cart'
+import {getCartItemsThunk, deleteFromCartThunk} from '../store/cart'
+import {deleteFromGuestCartThunk} from '../store/guestCart'
+import {me} from '../store/user'
+import QuantityForm from './QuantityForm'
 
 class Cart extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      itemQuant: 1
-    }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+  constructor(props) {
+    super(props)
     this.handleDelete = this.handleDelete.bind(this)
   }
 
-  componentDidMount() {
-    this.props.loadCartItems(this.props.match.params.userID)
+  async componentDidMount() {
+    await this.props.me()
+    this.props.loadCartItems(this.props.user.id)
   }
 
-  handleChange(evt) {
-    this.setState({itemQuant: evt.target.value})
-  }
-
-  handleSubmit(itemID) {
-    this.props.updateQuant(
-      this.props.match.params.userID,
-      itemID,
-      this.state.itemQuant
-    )
-  }
-
-  handleDelete(itemID) {
-    this.props.deleteItem(Number(this.props.match.params.userID), itemID)
+  handleDelete(item) {
+    if (this.props.isLoggedIn) {
+      this.props.deleteItem(this.props.user.id, item.id)
+    } else {
+      this.props.deleteGuestItem(item)
+    }
   }
 
   render() {
-    const cartItems = this.props.cartItems || []
-    const optionsArr = Array(25).fill(1)
+    const cartItems = this.props.isLoggedIn
+      ? this.props.userCart ? this.props.userCart : []
+      : this.props.guestCart
+
     const subtotal =
       cartItems.reduce((accum, next) => {
         return accum + next.price * next.cart.quantity
       }, 0) / 100
-
     return (
       <div>
         {cartItems.length ? (
-          <div>
-            <Link to="/checkout">
-              <button type="button" id="checkoutbutton">
-                {' '}
-                Proceed to Checkout
-              </button>
-            </Link>
+          <div className="cart-container">
             {cartItems.map(item => {
               return (
-                <div key={item.id}>
-                  <div> {item.name} </div>
-                  <div> {item.price / 100}</div>
-                  <img src={`../images/${item.imageUrl}`} />
-                  <div> Quantity: {item.cart ? item.cart.quantity : 1} </div>
-                  <label htmlFor="quantity">Select Quantity</label>
-                  <select
-                    name="quantity"
-                    value={this.state.itemQuant}
-                    onChange={this.handleChange}
-                  >
-                    {optionsArr.map((val, idx) => {
-                      return (
-                        <option key={val + idx} value={val + idx}>
-                          {' '}
-                          {val + idx}{' '}
-                        </option>
-                      )
-                    })}
-                  </select>
-                  <button
-                    type="button"
-                    onClick={() => this.handleSubmit(item.id)}
-                  >
-                    Change
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => this.handleDelete(Number(item.id))}
-                  >
-                    {' '}
-                    Delete{' '}
-                  </button>
+                <div key={item.id} className="cart-items cart-view">
+                  <div className="cart-image-preview">
+                    <img src={item.imageUrl} className="cart-image-preview" />
+                  </div>
+                  <div className="info-container cart-info">
+                    <div className="item-name"> Name: {item.name} </div>
+                    <div className="cart-price">Price: ${item.price / 100}</div>
+
+                    <div className="quantity">
+                      {' '}
+                      Quantity: {item.cart.quantity || 1}{' '}
+                    </div>
+                    <QuantityForm item={item} />
+                  </div>
+                  <div className="delete-button-container">
+                    <button
+                      className="delete-button"
+                      onClick={() => this.handleDelete(item)}
+                    >
+                      X
+                    </button>
+                  </div>
                 </div>
               )
             })}
@@ -98,26 +69,37 @@ class Cart extends React.Component {
         ) : (
           <div> Your Cart is Empty</div>
         )}
-        <div>Subtotal: ${subtotal}</div>
+        <div>
+          <div className="subtotal">Subtotal: ${subtotal.toFixed(2)}</div>
+          <div>
+            <Link to="/checkout">
+              <button id="checkoutbutton"> Proceed to Checkout</button>
+            </Link>
+          </div>
+        </div>
       </div>
     )
   }
 }
 
-const mapState = state => {
+const mapStateToProps = state => {
   return {
-    cartItems: state.cart
+    guestCart: state.guestCart,
+    isLoggedIn: !!state.user.id,
+    userCart: state.cart,
+    user: state.user
   }
 }
 
-const mapDispatch = dispatch => {
+const mapDispatchToProps = dispatch => {
   return {
     loadCartItems: userID => dispatch(getCartItemsThunk(userID)),
-    updateQuant: (userID, itemID, quant) =>
-      dispatch(updateQuantityThunk(userID, itemID, quant)),
     deleteItem: (userID, itemID) =>
-      dispatch(deleteFromCartThunk(userID, itemID))
+      dispatch(deleteFromCartThunk(userID, itemID)),
+    me: () => dispatch(me()),
+    deleteGuestItem: entireItem =>
+      dispatch(deleteFromGuestCartThunk(entireItem))
   }
 }
 
-export default connect(mapState, mapDispatch)(Cart)
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)

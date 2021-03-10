@@ -65,7 +65,7 @@ class Checkout extends React.Component {
               return (
                 <div key={item.id} className="item">
                   <div className="image-preview">
-                    <img src={`../images/${item.imageUrl}`} />
+                    <img src={item.imageUrl} className="image-preview" />
                   </div>
                   <div className="info-container">
                     <div className="item-name"> {item.name} </div>
@@ -101,14 +101,14 @@ class Checkout extends React.Component {
                   </div>
                   <div className="price-container">
                     <div> Price</div>
-                    <div> ${item.price / 100}</div>
+                    <div> ${(item.price / 100).toFixed(2)}</div>
                   </div>
                 </div>
               )
             })}
           </div>
           <div className="placeorder">
-            <div className="subtotal">
+            <div className="subtotal-checkout">
               <div className="flex">
                 Subtotal: <span className="right">${subtotal.toFixed(2)}</span>
               </div>
@@ -123,18 +123,15 @@ class Checkout extends React.Component {
             <form
               onSubmit={event => {
                 event.preventDefault()
-                console.log(`==========EVENT INFO=======`, event)
                 this.handleCheckout(cartItems)
               }}
+              className="checkout-form"
             >
-              <div className="email-form">
+              <div>
                 {this.props.isLoggedIn ? (
                   <div>Deliver to: {this.props.user.email}</div>
                 ) : (
-                  <div>
-                    <label htmlFor="email">Email: </label>
-                    <input name="email" />
-                  </div>
+                  <div />
                 )}
               </div>
               <div className="payment">
@@ -175,10 +172,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(Checkout)
-
-// Take to receipt page
-// Needs to load up all the items bought
-// Need to hard code the amount paid in case of price changes/updates
-// Then delete their cart
-// Eventually needs to be saved in previously bought items
-//
