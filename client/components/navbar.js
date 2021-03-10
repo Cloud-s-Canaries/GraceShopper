@@ -20,7 +20,7 @@ function Navbar({handleClick, isLoggedIn, isAdmin, user, cart, guestCart}) {
   return (
     <div>
       <Link to="/home">
-        <h1>memeazon</h1>
+        <h1>Memeazon</h1>
       </Link>
       <nav>
         <Searchbar className="search" />
