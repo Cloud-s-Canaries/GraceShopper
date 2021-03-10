@@ -21,32 +21,42 @@ class AdminProducts extends React.Component {
 
   render() {
     const products = this.props.products || []
+    const stars = [1, 2, 3, 4, 5]
 
     return (
       <div>
-        {products.map(prod => {
-          return (
-            <div key={prod.id}>
-              <Link to={`/products/${prod.id}`}>
-                <div> Name: {prod.name} </div>
-                <div> Rating: {prod.rating} </div>
-                <div> Price: {prod.price} </div>
-                <img src={prod.imageUrl} />
-              </Link>
-              <div> Description: {prod.description} </div>
-              <button
-                type="button"
-                onClick={() => this.handleItemDelete(prod.id)}
-              >
-                Delete this product
-              </button>
-              <Link to={`/edit/products/${prod.id}`}>
-                <button type="button">Edit Product</button>
-              </Link>
-            </div>
-          )
-        })}
         <AddProductForm />
+        <div className="meme-container">
+          {products.map(prod => {
+            return (
+              <div key={prod.id} className="meme-card">
+                <img src={prod.imageUrl} />
+                <Link to={`/products/${prod.id}`}>
+                  <div className="meme-info">
+                    <div> Name: {prod.name} </div>
+                    <div>
+                      Rating:{' '}
+                      {stars.slice(0, prod.rating).map(star => {
+                        return <>⭐ </>
+                      })}
+                    </div>
+                    <div> Price: {prod.price} </div>
+                  </div>
+                </Link>
+                <div> Description: {prod.description} </div>
+                <button
+                  type="button"
+                  onClick={() => this.handleItemDelete(prod.id)}
+                >
+                  Delete this product
+                </button>
+                <Link to={`/edit/products/${prod.id}`}>
+                  <button type="button">Edit Product</button>
+                </Link>
+              </div>
+            )
+          })}
+        </div>
       </div>
     )
   }

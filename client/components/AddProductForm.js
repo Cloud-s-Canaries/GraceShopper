@@ -31,7 +31,7 @@ class AddProductForm extends React.Component {
     const {name, rating, price, description, imageUrl} = this.state
 
     return (
-      <div>
+      <div className="meme-card">
         <h1>Add New Product</h1>
         <form onSubmit={this.handleSubmit}>
           <div>

@@ -21,11 +21,11 @@ class AdminUsers extends React.Component {
     const users = this.props.users || []
     return (
       <div>
-        <div>
+        <div className="meme-container">
           <h3>Users</h3>
           {users.map(user => {
             return (
-              <div key={user.id}>
+              <div key={user.id} className="meme-card">
                 <div> name:{user.email}</div>
                 <div>id: {user.id}</div>
                 <button
