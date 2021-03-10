@@ -77,14 +77,12 @@ router.put('/:id', isAdmin, async (req, res, next) => {
         returning: true
       }
     )
-    console.log('user-----------', user)
+
     if (!user[0]) {
-      console.log('user not found-----------')
       res.status(404).json(`Cannot update a user that is not in the database.`)
     }
     if (user[0]) {
-      console.log('user found-----------')
-      res.status(204).json(user[1][0])
+      res.json(user[1][0])
     }
   } catch (error) {
     next(error)
@@ -96,11 +94,11 @@ router.delete('/:id', isAdmin, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
     if (!user) {
-      res.status(404).json(`Cannot delete a user that is not in the database`)
+      res.status(404).send(`Cannot delete a user that is not in the database`)
     }
     if (user) {
       await user.destroy()
-      res.status(204).json(user)
+      res.json(user)
     }
   } catch (error) {
     next(error)

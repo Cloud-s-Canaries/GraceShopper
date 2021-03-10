@@ -39,7 +39,7 @@ class EditUser extends React.Component {
     const {email, id} = this.state
     return (
       <div>
-        <h3>Edit User: {email}</h3>
+        <h3>Edit User: {this.props.changeUser.email || ''}</h3>
         <div>User ID: {id}</div>
         <form onSubmit={this.handleSubmit}>
           <div>

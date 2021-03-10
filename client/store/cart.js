@@ -68,7 +68,7 @@ export const addToCartThunk = (userId, productId, wholeProduct) => {
         //alert('This Item is already in your cart!')
         wholeProduct.cart.quantity = 1
         wholeProduct.cart.quantity++
-        dispatch(addToCartThunk(wholeProductc))
+        dispatch(addToCartThunk(wholeProduct))
       } else {
         dispatch(addToCart(data))
       }
