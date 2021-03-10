@@ -33,7 +33,7 @@ class SingleItem extends React.Component {
     const prodID = Number(this.props.match.params.id)
 
     return (
-      <div>
+      <div className="meme-card">
         <h3> {name} </h3>
         <h4>
           {' '}
