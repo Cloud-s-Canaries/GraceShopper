@@ -65,7 +65,7 @@ class Checkout extends React.Component {
               return (
                 <div key={item.id} className="item">
                   <div className="image-preview">
-                    <img src={item.imageUrl} />
+                    <img src={item.imageUrl} className="image-preview" />
                   </div>
                   <div className="info-container">
                     <div className="item-name"> {item.name} </div>
@@ -101,14 +101,14 @@ class Checkout extends React.Component {
                   </div>
                   <div className="price-container">
                     <div> Price</div>
-                    <div> ${item.price / 100}</div>
+                    <div> ${(item.price / 100).toFixed(2)}</div>
                   </div>
                 </div>
               )
             })}
           </div>
           <div className="placeorder">
-            <div className="subtotal">
+            <div className="subtotal-checkout">
               <div className="flex">
                 Subtotal: <span className="right">${subtotal.toFixed(2)}</span>
               </div>
@@ -125,15 +125,13 @@ class Checkout extends React.Component {
                 event.preventDefault()
                 this.handleCheckout(cartItems)
               }}
+              className="checkout-form"
             >
-              <div className="email-form">
+              <div>
                 {this.props.isLoggedIn ? (
                   <div>Deliver to: {this.props.user.email}</div>
                 ) : (
-                  <div>
-                    <label htmlFor="email">Email: </label>
-                    <input name="email" />
-                  </div>
+                  <div />
                 )}
               </div>
               <div className="payment">
