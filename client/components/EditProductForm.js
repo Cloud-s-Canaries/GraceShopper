@@ -37,7 +37,7 @@ class EditProductForm extends React.Component {
   render() {
     const {name, rating, price, description, imageUrl} = this.state
     return (
-      <div>
+      <div className="meme-card">
         <h3>Edit Product</h3>
 
         <div> Name: {this.props.item.name} </div>

@@ -40,6 +40,7 @@ class AllProducts extends React.Component {
                   <h4> {prod.name} </h4>
                 </div>
               </Link>
+              <div>{`Price: $${(prod.price / 100).toFixed(2)}`}</div>
               <div>
                 Rating:{' '}
                 {stars.slice(0, prod.rating).map(star => {

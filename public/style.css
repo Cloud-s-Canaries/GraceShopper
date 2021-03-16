@@ -391,3 +391,14 @@ img {
   font-size: 25px;
   color: #ff3366;
 }
+
+.meme-login {
+  margin-right: 6vw;
+  margin-bottom: 5vh;
+  display: flex;
+  flex-direction: column;
+  padding-right: 10px;
+  padding-top: 10px;
+  padding-left: 10px;
+  background-color: #107e75;
+}

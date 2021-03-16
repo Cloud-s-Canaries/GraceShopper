@@ -38,9 +38,11 @@ class EditUser extends React.Component {
   render() {
     const {email, id} = this.state
     return (
-      <div>
-        <h3>Edit User: {this.props.changeUser.email || ''}</h3>
-        <div>User ID: {id}</div>
+      <div className="meme-card">
+        <div className="meme-info">
+          <h3>Edit User: {this.props.changeUser.email || ''}</h3>
+          <div>User ID: {id}</div>
+        </div>
         <form onSubmit={this.handleSubmit}>
           <div>
             <label htmlFor="email">

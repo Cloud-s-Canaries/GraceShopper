@@ -20,7 +20,7 @@ function Navbar({handleClick, isLoggedIn, isAdmin, user, cart, guestCart}) {
   return (
     <div>
       <Link to="/home">
-        <h1>memeazon</h1>
+        <h1>Memeazon</h1>
       </Link>
       <nav>
         <Searchbar className="search" />
@@ -32,19 +32,18 @@ function Navbar({handleClick, isLoggedIn, isAdmin, user, cart, guestCart}) {
               {' '}
               <ShoppingCart /> Cart {totalItems > 0 ? totalItems : ''}
             </Link>
+            <a href="#" onClick={handleClick}>
+              Logout
+            </a>
             {isAdmin ? (
               <div>
                 {' '}
-                <Link to="/admin/products"> Admin-Products</Link>{' '}
-                <Link to="/admin/users"> Admin-Users</Link>{' '}
+                <Link to="/admin/products"> Admin-Edit-Products</Link>{' '}
+                <Link to="/admin/users"> Admin-Edit-Users</Link>{' '}
               </div>
             ) : (
               ''
             )}
-
-            <a href="#" onClick={handleClick}>
-              Logout
-            </a>
           </div>
         ) : (
           <div>
